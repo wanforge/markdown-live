@@ -21,15 +21,17 @@ export default function App() {
     return localStorage.getItem('markdownContent') || sampleMarkdown;
   });
   const [tocItems, setTocItems] = useState([]);
-  const [renderedHtml, setRenderedHtml] = useState('');
   const [isDark, setIsDark] = useState(localStorage.getItem('theme') === 'dark');
   const [isExportingPdf, setIsExportingPdf] = useState(false);
 
-  useEffect(() => {
+  const renderedHtml = useMemo(() => {
     const raw = parser.render(markdownText || '');
-    setRenderedHtml(sanitizeRenderedHtml(raw));
-    localStorage.setItem('markdownContent', markdownText);
+    return sanitizeRenderedHtml(raw);
   }, [markdownText, parser]);
+
+  useEffect(() => {
+    localStorage.setItem('markdownContent', markdownText);
+  }, [markdownText]);
 
   useEffect(() => {
     const previewNode = previewRef.current;
