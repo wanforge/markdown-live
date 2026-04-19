@@ -92,7 +92,7 @@ Reference text.[^1]
 ## Architecture & Tech Stack
 
 **Core Technologies:**
-React 18 | Vite 5 | markdown-it (+ plugins) | Mermaid | KaTeX | Highlight.js | DOMPurify | html2canvas + jsPDF
+React 19 | Vite 8 | markdown-it (+ plugins) | Mermaid | KaTeX | Highlight.js | DOMPurify | html2canvas + jsPDF | react-icons
 
 **Color System:**
 Primary brand colors are extracted directly from `icon.svg`:
@@ -105,17 +105,19 @@ Primary brand colors are extracted directly from `icon.svg`:
 
 ```text
 markdown-live/
-├── .github/workflows/      CI, deploy, security workflows
-├── public/                 Static assets (icon.svg, icon.png)
+├── .github/workflows/      # CI, deploy, security workflows
+├── public/                 # Static assets (icon.svg, icon.png)
 ├── src/
-│   ├── components/         UI components
-│   ├── lib/                Markdown rendering engine
-│   ├── styles/             App styles
-│   ├── utils/              Constants, exporters, sample markdown
-│   ├── App.jsx             App shell
-│   └── main.jsx            Entry point
-├── index.html
-└── package.json
+│   ├── components/         # UI components (Editor, Preview, Toolbar)
+│   ├── lib/                # Markdown rendering engine (markdown.js)
+│   ├── styles/             # Application styles (app.css)
+│   ├── utils/              # Exporters, constants, and sample markdown
+│   ├── App.jsx             # Main application shell
+│   └── main.jsx            # Entry point
+├── eslint.config.js        # Linting configuration
+├── index.html              # HTML template
+├── package.json            # Project dependencies and scripts
+└── vite.config.js          # Vite build configuration
 ```
 
 ## Development & Workflow
