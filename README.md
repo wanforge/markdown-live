@@ -5,7 +5,7 @@
   
   <p><em>Open-source tool to convert markdown and AI output into polished documents.</em></p>
 
-[![Version](https://img.shields.io/badge/version-0.1.0-003D99)](https://github.com/wanforge/markdown-live)
+[![Version](https://img.shields.io/github/v/tag/wanforge/markdown-live?label=version&color=003D99)](https://github.com/wanforge/markdown-live/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-80B3FF.svg)](./LICENSE)
 [![CI](https://github.com/wanforge/markdown-live/actions/workflows/ci.yml/badge.svg)](https://github.com/wanforge/markdown-live/actions/workflows/ci.yml)
 [![Deploy Pages](https://github.com/wanforge/markdown-live/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/wanforge/markdown-live/actions/workflows/deploy-pages.yml)
