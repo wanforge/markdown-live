@@ -1,5 +1,5 @@
 /**
- * WanForge Markdown Renderer - Complete Professional Version
+ * MarkDown Live - Community Edition
  * Copyright © 2026 WanForge (wanforge.asia)
  * 
  * Features:
@@ -13,6 +13,7 @@
  * - Print/PDF Export
  * - Live Preview with TOC
  * - Code Copy Functionality
+ * - Open Source, No Analytics, Free Forever
  */
 
 import MarkdownIt from 'https://cdn.jsdelivr.net/npm/markdown-it@14/+esm';
@@ -139,9 +140,17 @@ const markdown = new MarkdownIt({
 mermaid.initialize(getMermaidConfig(false));
 
 // ========== Sample Markdown Content ==========
-const sampleMarkdown = `# WanForge Markdown Renderer
+const sampleMarkdown = `# MarkDown Live
 
-> Renderer Markdown profesional dengan fitur lengkap untuk dokumen kantor.
+> Open source markdown renderer: 100% free, no fee, no analytics, dan terbuka untuk kontribusi.
+
+## Visi Singkat
+
+Membuka akses dokumentasi berkualitas tinggi untuk semua orang tanpa biaya, tanpa pelacakan, dan dengan kolaborasi komunitas.
+
+## Slogan Utama
+
+**Free Forever. No Tracking. Built Together.**
 
 ## 🎯 Fitur Utama
 
@@ -153,6 +162,8 @@ const sampleMarkdown = `# WanForge Markdown Renderer
 - **Definition List** - Daftar definisi terstruktur
 - **Task List** - Daftar tugas dengan checkbox
 - **Dark Mode** - Tema gelap profesional dengan palet Navy & Amber
+- **No Analytics** - Tidak ada tracking, pixel, atau telemetry pihak ketiga
+- **Open Contribution** - Semua orang bisa audit, fork, dan kontribusi
 
 ## 📋 Checklist
 
@@ -169,20 +180,20 @@ const sampleMarkdown = `# WanForge Markdown Renderer
 
 JavaScript:
 \`\`\`js
-// Contoh function WanForge
-function greetWanForge(name) {
-  return \`Selamat datang di WanForge, \${name}!\`;
+// Contoh function MarkDown Live
+function greetMarkDownLive(name) {
+  return \`Selamat datang di MarkDown Live, \${name}!\`;
 }
 
-console.log(greetWanForge('Developer'));
+console.log(greetMarkDownLive('Developer'));
 \`\`\`
 
 Python:
 \`\`\`python
-def greet_wanforge(name):
-    return f"Selamat datang di WanForge, {name}!"
+def greet_markdown_live(name):
+  return f"Selamat datang di MarkDown Live, {name}!"
 
-print(greet_wanforge("Developer"))
+print(greet_markdown_live("Developer"))
 \`\`\`
 
 ## 📊 Mermaid Diagram
@@ -221,7 +232,7 @@ sequenceDiagram
 
 ## 📝 Catatan (Footnotes)
 
-WanForge adalah platform untuk dokumentasi dan rendering markdown profesional.[^1] Anda dapat membuat dokumen kantor dengan formatting sempurna.[^2]
+MarkDown Live adalah platform untuk dokumentasi dan rendering markdown profesional.[^1] Anda dapat membuat dokumen kantor dengan formatting sempurna.[^2]
 
 [^1]: Platform ini menggunakan teknologi terkini seperti markdown-it, Mermaid, dan KaTeX.
 [^2]: Cocok untuk laporan, presentasi, dan dokumentasi proyek.
@@ -248,11 +259,11 @@ $$\\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6}$$
 
 ## 🔗 Links & Images
 
-[Kunjungi WanForge](https://wanforge.asia)
+[Kunjungi Proyek](https://github.com/wanforge/markdown-live)
 
 ---
 
-**© 2026 WanForge** | Professional Markdown Renderer | [wanforge.asia](https://wanforge.asia)
+**© 2026 WanForge (wanforge.asia)** | Open Source Markdown Renderer | Free Forever
 `;
 
 // ========== Utility Functions ==========
@@ -509,7 +520,7 @@ function getDocumentTitle() {
     return h1.textContent.trim();
   }
 
-  return 'Dokumen Markdown';
+  return 'Dokumen MarkDown Live';
 }
 
 function getExportContentHtml() {
@@ -529,7 +540,7 @@ function buildExportHtml(title) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="author" content="WanForge" />
+    <meta name="author" content="MarkDown Live Community" />
     <title>${title}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/atom-one-light.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css" />
@@ -819,5 +830,5 @@ editor.addEventListener('change', () => {
 // Initial render
 render();
 
-console.log(`WanForge Markdown Renderer v${APP_VERSION} - Ready!`);
-console.log('© 2026 WanForge | wanforge.asia');
+console.log(`MarkDown Live v${APP_VERSION} - Ready!`);
+console.log('© 2026 WanForge (wanforge.asia) | Free Forever | No Tracking');

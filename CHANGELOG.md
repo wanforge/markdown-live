@@ -28,7 +28,7 @@ Semua perubahan penting pada proyek markdown-live.
 
 ## v0.0.3 - 2026-04-19
 - Update README, app.js, and index.html.
-- Add favicon.svg.
+- Add icon.svg.
 - Commit: ce4c4f0
 
 ## v0.0.2 - 2026-04-19
