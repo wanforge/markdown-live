@@ -21,7 +21,7 @@
 
 ---
 
-**MarkDown Live** helps you paste AI-generated markdown, render formulas (KaTeX) and diagrams (Mermaid) correctly, and export clean docs to HTML or PDF in minutes. It is free forever, privacy-first, and contains no analytics tracking.
+**MarkDown Live** is a privacy-first, open-source tool designed to transform raw markdown and AI-generated content into professional, print-ready documents. It features robust support for LaTeX mathematics (KaTeX), technical diagrams (Mermaid), and advanced formatting, all with zero tracking and a lightning-fast live preview.
 
 ## Quick Start
 
@@ -47,8 +47,8 @@ Use these prompt keywords so your AI output is fully compatible with MarkDown Li
 
 **Prompt tip:** "Write formulas using KaTeX delimiters. Inline with `$ ... $` or `\( ... \)`, and block/display math with `$$ ... $$` or `\[ ... \]`."
 
-> [!TIP]
-> **Best Practice for `\[ ... \]`**: Ensure there is a blank line above the `\[` delimiter so Markdown correctly identifies it as a block element. For more flexibility (even without blank lines), use `$$ ... $$`.
+> [!NOTE]
+> **Robust Delimiters**: MarkDown Live automatically normalizes LaTeX bracket delimiters. You can use `\[ ... \]` even without a preceding blank line, and it will render correctly as display math.
 
 **Expected output:**
 
