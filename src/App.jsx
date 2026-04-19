@@ -16,6 +16,7 @@ export default function App() {
   const parser = useMemo(() => createMarkdownParser(), []);
   const previewRef = useRef(null);
   const fileInputRef = useRef(null);
+  const renderCycleRef = useRef(0);
 
   const [markdownText, setMarkdownText] = useState(() => {
     return localStorage.getItem('markdownContent') || sampleMarkdown;
@@ -23,6 +24,7 @@ export default function App() {
   const [tocItems, setTocItems] = useState([]);
   const [isDark, setIsDark] = useState(localStorage.getItem('theme') === 'dark');
   const [isExportingPdf, setIsExportingPdf] = useState(false);
+  const [activeMobileTab, setActiveMobileTab] = useState('editor');
 
   const renderedHtml = useMemo(() => {
     const raw = parser.render(markdownText || '');
@@ -37,15 +39,27 @@ export default function App() {
     const previewNode = previewRef.current;
     if (!previewNode) return;
 
-    previewNode.innerHTML = renderedHtml;
+    const currentRenderCycle = ++renderCycleRef.current;
+    const isStale = () => currentRenderCycle !== renderCycleRef.current;
+    const renderTimer = window.setTimeout(() => {
+      if (isStale()) return;
 
-    enrichPreviewContent(previewNode, isDark)
-      .then(() => {
-        setTocItems(buildTocItems(previewNode));
-      })
-      .catch((error) => {
-        previewNode.innerHTML = `<div style="color:#ef4444;padding:16px;"><strong>Error:</strong> ${error.message}</div>`;
-      });
+      previewNode.innerHTML = renderedHtml;
+
+      enrichPreviewContent(previewNode, isDark, isStale)
+        .then(() => {
+          if (isStale()) return;
+          setTocItems(buildTocItems(previewNode));
+        })
+        .catch((error) => {
+          if (isStale()) return;
+          previewNode.innerHTML = `<div style="color:#ef4444;padding:16px;"><strong>Error:</strong> ${error.message}</div>`;
+        });
+    }, 120);
+
+    return () => {
+      window.clearTimeout(renderTimer);
+    };
   }, [renderedHtml, isDark]);
 
   useEffect(() => {
@@ -126,7 +140,7 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <div className="app-shell">
       <Toolbar
         fileInputRef={fileInputRef}
         onLoadSample={() => setMarkdownText(sampleMarkdown)}
@@ -140,7 +154,31 @@ export default function App() {
         isExportingPdf={isExportingPdf}
       />
 
-      <main className="layout">
+      <main
+        className={`layout ${
+          activeMobileTab === 'editor' ? 'mobile-editor-active' : 'mobile-preview-active'
+        }`}
+      >
+        <div className="mobile-tabs" role="tablist" aria-label="Editor and preview">
+          <button
+            type="button"
+            role="tab"
+            className={activeMobileTab === 'editor' ? 'is-active' : ''}
+            aria-selected={activeMobileTab === 'editor'}
+            onClick={() => setActiveMobileTab('editor')}
+          >
+            Editor
+          </button>
+          <button
+            type="button"
+            role="tab"
+            className={activeMobileTab === 'preview' ? 'is-active' : ''}
+            aria-selected={activeMobileTab === 'preview'}
+            onClick={() => setActiveMobileTab('preview')}
+          >
+            Preview
+          </button>
+        </div>
         <EditorPane value={markdownText} onChange={setMarkdownText} />
         <PreviewPane previewRef={previewRef} tocItems={tocItems} />
       </main>
@@ -157,6 +195,6 @@ export default function App() {
           <p className="footer-subtitle">{BRAND.slogan}</p>
         </div>
       </footer>
-    </>
+    </div>
   );
 }

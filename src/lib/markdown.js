@@ -112,8 +112,12 @@ function isMermaidCodeBlock(codeNode) {
   return className.includes('language-mermaid') || className.includes('lang-mermaid');
 }
 
-export async function enrichPreviewContent(previewElement, isDark) {
-  if (!previewElement) return;
+export async function enrichPreviewContent(
+  previewElement,
+  isDark,
+  shouldAbort = () => false
+) {
+  if (!previewElement || shouldAbort()) return;
 
   previewElement.querySelectorAll('pre code').forEach((block) => {
     if (!isMermaidCodeBlock(block)) {
@@ -129,7 +133,11 @@ export async function enrichPreviewContent(previewElement, isDark) {
     isMermaidCodeBlock
   );
 
+  if (shouldAbort()) return;
+
   mermaidCodes.forEach((node, index) => {
+    if (shouldAbort()) return;
+
     const pre = node.parentElement;
     if (!pre) return;
 
@@ -142,17 +150,44 @@ export async function enrichPreviewContent(previewElement, isDark) {
 
   if (mermaidCodes.length > 0) {
     try {
-      const mermaid = await import('mermaid');
+      if (shouldAbort()) return;
+
+      const { default: mermaid } = await import('mermaid');
       mermaid.initialize(getMermaidConfig(isDark));
-      await mermaid.run({ nodes: previewElement.querySelectorAll('.mermaid') });
+
+      const mermaidNodes = Array.from(previewElement.querySelectorAll('.mermaid'));
+
+      for (const [index, node] of mermaidNodes.entries()) {
+        if (shouldAbort()) return;
+
+        const source = (node.textContent || '').trim();
+        if (!source) continue;
+
+        const renderId = `mermaid-${Date.now()}-${index}-${Math.random().toString(36).slice(2, 8)}`;
+
+        try {
+          const { svg, bindFunctions } = await mermaid.render(renderId, source);
+          if (shouldAbort()) return;
+
+          node.innerHTML = svg;
+          bindFunctions?.(node);
+        } catch {
+          node.innerHTML =
+            `<pre class="mermaid-error"><code>${escapeHtml(source)}</code></pre>` +
+            '<p class="mermaid-error-message">Mermaid diagram failed to render.</p>';
+        }
+      }
     } catch {
       previewElement.querySelectorAll('.mermaid').forEach((node) => {
-        if (node.childNodes.length === 0) {
-          node.textContent = 'Mermaid diagram failed to render.';
-        }
+        const source = (node.textContent || '').trim();
+        node.innerHTML =
+          `<pre class="mermaid-error"><code>${escapeHtml(source)}</code></pre>` +
+          '<p class="mermaid-error-message">Mermaid diagram failed to render.</p>';
       });
     }
   }
+
+  if (shouldAbort()) return;
 
   try {
     renderMathInElement(previewElement, {
@@ -168,6 +203,8 @@ export async function enrichPreviewContent(previewElement, isDark) {
   } catch {
     // Keep the preview usable even if KaTeX auto-render rejects a fragment.
   }
+
+  if (shouldAbort()) return;
 
   try {
     addCopyButtons(previewElement);
