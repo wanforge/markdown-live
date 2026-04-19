@@ -212,6 +212,10 @@ button:disabled {
     position: relative;
 }
 
+.editor-pane,
+.preview-pane {
+    height: 100%;
+}
 #editor {
     width: 100%;
     height: 100%;
@@ -235,6 +239,14 @@ button:disabled {
 
 /* ===== Preview ===== */
 .preview-pane {
+    display: flex;
+        flex-direction: column;
+        min-height: 0;
+        overflow: hidden;
+    }
+    
+    #preview {
+        flex: 1;
     overflow: auto;
 }
 
@@ -302,6 +314,7 @@ button:disabled {
 .markdown-body {
     padding: 20px;
     line-height: 1.75;
+    font-size: 0.95rem;
 }
 
 .markdown-body h1,
@@ -715,18 +728,30 @@ body.dark .mermaid .arrowheadPath {
 @media (max-width: 1024px) {
     .layout {
         grid-template-columns: 1fr;
+        min-height: auto;
     }
 
     .editor-pane,
     .preview-pane {
-        min-height: 50vh;
+        min-height: 46vh;
     }
 
     .topbar {
         flex-wrap: wrap;
+        align-items: flex-start;
         gap: 10px;
     }
 
+        .actions {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+        }
+    
+        .actions button {
+            width: 100%;
+        }
     button {
         padding: 7px 12px;
         font-size: 0.85rem;
@@ -749,6 +774,7 @@ body.dark .mermaid .arrowheadPath {
     }
 
     .actions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 6px;
     }
 
@@ -765,7 +791,7 @@ body.dark .mermaid .arrowheadPath {
 
     .editor-pane,
     .preview-pane {
-        min-height: 40vh;
+        min-height: 42vh;
     }
 
     .markdown-body {
