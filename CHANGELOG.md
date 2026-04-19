@@ -2,6 +2,11 @@
 
 All notable changes to MarkDown Live are recorded here.
 
+## v0.1.5 - 2026-04-19
+
+- chore(release): sync metadata for v0.1.4 (8ec29b5)
+- feat: enhance print functionality with iframe fallback and improved error handling (b8d5c13)
+
 ## v0.1.4 - 2026-04-19
 
 - chore(release): sync metadata for v0.1.3 (21ba5a5)
