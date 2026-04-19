@@ -153,6 +153,25 @@ Use this short pitch when presenting MarkDown Live:
 - CI: lint + build on push and pull request.
 - Deploy Pages: auto deploy to GitHub Pages from main branch.
 - CodeQL: automated JavaScript security scanning.
+- Release: create a GitHub release automatically when pushing a SemVer tag (`v*.*.*`).
+
+## Release Tags
+
+Use one of these commands to bump version and create a tag:
+
+```bash
+npm run tag:patch
+npm run tag:minor
+npm run tag:major
+```
+
+Then push commit and tag:
+
+```bash
+git push origin main --follow-tags
+```
+
+This triggers the Release workflow and publishes a GitHub Release with built artifacts.
 
 ## Changelog Policy
 

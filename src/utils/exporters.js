@@ -55,8 +55,8 @@ export function buildExportHtml({ title, contentHtml }) {
     <meta name="description" content="${title} - generated with MarkDown Live" />
     <meta name="author" content="MarkDown Live Community" />
     <title>${title}</title>
-    <link rel="icon" type="image/svg+xml" href="./icon.svg" />
-    <link rel="alternate icon" type="image/png" href="./icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="alternate icon" type="image/png" href="/icon.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/atom-one-light.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css" />
     ${exportStyles()}

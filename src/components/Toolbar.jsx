@@ -17,7 +17,7 @@ export default function Toolbar({
       <div className="brand">
         <img
           className="brand-icon"
-          src="./icon.svg"
+          src="/icon.svg"
           width="24"
           height="24"
           alt="MarkDown Live logo"
