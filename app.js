@@ -46,6 +46,10 @@ const markdown = new MarkdownIt({
   typographer: true,
   breaks: false,
   highlight(str, lang) {
+    if (lang && lang.toLowerCase() === 'mermaid') {
+      return `<pre><code class="language-mermaid">${markdown.utils.escapeHtml(str)}</code></pre>`;
+    }
+
     if (lang && hljs.getLanguage(lang)) {
       try {
         return `<pre><code class="hljs language-${lang}">${hljs.highlight(str, { language: lang, ignoreIllegals: true }).value}</code></pre>`;
@@ -53,6 +57,11 @@ const markdown = new MarkdownIt({
         console.warn(`Highlight.js error for language ${lang}:`, e);
       }
     }
+
+    if (lang) {
+      return `<pre><code class="hljs language-${lang}">${markdown.utils.escapeHtml(str)}</code></pre>`;
+    }
+
     return `<pre><code class="hljs">${markdown.utils.escapeHtml(str)}</code></pre>`;
   },
 })
@@ -252,7 +261,7 @@ function addCopyButtons() {
   const blocks = preview.querySelectorAll('pre > code');
 
   blocks.forEach((code) => {
-    if (code.classList.contains('language-mermaid')) return;
+    if (isMermaidCodeBlock(code)) return;
 
     const pre = code.parentElement;
     if (!pre || pre.querySelector('.code-copy')) return;
@@ -284,11 +293,16 @@ function addCopyButtons() {
   });
 }
 
+function isMermaidCodeBlock(codeNode) {
+  const className = (codeNode.className || '').toLowerCase();
+  return className.includes('language-mermaid') || className.includes('lang-mermaid');
+}
+
 /**
  * Render Mermaid diagrams
  */
 function renderMermaidBlocks() {
-  const mermaidCodes = preview.querySelectorAll('pre code.language-mermaid');
+  const mermaidCodes = Array.from(preview.querySelectorAll('pre code')).filter(isMermaidCodeBlock);
 
   mermaidCodes.forEach((node, index) => {
     const pre = node.parentElement;
@@ -347,7 +361,7 @@ function render() {
 
     // Highlight code blocks
     preview.querySelectorAll('pre code').forEach((block) => {
-      if (!block.classList.contains('language-mermaid')) {
+      if (!isMermaidCodeBlock(block)) {
         try {
           hljs.highlightElement(block);
         } catch (e) {

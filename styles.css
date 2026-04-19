@@ -4,59 +4,59 @@
    ===================================================== */
 
 :root {
-    /* Light Theme - Professional Navy & Amber */
-    --primary: #001a4d;        /* Navy blue */
-    --primary-dark: #000d26;   /* Darker navy */
-    --primary-light: #e6f0ff;  /* Light navy */
-    
-    --accent: #f59e0b;         /* Amber */
-    --accent-light: #fef3c7;   /* Light amber */
-    --accent-dark: #d97706;    /* Dark amber */
-    
-    --bg: #f8fafc;             /* Almost white */
-    --bg-secondary: #f1f5f9;   /* Light gray */
-    --panel: #ffffff;          /* Pure white */
-    
-    --text: #0f172a;           /* Almost black */
-    --text-secondary: #64748b; /* Slate gray */
-    --border: #cbd5e1;         /* Light border */
-    
-    --code-bg: #f1f5f9;        /* Code background */
-    --code-text: #001a4d;      /* Code text */
-    
+    /* Light Theme - Word-like Blue */
+    --primary: #2b579a;        /* Word blue */
+    --primary-dark: #1f4175;   /* Dark word blue */
+    --primary-light: #e7effa;  /* Light word blue */
+
+    --accent: #2b579a;         /* Use same family for cohesive blue UI */
+    --accent-light: #dbe8fb;   /* Light blue accent */
+    --accent-dark: #1f4175;    /* Dark blue accent */
+
+    --bg: #f5f8fd;             /* Office-style paper background */
+    --bg-secondary: #edf3fb;   /* Secondary surface */
+    --panel: #ffffff;          /* Document white */
+
+    --text: #1b1f24;           /* Neutral dark text */
+    --text-secondary: #5b6b80; /* Muted text */
+    --border: #c7d7ee;         /* Soft blue border */
+
+    --code-bg: #eef4fc;        /* Code background */
+    --code-text: #1f4175;      /* Code text */
+
     /* Semantic colors */
-    --success: #10b981;        /* Green */
-    --warning: #f59e0b;        /* Amber (same as accent) */
-    --error: #ef4444;          /* Red */
-    --info: #3b82f6;           /* Blue */
+    --success: #1f8a56;
+    --warning: #ad7d0a;
+    --error: #c7372f;
+    --info: #2b579a;
 }
 
 body.dark {
-    /* Dark Theme - Professional Navy & Amber */
-    --primary: #e6f0ff;        /* Light navy (inverted) */
-    --primary-dark: #ffffff;   /* White */
-    --primary-light: #1a2a4d;  /* Dark navy */
-    
-    --accent: #fbbf24;         /* Brighter amber for dark mode */
-    --accent-light: #451a03;   /* Dark amber background */
-    --accent-dark: #f59e0b;    /* Regular amber */
-    
-    --bg: #0f172a;             /* Deep navy background */
-    --bg-secondary: #1a2a4d;   /* Navy blue background */
-    --panel: #1e3a5f;          /* Panel background */
-    
-    --text: #f1f5f9;           /* Light text */
-    --text-secondary: #94a3b8; /* Muted text */
-    --border: #334155;         /* Dark border */
-    
-    --code-bg: #0f172a;        /* Dark code background */
-    --code-text: #e6f0ff;      /* Light code text */
-    
+    /* Dark Theme - Blue Office Night */
+    --primary: #8fb7f0;
+    --primary-dark: #dbe8fb;
+    --primary-light: #1a2f4f;
+
+    --accent: #76a5ea;
+    --accent-light: #1f3556;
+    --accent-dark: #9fc1f2;
+
+    --bg: #0e1624;
+    --bg-secondary: #152238;
+    --panel: #1a2a42;
+
+    --text: #e9eff9;
+    --text-secondary: #aac0df;
+    --border: #2f4568;
+
+    --code-bg: #111d30;
+    --code-text: #dbe8fb;
+
     /* Semantic colors */
-    --success: #34d399;        /* Bright green */
-    --warning: #fbbf24;        /* Bright amber */
-    --error: #f87171;          /* Bright red */
-    --info: #60a5fa;           /* Bright blue */
+    --success: #4cc18a;
+    --warning: #d7a64a;
+    --error: #eb6b63;
+    --info: #7eb0f4;
 }
 
 /* ===== Global Styles ===== */
