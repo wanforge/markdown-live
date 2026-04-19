@@ -95,7 +95,7 @@ export default function App() {
     setIsExportingPdf(true);
     try {
       await exportPdfFromNode({ node: previewRef.current, title: getDocumentTitle() });
-    } catch (error) {
+    } catch {
       alert('PDF export failed. The browser will open print mode as a fallback.');
       handlePrint();
     } finally {

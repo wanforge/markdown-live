@@ -110,8 +110,8 @@ Example expected output:
 ```markdown
 \`\`\`mermaid
 flowchart TD
-    A[Input] --> B[Process]
-    B --> C[Output]
+A[Input] --> B[Process]
+B --> C[Output]
 \`\`\`
 ```
 
