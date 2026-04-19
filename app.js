@@ -39,6 +39,7 @@ const btnPrint = document.getElementById('btnPrint');
 const btnPdf = document.getElementById('btnPdf');
 const btnExport = document.getElementById('btnExport');
 const btnTheme = document.getElementById('btnTheme');
+const APP_VERSION = '0.0.9';
 
 function getMermaidConfig(isDark) {
   if (isDark) {
@@ -818,5 +819,5 @@ editor.addEventListener('change', () => {
 // Initial render
 render();
 
-console.log('✨ WanForge Markdown Renderer v1.0 - Ready!');
+console.log(`WanForge Markdown Renderer v${APP_VERSION} - Ready!`);
 console.log('© 2026 WanForge | wanforge.asia');
