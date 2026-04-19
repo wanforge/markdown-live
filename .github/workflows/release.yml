@@ -32,8 +32,9 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "tag=$TAG" >> $GITHUB_OUTPUT
 
-      - name: Install dependencies
-        run: npm install
+      - name: Update package version
+        run: npm version ${{ steps.version.outputs.version }} --no-git-tag-version
+          --allow-same-version
 
       - name: Update CHANGELOG.md
         run: |
@@ -53,15 +54,18 @@ jobs:
 
           mv CHANGELOG.new.md CHANGELOG.md
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Format code and changelog
         run: npm run format
 
-      - name: Commit changelog update
+      - name: Commit release metadata update
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add CHANGELOG.md
-          git commit -m "docs: update changelog for v${{ steps.version.outputs.version }}" --allow-empty
+          git add CHANGELOG.md package.json package-lock.json
+          git commit -m "chore(release): sync metadata for v${{ steps.version.outputs.version }}" --allow-empty
 
       - name: Build
         env:
