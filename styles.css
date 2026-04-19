@@ -1,6 +1,6 @@
 /* =====================================================
    WanForge Markdown Renderer - Professional Theme
-   Copyright © 2024-2026 WanForge (wanforge.asia)
+   Copyright © 2026 WanForge (wanforge.asia)
    ===================================================== */
 
 :root {
@@ -556,6 +556,53 @@ button:disabled {
     max-width: 100%;
 }
 
+/* Word-like Mermaid node styling */
+.mermaid .node rect,
+.mermaid .node polygon,
+.mermaid .node circle,
+.mermaid .node ellipse,
+.mermaid .node path {
+    fill: #e7effa !important;
+    stroke: #2b579a !important;
+    stroke-width: 1.6px !important;
+}
+
+.mermaid .nodeLabel,
+.mermaid .label,
+.mermaid .edgeLabel {
+    color: #1f4175 !important;
+    font-weight: 600;
+}
+
+.mermaid .edgePath .path,
+.mermaid .flowchart-link,
+.mermaid .arrowheadPath {
+    stroke: #2b579a !important;
+    fill: #2b579a !important;
+    stroke-width: 1.5px !important;
+}
+
+body.dark .mermaid .node rect,
+body.dark .mermaid .node polygon,
+body.dark .mermaid .node circle,
+body.dark .mermaid .node ellipse,
+body.dark .mermaid .node path {
+    fill: #1f3556 !important;
+    stroke: #8fb7f0 !important;
+}
+
+body.dark .mermaid .nodeLabel,
+body.dark .mermaid .label,
+body.dark .mermaid .edgeLabel {
+    color: #dbe8fb !important;
+}
+
+body.dark .mermaid .edgePath .path,
+body.dark .mermaid .flowchart-link,
+body.dark .mermaid .arrowheadPath {
+    stroke: #8fb7f0 !important;
+    fill: #8fb7f0 !important;
+}
 /* ===== KaTeX Math ===== */
 .katex {
     font-size: 1.1em;

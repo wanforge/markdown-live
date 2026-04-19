@@ -223,7 +223,7 @@ Gunakan tombol "Export" untuk download hasil render sebagai file HTML standalone
 
 ## Copyright & License
 
-© 2024-2026 **WanForge** | [wanforge.asia](https://wanforge.asia)
+© 2026 **WanForge** | [wanforge.asia](https://wanforge.asia)
 
 Professional Markdown Renderer untuk Dokumentasi Kantor
 

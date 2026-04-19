@@ -1,6 +1,6 @@
 /**
  * WanForge Markdown Renderer - Complete Professional Version
- * Copyright © 2024-2026 WanForge (wanforge.asia)
+ * Copyright © 2026 WanForge (wanforge.asia)
  * 
  * Features:
  * - Full Markdown Support (GFM, Extended Syntax)
@@ -36,8 +36,65 @@ const fileInput = document.getElementById('fileInput');
 const btnSample = document.getElementById('btnSample');
 const btnOpen = document.getElementById('btnOpen');
 const btnPrint = document.getElementById('btnPrint');
+const btnPdf = document.getElementById('btnPdf');
 const btnExport = document.getElementById('btnExport');
 const btnTheme = document.getElementById('btnTheme');
+
+function getMermaidConfig(isDark) {
+  if (isDark) {
+    return {
+      startOnLoad: false,
+      theme: 'base',
+      securityLevel: 'strict',
+      fontFamily: 'Segoe UI, Tahoma, sans-serif',
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+        curve: 'linear',
+      },
+      themeVariables: {
+        primaryColor: '#284a79',
+        primaryTextColor: '#e9eff9',
+        primaryBorderColor: '#8fb7f0',
+        lineColor: '#8fb7f0',
+        secondaryColor: '#1f3556',
+        tertiaryColor: '#152238',
+        background: '#1a2a42',
+        mainBkg: '#284a79',
+        nodeBorder: '#8fb7f0',
+        clusterBkg: '#152238',
+        clusterBorder: '#7ea5dd',
+        edgeLabelBackground: '#1f3556',
+      },
+    };
+  }
+
+  return {
+    startOnLoad: false,
+    theme: 'base',
+    securityLevel: 'strict',
+    fontFamily: 'Segoe UI, Tahoma, sans-serif',
+    flowchart: {
+      useMaxWidth: true,
+      htmlLabels: true,
+      curve: 'linear',
+    },
+    themeVariables: {
+      primaryColor: '#dbe8fb',
+      primaryTextColor: '#1f4175',
+      primaryBorderColor: '#2b579a',
+      lineColor: '#2b579a',
+      secondaryColor: '#e7effa',
+      tertiaryColor: '#f5f8fd',
+      background: '#ffffff',
+      mainBkg: '#dbe8fb',
+      nodeBorder: '#2b579a',
+      clusterBkg: '#edf3fb',
+      clusterBorder: '#7aa1da',
+      edgeLabelBackground: '#e7effa',
+    },
+  };
+}
 
 // ========== Configuration ==========
 const markdown = new MarkdownIt({
@@ -78,16 +135,7 @@ const markdown = new MarkdownIt({
   .use(markdownItSub)
   .use(markdownItSup);
 
-mermaid.initialize({
-  startOnLoad: false,
-  theme: 'default',
-  securityLevel: 'strict',
-  fontFamily: 'Segoe UI, Tahoma, sans-serif',
-  flowchart: {
-    useMaxWidth: true,
-    htmlLabels: true,
-  },
-});
+mermaid.initialize(getMermaidConfig(false));
 
 // ========== Sample Markdown Content ==========
 const sampleMarkdown = `# WanForge Markdown Renderer
@@ -203,7 +251,7 @@ $$\\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6}$$
 
 ---
 
-**© 2024-2026 WanForge** | Professional Markdown Renderer | [wanforge.asia](https://wanforge.asia)
+**© 2026 WanForge** | Professional Markdown Renderer | [wanforge.asia](https://wanforge.asia)
 `;
 
 // ========== Utility Functions ==========
@@ -295,14 +343,18 @@ function addCopyButtons() {
 
 function isMermaidCodeBlock(codeNode) {
   const className = (codeNode.className || '').toLowerCase();
-  return className.includes('language-mermaid') || className.includes('lang-mermaid');
+  return (
+    className.includes('language-mermaid') || className.includes('lang-mermaid')
+  );
 }
 
 /**
  * Render Mermaid diagrams
  */
 function renderMermaidBlocks() {
-  const mermaidCodes = Array.from(preview.querySelectorAll('pre code')).filter(isMermaidCodeBlock);
+  const mermaidCodes = Array.from(preview.querySelectorAll('pre code')).filter(
+    isMermaidCodeBlock
+  );
 
   mermaidCodes.forEach((node, index) => {
     const pre = node.parentElement;
@@ -344,6 +396,202 @@ function renderMath() {
   } catch (e) {
     console.warn('KaTeX rendering error:', e);
   }
+}
+
+function buildExportStyles() {
+  return `
+    <style>
+      :root {
+        --primary: #2b579a;
+        --primary-dark: #1f4175;
+        --primary-light: #e7effa;
+        --accent: #2b579a;
+        --accent-light: #dbe8fb;
+        --bg: #f5f8fd;
+        --panel: #ffffff;
+        --text: #1b1f24;
+        --text-secondary: #5b6b80;
+        --border: #c7d7ee;
+        --code-bg: #eef4fc;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        line-height: 1.75;
+        margin: 0;
+      }
+
+      .document-shell {
+        max-width: 980px;
+        margin: 24px auto;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .export-header {
+        background: linear-gradient(90deg, #2b579a 0%, #3f6db3 100%);
+        color: #ffffff;
+        padding: 18px 24px;
+      }
+
+      .export-title {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+
+      .export-meta {
+        margin: 6px 0 0;
+        font-size: 0.85rem;
+        opacity: 0.9;
+      }
+
+      article {
+        padding: 24px;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        color: var(--primary-dark);
+        font-weight: 700;
+      }
+
+      h1 {
+        border-bottom: 3px solid var(--accent);
+        padding-bottom: 10px;
+      }
+
+      h2 {
+        border-left: 4px solid var(--accent);
+        padding-left: 12px;
+      }
+
+      pre {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px;
+        overflow-x: auto;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 16px 0;
+      }
+
+      th, td {
+        border: 1px solid var(--border);
+        padding: 10px 12px;
+        text-align: left;
+      }
+
+      th {
+        background: var(--primary-light);
+        color: var(--primary-dark);
+      }
+
+      .mermaid {
+        background: #f8fbff;
+        border: 1px solid #c7d7ee;
+        border-radius: 10px;
+        padding: 16px;
+        overflow: auto;
+      }
+
+      .code-copy { display: none !important; }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 16px 24px;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        text-align: right;
+      }
+
+      @media print {
+        @page {
+          size: A4;
+          margin: 14mm 12mm 14mm 12mm;
+        }
+
+        body {
+          background: #ffffff;
+        }
+
+        .document-shell {
+          margin: 0;
+          border: 0;
+          border-radius: 0;
+          max-width: none;
+        }
+
+        h1, h2, h3,
+        table, pre, blockquote,
+        .mermaid, .katex-display {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  `;
+}
+
+function buildExportHtml(title) {
+  const now = new Date();
+  const dateText = now.toLocaleString('id-ID');
+  const styles = buildExportStyles();
+
+  return `<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="WanForge" />
+    <title>${title}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/atom-one-light.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css" />
+    ${styles}
+  </head>
+  <body>
+    <section class="document-shell">
+      <header class="export-header">
+        <h1 class="export-title">${title}</h1>
+        <p class="export-meta">Generated by WanForge Markdown Renderer · ${dateText}</p>
+      </header>
+      <article>
+        ${preview.innerHTML}
+      </article>
+      <footer>
+        © 2026 WanForge · wanforge.asia
+      </footer>
+    </section>
+  </body>
+</html>`;
+}
+
+function openPrintWindow(title) {
+  const html = buildExportHtml(title);
+  const printWindow = window.open('', '_blank', 'noopener,noreferrer');
+
+  if (!printWindow) {
+    alert('Popup diblokir browser. Izinkan popup untuk melanjutkan cetak/PDF.');
+    return;
+  }
+
+  printWindow.document.open();
+  printWindow.document.write(html);
+  printWindow.document.close();
+
+  printWindow.addEventListener('load', () => {
+    printWindow.focus();
+    printWindow.print();
+  });
 }
 
 /**
@@ -424,147 +672,16 @@ fileInput.addEventListener('change', async (event) => {
 });
 
 btnPrint.addEventListener('click', () => {
-  window.print();
+  openPrintWindow('Dokumen Cetak');
+});
+
+btnPdf.addEventListener('click', () => {
+  openPrintWindow('Export PDF');
 });
 
 btnExport.addEventListener('click', () => {
   const title = prompt('Enter document title:', 'Export Markdown') || 'Export Markdown';
-  
-  const styles = `
-    <style>
-      :root {
-        --primary: #001a4d;
-        --accent: #f59e0b;
-        --bg: #f8fafc;
-        --panel: #ffffff;
-        --text: #0f172a;
-        --text-secondary: #64748b;
-        --border: #cbd5e1;
-        --code-bg: #f1f5f9;
-        --code-text: #001a4d;
-      }
-      
-      * {
-        box-sizing: border-box;
-      }
-      
-      body {
-        font-family: 'Segoe UI', Tahoma, sans-serif;
-        color: var(--text);
-        background: var(--bg);
-        line-height: 1.7;
-        margin: 0;
-        padding: 20px;
-      }
-      
-      article {
-        max-width: 900px;
-        margin: 0 auto;
-      }
-      
-      h1, h2, h3, h4, h5, h6 {
-        color: var(--primary);
-        font-weight: 700;
-      }
-      
-      h1 {
-        border-bottom: 3px solid var(--accent);
-        padding-bottom: 10px;
-      }
-      
-      h2 {
-        border-left: 4px solid var(--accent);
-        padding-left: 12px;
-      }
-      
-      pre {
-        background: var(--code-bg);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 12px;
-        overflow-x: auto;
-      }
-      
-      code {
-        font-family: 'JetBrains Mono', 'Courier New', monospace;
-        font-size: 0.9em;
-      }
-      
-      table {
-        border-collapse: collapse;
-        width: 100%;
-        margin: 16px 0;
-      }
-      
-      th, td {
-        border: 1px solid var(--border);
-        padding: 12px;
-        text-align: left;
-      }
-      
-      th {
-        background: #f1f5f9;
-        color: var(--primary);
-        font-weight: 700;
-      }
-      
-      blockquote {
-        border-left: 4px solid var(--accent);
-        padding-left: 16px;
-        margin-left: 0;
-        color: var(--text-secondary);
-      }
-      
-      img {
-        max-width: 100%;
-        height: auto;
-      }
-      
-      a {
-        color: var(--accent);
-        text-decoration: none;
-      }
-      
-      .code-copy {
-        display: none;
-      }
-      
-      footer {
-        margin-top: 32px;
-        padding-top: 16px;
-        border-top: 2px solid var(--border);
-        text-align: center;
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-      }
-    </style>
-  `;
-
-  const footer = `
-    <footer>
-      <p>&copy; 2024-2026 <strong>WanForge</strong> | <a href="https://wanforge.asia">wanforge.asia</a></p>
-      <p>Professional Markdown Renderer | Export Date: ${new Date().toLocaleDateString('id-ID')}</p>
-    </footer>
-  `;
-
-  const html = `<!doctype html>
-<html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="author" content="WanForge" />
-    <title>${title}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/atom-one-light.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css" />
-    ${styles}
-  </head>
-  <body>
-    <article>
-      ${preview.innerHTML}
-    </article>
-    ${footer}
-  </body>
-</html>`;
+  const html = buildExportHtml(title);
 
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
   const link = document.createElement('a');
@@ -579,13 +696,8 @@ btnExport.addEventListener('click', () => {
 btnTheme.addEventListener('click', () => {
   const isDark = document.body.classList.toggle('dark');
   btnTheme.textContent = isDark ? '☀️ Terang' : '🌙 Gelap';
-  
-  mermaid.initialize({
-    startOnLoad: false,
-    theme: isDark ? 'dark' : 'default',
-    securityLevel: 'strict',
-    fontFamily: 'Segoe UI, Tahoma, sans-serif',
-  });
+
+  mermaid.initialize(getMermaidConfig(isDark));
   
   render();
   
@@ -621,4 +733,4 @@ editor.addEventListener('change', () => {
 render();
 
 console.log('✨ WanForge Markdown Renderer v1.0 - Ready!');
-console.log('© 2024-2026 WanForge | wanforge.asia');
+console.log('© 2026 WanForge | wanforge.asia');
