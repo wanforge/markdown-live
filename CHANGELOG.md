@@ -2,6 +2,19 @@
 
 All notable changes to MarkDown Live are recorded here.
 
+## v0.1.7 - 2026-04-19
+
+- chore(release): sync metadata for v0.1.6 (e9ae4a8)
+- docs: update tech stack versions and refine project structure documentation in README.md (4b7cc76)
+- docs: update changelog policy to link to CHANGELOG.md file (1a22195)
+- chore: update version badge to track tags and link to releases (b7dbae0)
+- docs: update README badges with version logo, node requirements, and tech stack icons (dd04ba8)
+- style: update license badge color to match theme branding (e7fb64e)
+- docs: update README badges to include deploy pages workflow and reorder dependencies (f4be6de)
+- docs: update README badges to include deploy pages workflow and reorder dependencies (3a49861)
+- feat: replace KaTeX auto-render with markdown-it-texmath for robust LaTeX support (2b86b93)
+- 0.1.7 (0f331a7)
+
 ## v0.1.6 - 2026-04-19
 
 - chore(release): sync metadata for v0.1.5 (5e59753)
