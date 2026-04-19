@@ -1,4 +1,6 @@
-export const APP_VERSION = '0.1.0';
+import packageJson from '../../package.json';
+
+export const APP_VERSION = import.meta.env.VITE_APP_VERSION ?? packageJson.version;
 
 export const BRAND = {
   name: 'MarkDown Live',

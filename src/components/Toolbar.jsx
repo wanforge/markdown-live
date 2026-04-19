@@ -1,4 +1,4 @@
-import { BRAND } from '../utils/constants';
+import { BRAND, APP_VERSION } from '../utils/constants';
 
 export default function Toolbar({
   fileInputRef,
@@ -23,6 +23,7 @@ export default function Toolbar({
           alt="MarkDown Live logo"
         />
         <span>{BRAND.name}</span>
+        <span className="version-badge">v{APP_VERSION}</span>
       </div>
 
       <div className="actions">

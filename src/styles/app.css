@@ -63,6 +63,23 @@ a {
   height: 28px;
 }
 
+.version-badge {
+  margin-left: 12px;
+padding: 4px 10px;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--primary) 8%, transparent);
+    color: var(--primary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    letter-spacing: 0.02em;
+}
+
+body.dark .version-badge {
+background: color-mix(in srgb, var(--accent) 12%, transparent);
+    color: var(--accent);
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
