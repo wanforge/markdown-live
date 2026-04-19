@@ -2,6 +2,17 @@
 
 All notable changes to MarkDown Live are recorded here.
 
+## v0.1.0 - 2026-04-19
+
+- Migrated the app to a framework-based architecture using React + Vite.
+- Introduced structured directories for scalability.
+- Added MIT license.
+- Standardized primary color usage based on icon.svg palette.
+- Added AI prompt compatibility guidance in README.
+- Added GitHub Actions workflows for CI, GitHub Pages deploy, and CodeQL security analysis.
+- Added badges and logo references to README.
+- Commit source: pending (apply this release section after creating the v0.1.0 commit).
+
 ## v0.0.14 - 2026-04-19
 
 - Refactored the README and code comments for clarity and consistency.
