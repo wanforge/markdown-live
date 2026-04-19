@@ -146,6 +146,29 @@ code {
     align-items: center;
 }
 
+.github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1.5px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    line-height: 1;
+    transition: all 0.2s ease;
+}
+
+.github-link:hover {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    color: var(--primary);
+    text-decoration: none;
+}
+
 /* ===== Buttons ===== */
 button {
     border: 1.5px solid var(--border);
@@ -240,13 +263,13 @@ button:disabled {
 /* ===== Preview ===== */
 .preview-pane {
     display: flex;
-        flex-direction: column;
-        min-height: 0;
-        overflow: hidden;
-    }
-    
-    #preview {
-        flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+#preview {
+    flex: 1;
     overflow: auto;
 }
 
@@ -726,14 +749,21 @@ body.dark .mermaid .arrowheadPath {
 }
 
 @media (max-width: 1024px) {
+    body {
+        height: auto;
+        min-height: 100vh;
+        overflow: auto;
+    }
+
     .layout {
         grid-template-columns: 1fr;
         min-height: auto;
+        flex: 0 0 auto;
     }
 
     .editor-pane,
     .preview-pane {
-        min-height: 46vh;
+        min-height: auto;
     }
 
     .topbar {
@@ -742,16 +772,37 @@ body.dark .mermaid .arrowheadPath {
         gap: 10px;
     }
 
-        .actions {
-            width: 100%;
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 8px;
-        }
-    
-        .actions button {
-            width: 100%;
-        }
+    .actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .actions button,
+    .actions .github-link {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .editor-pane {
+        overflow: hidden;
+    }
+
+    #editor {
+        min-height: 42vh;
+        height: 42vh;
+    }
+
+    .preview-pane {
+        overflow: visible;
+    }
+
+    #preview {
+        max-height: none;
+        overflow: visible;
+    }
+
     button {
         padding: 7px 12px;
         font-size: 0.85rem;
@@ -783,6 +834,11 @@ body.dark .mermaid .arrowheadPath {
         font-size: 0.8rem;
     }
 
+    .github-link {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+
     .layout {
         grid-template-columns: 1fr;
         gap: 10px;
@@ -791,7 +847,7 @@ body.dark .mermaid .arrowheadPath {
 
     .editor-pane,
     .preview-pane {
-        min-height: 42vh;
+        min-height: auto;
     }
 
     .markdown-body {
