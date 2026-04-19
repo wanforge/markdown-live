@@ -1,8 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="32" height="32" rx="6" fill="#001a4d"/>
-  <circle cx="16" cy="16" r="12" fill="#f59e0b"/>
-  <circle cx="12" cy="13" r="2" fill="#001a4d"/>
-  <circle cx="20" cy="13" r="2" fill="#001a4d"/>
-  <path d="M 12 19 Q 16 21 20 19" stroke="#001a4d" stroke-width="2" fill="none" stroke-linecap="round"/>
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" rx="30" fill="#003D99" />
+
+  <g>
+    <path d="M40 50V150H75V90L100 115L125 90V150H160V50H125L100 75L75 50H40Z" fill="white" />
+
+    <path d="M100 130L85 115H115L100 130Z" fill="white" />
+
+    <path d="M40 50H75V90L60 75V110H40V50Z" fill="white" fill-opacity="0.1" />
+    <path d="M160 50H125V90L140 75V110H160V50Z" fill="white" fill-opacity="0.1" />
+
+    <path d="M125 50L100 75V115L125 90V150H160V50H125Z" fill="#80B3FF" fill-opacity="0.6" />
+
+    <path d="M40 50V150H75V90L100 115L125 90V150H160V50H125L100 75L75 50H40Z" stroke="white"
+      stroke-width="2" stroke-opacity="0.2" />
+  </g>
 </svg>
