@@ -45,16 +45,24 @@ Use these prompt keywords so your AI output is fully compatible with MarkDown Li
 
 ### 1) Math with KaTeX
 
-**Prompt tip:** "Write formulas using KaTeX delimiters. Inline with `$ ... $` and block with `$$ ... $$`."
+**Prompt tip:** "Write formulas using KaTeX delimiters. Inline with `$ ... $` or `\( ... \)`, and block/display math with `$$ ... $$` or `\[ ... \]`."
+
+> [!TIP]
+> **Best Practice for `\[ ... \]`**: Ensure there is a blank line above the `\[` delimiter so Markdown correctly identifies it as a block element. For more flexibility (even without blank lines), use `$$ ... $$`.
 
 **Expected output:**
 
 ```markdown
-Inline: $E = mc^2$
+Inline: $E = mc^2$ or \( E = mc^2 \)
+
+Block:
 
 $$
 \int_0^1 x^2 dx = \frac{1}{3}
 $$
+
+Boxed Result:
+\[ \boxed{P(X \leq 4) \approx 0.2851} \]
 ```
 
 ### 2) Flowcharts with Mermaid

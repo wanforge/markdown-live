@@ -295,6 +295,21 @@ button:not(.icon-button):disabled {
   color: #ef4444;
   font-size: 0.85rem;
 }
+/* Math Styles */
+.markdown-body eq {
+  display: inline-block;
+  margin: 0 0.1em;
+  vertical-align: middle;
+}
+
+.markdown-body eqn {
+  display: block;
+  margin: 1.5em 0;
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 .markdown-body table {
   border-collapse: collapse;
   width: 100%;

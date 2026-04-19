@@ -8,7 +8,8 @@ import markdownItSub from 'markdown-it-sub';
 import markdownItSup from 'markdown-it-sup';
 import hljs from 'highlight.js';
 import DOMPurify from 'dompurify';
-import renderMathInElement from 'katex/contrib/auto-render';
+import texmath from 'markdown-it-texmath';
+import katex from 'katex';
 import { PALETTE } from '../utils/constants';
 
 const escapeHtml = (() => {
@@ -17,7 +18,7 @@ const escapeHtml = (() => {
 })();
 
 export function createMarkdownParser() {
-  return new MarkdownIt({
+  const md = new MarkdownIt({
     html: true,
     linkify: true,
     typographer: true,
@@ -41,7 +42,21 @@ export function createMarkdownParser() {
 
       return `<pre><code class="hljs language-${lang || 'text'}">${escapeHtml(str)}</code></pre>`;
     },
-  })
+  });
+
+  // Core rule to normalize LaTeX bracket delimiters into dollar delimiters.
+  // This solves the issue where \[ \] and \( \) are escaped by markdown-it
+  // before the texmath plugin can process them, especially when no newline is present.
+  md.core.ruler.before('normalize', 'math_normalize', (state) => {
+    state.src = state.src
+      .replace(/\\\[/g, '$$$$')
+      .replace(/\\\]/g, '$$$$')
+      .replace(/\\\(/g, '$$')
+      .replace(/\\\)/g, '$$');
+    return true;
+  });
+
+  return md
     .use(markdownItAnchor, {
       permalink: markdownItAnchor.permalink.ariaHidden({
         symbol: '#',
@@ -53,12 +68,60 @@ export function createMarkdownParser() {
     .use(markdownItDeflist)
     .use(markdownItMark)
     .use(markdownItSub)
-    .use(markdownItSup);
+    .use(markdownItSup)
+    .use(texmath, {
+      engine: katex,
+      delimiters: 'dollars',
+      katexOptions: { throwOnError: false },
+    });
 }
 
 export function sanitizeRenderedHtml(rawHtml) {
   return DOMPurify.sanitize(rawHtml, {
-    USE_PROFILES: { html: true },
+    // KaTeX requires specific tags and attributes to render properly,
+    // especially for complex commands like \boxed which use menclose and MathML.
+    ADD_TAGS: [
+      'math',
+      'semantics',
+      'annotation',
+      'eq',
+      'eqn',
+      'menclose',
+      'mfrac',
+      'msup',
+      'msub',
+      'msubsup',
+      'mover',
+      'munder',
+      'munderover',
+      'mtable',
+      'mtr',
+      'mtd',
+      'mtext',
+      'mspace',
+      'mi',
+      'mn',
+      'mo',
+      'mstyle',
+      'msqrt',
+      'mroot',
+      'mfenced',
+    ],
+    ADD_ATTR: [
+      'encoding',
+      'display',
+      'style',
+      'class',
+      'aria-hidden',
+      'mathvariant',
+      'mathsize',
+      'mathcolor',
+      'mathbackground',
+      'notation',
+      'stretchy',
+      'linethickness',
+    ],
+    USE_PROFILES: { html: true, svg: true, mathMl: true },
     KEEP_CONTENT: true,
   });
 }
@@ -185,23 +248,6 @@ export async function enrichPreviewContent(
           '<p class="mermaid-error-message">Mermaid diagram failed to render.</p>';
       });
     }
-  }
-
-  if (shouldAbort()) return;
-
-  try {
-    renderMathInElement(previewElement, {
-      delimiters: [
-        { left: '$$', right: '$$', display: true },
-        { left: '$', right: '$', display: false },
-        { left: '\\(', right: '\\)', display: false },
-        { left: '\\[', right: '\\]', display: true },
-      ],
-      throwOnError: false,
-      errorColor: '#ef4444',
-    });
-  } catch {
-    // Keep the preview usable even if KaTeX auto-render rejects a fragment.
   }
 
   if (shouldAbort()) return;
