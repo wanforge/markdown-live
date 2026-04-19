@@ -147,7 +147,7 @@ git push origin main --follow-tags
 
 ### Changelog Policy
 
-Changelog entries should be created from commit history (commit-first), then grouped by release version in `CHANGELOG.md`.
+Changelog entries should be created from commit history (commit-first), then grouped by release version in the [CHANGELOG.md](./CHANGELOG.md) file.
 
 ## License
 
