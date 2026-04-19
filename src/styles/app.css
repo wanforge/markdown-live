@@ -124,12 +124,40 @@ body.dark .version-badge {
 }
 .actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+}
+
+.action-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 7px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+}
+
+.action-group-label {
+  padding: 0 2px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.action-group-buttons {
+  display: flex;
+  gap: 6px;
 }
 
 button:not(.icon-button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   border: 1px solid var(--border);
   background: var(--panel);
   color: var(--text);
@@ -145,6 +173,10 @@ button:not(.icon-button):hover {
   background: color-mix(in srgb, var(--accent) 22%, var(--panel));
 }
 
+button:not(.icon-button):disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
 .layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -329,20 +361,43 @@ button:not(.icon-button):hover {
   .actions {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 6px;
+  }
+
+  .action-group {
+    width: 100%;
+    min-width: 0;
+    padding: 6px;
+    gap: 5px;
+  }
+
+  .action-group-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.07em;
+  }
+
+  .action-group-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .action-group:last-child .action-group-buttons {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .actions button:not(.icon-button),
   .actions .icon-button {
     width: 100%;
-    min-height: 34px;
+    min-height: 32px;
   }
 
   .actions button:not(.icon-button) {
-    font-size: 0.78rem;
-    padding: 6px 8px;
+    font-size: 0.74rem;
+    padding: 5px 6px;
     border-radius: 7px;
+    gap: 4px;
   }
 
   .actions .icon-button {
@@ -373,8 +428,8 @@ button:not(.icon-button):hover {
     background: var(--panel);
     color: var(--muted);
     border-radius: 8px;
-    padding: 7px 10px;
-    font-size: 0.8rem;
+    padding: 6px 8px;
+    font-size: 0.76rem;
     font-weight: 600;
   }
 
@@ -399,6 +454,14 @@ button:not(.icon-button):hover {
 
 @media (max-width: 640px) {
   .actions {
+    grid-template-columns: 1fr;
+  }
+
+  .action-group-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .action-group:last-child .action-group-buttons {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 

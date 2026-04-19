@@ -31,6 +31,10 @@ export default function App() {
     return sanitizeRenderedHtml(raw);
   }, [markdownText, parser]);
 
+  const hasDocumentContent = useMemo(() => {
+    return markdownText.trim().length > 0;
+  }, [markdownText]);
+
   useEffect(() => {
     localStorage.setItem('markdownContent', markdownText);
   }, [markdownText]);
@@ -100,13 +104,21 @@ export default function App() {
   }
 
   function handlePrint() {
+    if (!hasDocumentContent) {
+      alert('Tidak ada konten untuk diprint. Isi markdown dulu ya.');
+      return;
+    }
+
     const title = getDocumentTitle();
     const html = buildExportHtml({ title, contentHtml: clonePreviewHtml() });
     openPrintWindow(html);
   }
 
   async function handleExportPdf() {
-    if (!previewRef.current) return;
+    if (!previewRef.current || !hasDocumentContent) {
+      alert('Tidak ada konten untuk diexport ke PDF.');
+      return;
+    }
 
     setIsExportingPdf(true);
     try {
@@ -120,6 +132,11 @@ export default function App() {
   }
 
   function handleExportHtml() {
+    if (!hasDocumentContent) {
+      alert('Tidak ada konten untuk diexport ke HTML.');
+      return;
+    }
+
     const title =
       window.prompt('Enter document title:', getDocumentTitle()) || getDocumentTitle();
     const html = buildExportHtml({ title, contentHtml: clonePreviewHtml() });
@@ -152,6 +169,7 @@ export default function App() {
         onToggleTheme={() => setIsDark((value) => !value)}
         isDark={isDark}
         isExportingPdf={isExportingPdf}
+        hasDocumentContent={hasDocumentContent}
       />
 
       <main
