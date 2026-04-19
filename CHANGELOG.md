@@ -2,6 +2,12 @@
 
 All notable changes to MarkDown Live are recorded here.
 
+## v0.1.8 - 2026-04-19
+
+- chore(release): sync metadata for v0.1.7 (8ca75e7)
+- refactor: clean up markdown parser structure and modularize mermaid and sanitization utilities (f8eed99)
+- 0.1.8 (8cc7698)
+
 ## v0.1.7 - 2026-04-19
 
 - chore(release): sync metadata for v0.1.6 (e9ae4a8)
