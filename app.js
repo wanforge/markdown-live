@@ -40,7 +40,7 @@ const btnPrint = document.getElementById('btnPrint');
 const btnPdf = document.getElementById('btnPdf');
 const btnExport = document.getElementById('btnExport');
 const btnTheme = document.getElementById('btnTheme');
-const APP_VERSION = '0.0.9';
+const APP_VERSION = '0.0.15';
 
 function getMermaidConfig(isDark) {
   if (isDark) {
