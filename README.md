@@ -7,14 +7,15 @@
 
 [![Version](https://img.shields.io/github/v/tag/wanforge/markdown-live?label=version&color=003D99&logo=github)](https://github.com/wanforge/markdown-live/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-003D99?logo=opensourceinitiative&logoColor=white)](./LICENSE)
-[![Node Support](https://img.shields.io/badge/node-%3E%3D20-003D99?logo=node.js&logoColor=white)](https://nodejs.org)
 
 [![CI](https://github.com/wanforge/markdown-live/actions/workflows/ci.yml/badge.svg)](https://github.com/wanforge/markdown-live/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/wanforge/markdown-live/actions/workflows/codeql.yml/badge.svg)](https://github.com/wanforge/markdown-live/actions/workflows/codeql.yml)
-[![Linter](https://img.shields.io/badge/eslint-v9-4B32C3?logo=eslint&logoColor=white)](https://eslint.org/)
+[![Deploy Pages](https://github.com/wanforge/markdown-live/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/wanforge/markdown-live/actions/workflows/deploy-pages.yml)
 
+[![Node Support](https://img.shields.io/badge/node-%3E%3D20-003D99?logo=node.js&logoColor=white)](https://nodejs.org)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
+[![Linter](https://img.shields.io/badge/eslint-v9-4B32C3?logo=eslint&logoColor=white)](https://eslint.org/)
 
 <img src="./public/preview.png" alt="MarkDown Live Screenshot" width="100%" />
 </div>
