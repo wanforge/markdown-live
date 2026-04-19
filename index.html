@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="id">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Markdown Renderer Lengkap</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css" />
+        <link rel="stylesheet" href="./styles.css" />
+    </head>
+
+    <body>
+        <header class="topbar">
+            <div class="brand">Markdown Renderer</div>
+            <div class="actions">
+                <button id="btnSample" type="button">Contoh</button>
+                <button id="btnOpen" type="button">Buka .md</button>
+                <button id="btnExport" type="button">Export HTML</button>
+                <button id="btnTheme" type="button">Tema Gelap</button>
+                <input id="fileInput" type="file" accept=".md,.markdown,.txt" hidden />
+            </div>
+        </header>
+
+        <main class="layout">
+            <section class="pane editor-pane">
+                <div class="pane-title">Editor Markdown</div>
+                <textarea id="editor" spellcheck="false"></textarea>
+            </section>
+
+            <section class="pane preview-pane">
+                <div class="pane-title">Preview</div>
+                <div id="toc" class="toc"></div>
+                <article id="preview" class="markdown-body"></article>
+            </section>
+        </main>
+
+        <script type="module" src="./app.js"></script>
+    </body>
+
+</html>
