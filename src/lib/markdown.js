@@ -118,7 +118,11 @@ export async function enrichPreviewContent(previewElement, isDark) {
 
   previewElement.querySelectorAll('pre code').forEach((block) => {
     if (!isMermaidCodeBlock(block)) {
-      hljs.highlightElement(block);
+      try {
+        hljs.highlightElement(block);
+      } catch {
+        // Leave the block unhighlighted if the language parser rejects it.
+      }
     }
   });
 
@@ -137,21 +141,39 @@ export async function enrichPreviewContent(previewElement, isDark) {
     pre.replaceWith(container);
   });
 
-  mermaid.initialize(getMermaidConfig(isDark));
-  await mermaid.run({ nodes: previewElement.querySelectorAll('.mermaid') });
+  if (mermaidCodes.length > 0) {
+    try {
+      mermaid.initialize(getMermaidConfig(isDark));
+      await mermaid.run({ nodes: previewElement.querySelectorAll('.mermaid') });
+    } catch {
+      previewElement.querySelectorAll('.mermaid').forEach((node) => {
+        if (node.childNodes.length === 0) {
+          node.textContent = 'Mermaid diagram failed to render.';
+        }
+      });
+    }
+  }
 
-  renderMathInElement(previewElement, {
-    delimiters: [
-      { left: '$$', right: '$$', display: true },
-      { left: '$', right: '$', display: false },
-      { left: '\\(', right: '\\)', display: false },
-      { left: '\\[', right: '\\]', display: true },
-    ],
-    throwOnError: false,
-    errorColor: '#ef4444',
-  });
+  try {
+    renderMathInElement(previewElement, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\(', right: '\\)', display: false },
+        { left: '\\[', right: '\\]', display: true },
+      ],
+      throwOnError: false,
+      errorColor: '#ef4444',
+    });
+  } catch {
+    // Keep the preview usable even if KaTeX auto-render rejects a fragment.
+  }
 
-  addCopyButtons(previewElement);
+  try {
+    addCopyButtons(previewElement);
+  } catch {
+    // Copy buttons are progressive enhancement only.
+  }
 }
 
 function addCopyButtons(previewElement) {
@@ -170,7 +192,7 @@ function addCopyButtons(previewElement) {
 
     button.addEventListener('click', async () => {
       try {
-        await navigator.clipboard.writeText(code.innerText);
+        await navigator.clipboard.writeText(code.innerText || code.textContent || '');
         button.textContent = 'Copied';
         setTimeout(() => {
           button.textContent = 'Copy';
