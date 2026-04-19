@@ -7,7 +7,6 @@ All notable changes to MarkDown Live are recorded here.
 - feat: display app version in toolbar and update changelog process
 - Commit: 3736e0b
 
-
 ## v0.1.0 - 2026-04-19
 
 - Migrated the app to a framework-based architecture using React + Vite.
