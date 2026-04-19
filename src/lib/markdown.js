@@ -8,7 +8,6 @@ import markdownItSub from 'markdown-it-sub';
 import markdownItSup from 'markdown-it-sup';
 import hljs from 'highlight.js';
 import DOMPurify from 'dompurify';
-import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.14.0/+esm';
 import renderMathInElement from 'katex/contrib/auto-render';
 import { PALETTE } from '../utils/constants';
 
@@ -143,6 +142,7 @@ export async function enrichPreviewContent(previewElement, isDark) {
 
   if (mermaidCodes.length > 0) {
     try {
+      const mermaid = await import('mermaid');
       mermaid.initialize(getMermaidConfig(isDark));
       await mermaid.run({ nodes: previewElement.querySelectorAll('.mermaid') });
     } catch {
