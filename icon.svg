@@ -1,16 +1,23 @@
 <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="200" height="200" rx="30" fill="#003D99" />
+
+  <!-- Background -->
+  <rect width="200" height="200" rx="40" fill="#003D99" />
 
   <g>
+    <!-- Full M -->
     <path d="M40 50V150H75V90L100 115L125 90V150H160V50H125L100 75L75 50H40Z" fill="white" />
 
+    <!-- Down -->
     <path d="M100 130L85 115H115L100 130Z" fill="white" />
 
+    <!-- Right Overlay M  -->
+    <path d="M125 50L100 75V115L125 90V150H160V50H125Z" fill="#80B3FF" fill-opacity="0.6" />
+
+    <!-- Additional Overlay -->
     <path d="M40 50H75V90L60 75V110H40V50Z" fill="white" fill-opacity="0.1" />
     <path d="M160 50H125V90L140 75V110H160V50Z" fill="white" fill-opacity="0.1" />
 
-    <path d="M125 50L100 75V115L125 90V150H160V50H125Z" fill="#80B3FF" fill-opacity="0.6" />
-
+    <!-- Outline -->
     <path d="M40 50V150H75V90L100 115L125 90V150H160V50H125L100 75L75 50H40Z" stroke="white"
       stroke-width="2" stroke-opacity="0.2" />
   </g>
