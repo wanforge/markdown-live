@@ -1,6 +1,9 @@
-# MarkDown Live
-
-![MarkDown Live Logo](./public/icon.svg)
+<div align="center">
+  <img src="./public/icon.svg" alt="MarkDown Live Logo" width="120" />
+  
+  <h1>MarkDown Live</h1>
+  
+  <p><em>Open-source tool to convert markdown and AI output into polished documents.</em></p>
 
 [![Version](https://img.shields.io/badge/version-0.1.0-003D99)](https://github.com/wanforge/markdown-live)
 [![License: MIT](https://img.shields.io/badge/license-MIT-80B3FF.svg)](./LICENSE)
@@ -8,64 +11,16 @@
 [![Deploy Pages](https://github.com/wanforge/markdown-live/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/wanforge/markdown-live/actions/workflows/deploy-pages.yml)
 [![CodeQL](https://github.com/wanforge/markdown-live/actions/workflows/codeql.yml/badge.svg)](https://github.com/wanforge/markdown-live/actions/workflows/codeql.yml)
 
-Open source tool to convert markdown and AI output into polished documents.
+<img src="./public/preview.png" alt="MarkDown Live Screenshot" width="100%" />
+</div>
 
-MarkDown Live helps you:
+---
 
-- Write or paste AI-generated markdown.
-- Render Mermaid diagrams and KaTeX formulas correctly.
-- Export to HTML/PDF for reports, docs, and sharing.
-- Stay privacy-first: no analytics, no telemetry.
+**MarkDown Live** helps you paste AI-generated markdown, render formulas (KaTeX) and diagrams (Mermaid) correctly, and export clean docs to HTML or PDF in minutes. It is free forever, privacy-first, and contains no analytics tracking.
 
-## What Is New in v0.1.0
+## Quick Start
 
-- Migrated to a React + Vite framework architecture.
-- Introduced a structured directory for long-term scalability.
-- Added GitHub Actions for CI, Pages deploy, and CodeQL.
-- Added MIT license and refreshed documentation.
-- Unified theme colors using icon.svg palette.
-
-## Tech Stack
-
-- React 18
-- Vite 5
-- markdown-it + plugins
-- Mermaid
-- KaTeX
-- Highlight.js
-- DOMPurify
-- html2canvas + jsPDF
-
-## Color System
-
-Primary brand colors come directly from icon.svg:
-
-- Primary: #003D99
-- Accent: #80B3FF
-- Neutral: #FFFFFF
-
-## Structured Directory
-
-```text
-markdown-live/
-├── .github/workflows/      CI, deploy, security workflows
-├── public/                 Static assets (icon.svg, icon.png)
-├── src/
-│   ├── components/         UI components
-│   ├── lib/                Markdown rendering engine
-│   ├── styles/             App styles
-│   ├── utils/              Constants, exporters, sample markdown
-│   ├── App.jsx             App shell
-│   └── main.jsx            Entry point
-├── CNAME
-├── CHANGELOG.md
-├── LICENSE
-├── index.html
-├── package.json
-└── vite.config.js
-```
-
-## Run Locally
+Run the project locally:
 
 ```bash
 npm install
@@ -81,15 +36,13 @@ npm run preview
 
 ## AI Prompt Tips (Important)
 
-Use these prompt keywords so AI output is fully compatible with MarkDown Live.
+Use these prompt keywords so your AI output is fully compatible with MarkDown Live.
 
 ### 1) Math with KaTeX
 
-Prompt tip:
+**Prompt tip:** "Write formulas using KaTeX delimiters. Inline with `$ ... $` and block with `$$ ... $$`."
 
-- "Write formulas using KaTeX delimiters. Inline with $...$ and block with $$...$$."
-
-Example expected output:
+**Expected output:**
 
 ```markdown
 Inline: $E = mc^2$
@@ -101,27 +54,23 @@ $$
 
 ### 2) Flowcharts with Mermaid
 
-Prompt tip:
+**Prompt tip:** "Generate diagrams in Mermaid fenced code blocks using \`\`\`mermaid."
 
-- "Generate diagrams in Mermaid fenced code blocks using ```mermaid."
+**Expected output:**
 
-Example expected output:
-
-```markdown
-\`\`\`mermaid
+````markdown
+```mermaid
 flowchart TD
-A[Input] --> B[Process]
-B --> C[Output]
-\`\`\`
+    A[Input] --> B[Process]
+    B --> C[Output]
 ```
+````
 
-### 3) Tables, tasks, references
+### 3) Tables, Tasks, and References
 
-Prompt tip:
+**Prompt tip:** "Use GFM markdown tables, task lists (`- [ ]` / `- [x]`), and footnotes (`[^1]`)."
 
-- "Use GFM markdown tables, task lists (- [ ] / - [x]), and footnotes ([^1])."
-
-Example expected output:
+**Expected output:**
 
 ```markdown
 | Item  | Status |
@@ -136,51 +85,72 @@ Reference text.[^1]
 [^1]: Source note.
 ```
 
-### 4) Document-ready AI output
+### 4) Document-Ready AI Output
 
-Prompt tip:
+**Prompt tip:** "Output only clean markdown, use heading hierarchy (H1-H3), avoid HTML unless needed, and keep sections print-ready."
 
-- "Output only clean markdown, use heading hierarchy (H1-H3), avoid HTML unless needed, and keep sections print-ready."
+## Architecture & Tech Stack
 
-## How To Introduce This Tool
+**Core Technologies:**
+React 18 | Vite 5 | markdown-it (+ plugins) | Mermaid | KaTeX | Highlight.js | DOMPurify | html2canvas + jsPDF
 
-Use this short pitch when presenting MarkDown Live:
+**Color System:**
+Primary brand colors are extracted directly from `icon.svg`:
 
-"MarkDown Live is an open source markdown-to-document tool. You can paste AI output, render formulas with KaTeX, render diagrams with Mermaid, and export clean docs to HTML or PDF in minutes. It is free forever and has no analytics tracking."
+- **Primary:** `#003D99`
+- **Accent:** `#80B3FF`
+- **Neutral:** `#FFFFFF`
 
-## GitHub Actions
+**Structured Directory:**
 
-- CI: lint + build on push and pull request.
-- Deploy Pages: auto deploy to GitHub Pages from main branch.
-- CodeQL: automated JavaScript security scanning.
-- Release: create a GitHub release automatically when pushing a SemVer tag (`v*.*.*`).
-
-## Release Tags
-
-Use one of these commands to bump version and create a tag:
-
-```bash
-npm run tag:patch
-npm run tag:minor
-npm run tag:major
+```text
+markdown-live/
+├── .github/workflows/      CI, deploy, security workflows
+├── public/                 Static assets (icon.svg, icon.png)
+├── src/
+│   ├── components/         UI components
+│   ├── lib/                Markdown rendering engine
+│   ├── styles/             App styles
+│   ├── utils/              Constants, exporters, sample markdown
+│   ├── App.jsx             App shell
+│   └── main.jsx            Entry point
+├── index.html
+└── package.json
 ```
 
-Then push commit and tag:
+## Development & Workflow
+
+### GitHub Actions
+
+- **CI:** Lint and build on `push` and `pull_request`.
+- **Deploy Pages:** Auto-deploy to GitHub Pages from the `main` branch.
+- **CodeQL:** Automated JavaScript security scanning.
+- **Release:** Creates a GitHub release automatically when pushing a SemVer tag (`v*.*.*`).
+
+### Release Tags
+
+Use one of these commands to bump the version and create a tag:
+
+```bash
+npm run tag:patch  # 0.1.x
+npm run tag:minor  # 0.x.0
+npm run tag:major  # x.0.0
+```
+
+Then push the commit and tag to trigger the Release workflow:
 
 ```bash
 git push origin main --follow-tags
 ```
 
-This triggers the Release workflow and publishes a GitHub Release with built artifacts.
+### Changelog Policy
 
-## Changelog Policy
-
-Changelog entries should be created from commit history (commit-first), then grouped by release version.
+Changelog entries should be created from commit history (commit-first), then grouped by release version in `CHANGELOG.md`.
 
 ## License
 
-MIT. See [LICENSE](./LICENSE).
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
 
 ---
 
-© 2026 WanForge (wanforge.asia)
+&copy; 2026 WanForge ([wanforge.asia](https://wanforge.asia)).
