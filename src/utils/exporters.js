@@ -68,21 +68,87 @@ export function buildExportHtml({ title, contentHtml }) {
 }
 
 export function openPrintWindow(html) {
-  const win = window.open('', '_blank', 'noopener,noreferrer');
-  if (!win) {
-    alert(
-      'The browser blocked the popup. Please allow popups to continue with print/PDF.'
-    );
-    return;
-  }
+  const printWithIframeFallback = () => {
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('aria-hidden', 'true');
+    iframe.style.position = 'fixed';
+    iframe.style.right = '0';
+    iframe.style.bottom = '0';
+    iframe.style.width = '0';
+    iframe.style.height = '0';
+    iframe.style.border = '0';
 
-  win.document.open();
-  win.document.write(html);
-  win.document.close();
-  win.addEventListener('load', () => {
-    win.focus();
-    win.print();
-  });
+    const cleanup = () => {
+      if (iframe.parentNode) {
+        iframe.parentNode.removeChild(iframe);
+      }
+    };
+
+    iframe.addEventListener('load', () => {
+      const frameWindow = iframe.contentWindow;
+      const frameDocument = iframe.contentDocument;
+      if (!frameWindow || !frameDocument) {
+        cleanup();
+        alert('Print gagal dijalankan. Silakan coba lagi.');
+        return;
+      }
+
+      const doPrint = () => {
+        try {
+          frameWindow.focus();
+          frameWindow.print();
+        } finally {
+          setTimeout(cleanup, 1200);
+        }
+      };
+
+      const fontsReady = frameDocument.fonts?.ready;
+      if (fontsReady) {
+        fontsReady.then(doPrint).catch(doPrint);
+        return;
+      }
+
+      doPrint();
+    });
+
+    document.body.appendChild(iframe);
+    const frameDocument = iframe.contentDocument;
+    if (!frameDocument) {
+      cleanup();
+      alert('Print gagal dijalankan. Silakan coba lagi.');
+      return;
+    }
+
+    frameDocument.open();
+    frameDocument.write(html);
+    frameDocument.close();
+  };
+
+  try {
+    const win = window.open('', '_blank');
+    if (!win) {
+      printWithIframeFallback();
+      return;
+    }
+
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
+
+    const triggerPrint = () => {
+      try {
+        win.focus();
+        win.print();
+      } catch {
+        printWithIframeFallback();
+      }
+    };
+
+    win.addEventListener('load', triggerPrint, { once: true });
+    setTimeout(triggerPrint, 500);
+  } catch {
+    printWithIframeFallback();
+  }
 }
 
 export async function exportPdfFromNode({ node, title }) {
