@@ -270,6 +270,7 @@ button:disabled {
 
 #preview {
     flex: 1;
+    min-height: 0;
     overflow: auto;
 }
 
@@ -297,6 +298,8 @@ button:disabled {
     border-bottom: 1px solid var(--border);
     font-size: 0.9rem;
     background: color-mix(in srgb, var(--accent) 3%, transparent);
+    max-height: clamp(120px, 30vh, 260px);
+    overflow: auto;
 }
 
 .toc:empty {
@@ -331,6 +334,19 @@ button:disabled {
 .toc a:hover {
     color: var(--accent-dark);
     text-decoration: underline;
+}
+
+.toc::-webkit-scrollbar {
+    width: 7px;
+}
+
+.toc::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 8px;
+}
+
+.toc::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
 }
 
 /* ===== Markdown Content ===== */
@@ -852,6 +868,10 @@ body.dark .mermaid .arrowheadPath {
 
     .markdown-body {
         padding: 12px;
+    }
+
+    .toc {
+        max-height: 34vh;
     }
 
     .markdown-body h1 {
