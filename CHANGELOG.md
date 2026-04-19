@@ -2,6 +2,12 @@
 
 All notable changes to MarkDown Live are recorded here.
 
+## v0.1.6 - 2026-04-19
+
+- chore(release): sync metadata for v0.1.5 (5e59753)
+- docs: update README with preview image and improved formatting (287c915)
+- 0.1.6 (2c162b5)
+
 ## v0.1.5 - 2026-04-19
 
 - chore(release): sync metadata for v0.1.4 (8ec29b5)
