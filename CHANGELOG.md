@@ -2,6 +2,13 @@
 
 All notable changes to MarkDown Live are recorded here.
 
+## v0.1.4 - 2026-04-19
+
+- chore(release): sync metadata for v0.1.3 (21ba5a5)
+- feat: update GitHub Actions workflow to trigger on Release completion (44c12a0)
+- feat: enhance CHANGELOG update process to include commit messages and hashes (4f06cab)
+- feat: add document content checks and enhance Toolbar layout with action groups (a688619)
+
 ## v0.1.3 - 2026-04-19
 
 - feat: refactor Toolbar component layout and enhance styling for brand icons and actions
