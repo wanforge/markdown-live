@@ -39,16 +39,19 @@ jobs:
       - name: Update CHANGELOG.md
         run: |
           VERSION=${{ steps.version.outputs.version }}
+          TAG=${{ steps.version.outputs.tag }}
           DATE=$(date +%Y-%m-%d)
-          COMMIT_MSG=$(git log -1 --pretty=%s)
-          COMMIT_HASH=$(git log -1 --pretty=%h)
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 "${TAG}^" 2>/dev/null || true)
 
           {
             head -n 3 CHANGELOG.md
             printf '\n## v%s - %s\n\n' "$VERSION" "$DATE"
-            printf -- '- %s\n' "$COMMIT_MSG"
-            printf -- '- Commit: %s\n' "$COMMIT_HASH"
-            printf '\n'
+            if [ -n "$PREVIOUS_TAG" ]; then
+              git log --reverse --no-merges --pretty=format:'- %s (%h)' "${PREVIOUS_TAG}..${TAG}"
+            else
+              git log --reverse --no-merges --pretty=format:'- %s (%h)' "${TAG}"
+            fi
+            printf '\n\n'
             tail -n +4 CHANGELOG.md
           } > CHANGELOG.new.md
 
