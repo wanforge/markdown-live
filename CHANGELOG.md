@@ -2,6 +2,11 @@
 
 All notable changes to MarkDown Live are recorded here.
 
+## v0.1.3 - 2026-04-19
+
+- feat: refactor Toolbar component layout and enhance styling for brand icons and actions
+- Commit: 4f484e5
+
 ## v0.1.1 - 2026-04-19
 
 - feat: display app version in toolbar and update changelog process
