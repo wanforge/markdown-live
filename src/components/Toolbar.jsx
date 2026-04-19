@@ -1,4 +1,5 @@
 import { BRAND, APP_VERSION } from '../utils/constants';
+import { RiGithubFill, RiMoonFill, RiSunFill } from 'react-icons/ri';
 
 export default function Toolbar({
   fileInputRef,
@@ -24,19 +25,19 @@ export default function Toolbar({
         />
         <span>{BRAND.name}</span>
         <span className="version-badge">v{APP_VERSION}</span>
-      </div>
-
-      <div className="actions">
         <a
-          className="github-link"
+          className="icon-button github-icon"
           href={BRAND.repoUrl}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Contribute on GitHub"
-          title="Contribute on GitHub"
+          aria-label="View on GitHub"
+          title="View on GitHub"
         >
-          GitHub
+          <RiGithubFill size={20} />
         </a>
+      </div>
+
+      <div className="actions">
         <button type="button" onClick={onLoadSample}>
           Sample
         </button>
@@ -52,8 +53,14 @@ export default function Toolbar({
         <button type="button" onClick={onExportHtml}>
           Export HTML
         </button>
-        <button type="button" onClick={onToggleTheme}>
-          {isDark ? 'Light' : 'Dark'}
+        <button
+          className="icon-button theme-toggle"
+          type="button"
+          onClick={onToggleTheme}
+          aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          title={isDark ? 'Light mode' : 'Dark mode'}
+        >
+          {isDark ? <RiSunFill size={20} /> : <RiMoonFill size={20} />}
         </button>
         <input
           ref={fileInputRef}

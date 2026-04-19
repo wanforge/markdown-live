@@ -53,7 +53,7 @@ a {
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   color: var(--primary);
   font-weight: 700;
 }
@@ -64,22 +64,45 @@ a {
 }
 
 .version-badge {
-  margin-left: 12px;
-padding: 4px 10px;
-    border-radius: 4px;
-    background: color-mix(in srgb, var(--primary) 8%, transparent);
-    color: var(--primary);
-    font-size: 0.75rem;
-    font-weight: 600;
-    border: 1px solid var(--border);
-    letter-spacing: 0.02em;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  letter-spacing: 0.02em;
 }
 
 body.dark .version-badge {
-background: color-mix(in srgb, var(--accent) 12%, transparent);
-    color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
 }
 
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text);
+  border-radius: 6px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.icon-button:hover {
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
+  border-color: var(--border);
+}
+
+.icon-button.github-icon {
+  margin-left: 4px;
+}
 .actions {
   display: flex;
   flex-wrap: wrap;
@@ -87,8 +110,7 @@ background: color-mix(in srgb, var(--accent) 12%, transparent);
   gap: 8px;
 }
 
-button,
-.github-link {
+button:not(.icon-button) {
   border: 1px solid var(--border);
   background: var(--panel);
   color: var(--text);
@@ -99,8 +121,7 @@ button,
   font-size: 0.9rem;
 }
 
-button:hover,
-.github-link:hover {
+button:not(.icon-button):hover {
   border-color: var(--primary);
   background: color-mix(in srgb, var(--accent) 22%, var(--panel));
 }
