@@ -11,7 +11,9 @@ All notable changes to MarkDown Live are recorded here.
 - Added AI prompt compatibility guidance in README.
 - Added GitHub Actions workflows for CI, GitHub Pages deploy, and CodeQL security analysis.
 - Added badges and logo references to README.
-- Commit source: pending (apply this release section after creating the v0.1.0 commit).
+- Commit: 4e530f7 - Updated dependencies and improved performance.
+- Commit: d0148ee - Added a GitHub Actions release workflow, updated the README, and removed unused icon files.
+- Commit: 3435c04 - Added a Node.js setup step to the CodeQL workflow.
 
 ## v0.0.14 - 2026-04-19
 
