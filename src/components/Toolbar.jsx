@@ -25,16 +25,27 @@ export default function Toolbar({
         />
         <span>{BRAND.name}</span>
         <span className="version-badge">v{APP_VERSION}</span>
-        <a
-          className="icon-button github-icon"
-          href={BRAND.repoUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="View on GitHub"
-          title="View on GitHub"
-        >
-          <RiGithubFill size={20} />
-        </a>
+        <div className="brand-icons">
+          <a
+            className="icon-button github-icon"
+            href={BRAND.repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View on GitHub"
+            title="View on GitHub"
+          >
+            <RiGithubFill size={20} />
+          </a>
+          <button
+            className="icon-button theme-toggle"
+            type="button"
+            onClick={onToggleTheme}
+            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={isDark ? 'Light mode' : 'Dark mode'}
+          >
+            {isDark ? <RiSunFill size={20} /> : <RiMoonFill size={20} />}
+          </button>
+        </div>
       </div>
 
       <div className="actions">
@@ -52,15 +63,6 @@ export default function Toolbar({
         </button>
         <button type="button" onClick={onExportHtml}>
           Export HTML
-        </button>
-        <button
-          className="icon-button theme-toggle"
-          type="button"
-          onClick={onToggleTheme}
-          aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-          title={isDark ? 'Light mode' : 'Dark mode'}
-        >
-          {isDark ? <RiSunFill size={20} /> : <RiMoonFill size={20} />}
         </button>
         <input
           ref={fileInputRef}

@@ -71,6 +71,12 @@ a {
   font-weight: 700;
 }
 
+.brand-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 4px;
+}
 .brand-icon {
   width: 28px;
   height: 28px;
@@ -114,7 +120,7 @@ body.dark .version-badge {
 }
 
 .icon-button.github-icon {
-  margin-left: 4px;
+  margin-left: 0;
 }
 .actions {
   display: flex;
@@ -234,11 +240,16 @@ button:not(.icon-button):hover {
 }
 
 .mermaid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   width: 100%;
   overflow-x: auto;
+  text-align: center;
 }
 
 .mermaid svg {
+  display: block;
   max-width: 100%;
   height: auto;
 }
@@ -263,6 +274,22 @@ button:not(.icon-button):hover {
   padding: 8px;
 }
 
+.markdown-body blockquote {
+  margin: 14px 0;
+  padding: 10px 14px;
+  border-left: 4px solid var(--primary);
+  border-radius: 0 10px 10px 0;
+  background: color-mix(in srgb, var(--accent) 18%, var(--panel));
+  color: var(--muted);
+}
+
+.markdown-body blockquote > :first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote > :last-child {
+  margin-bottom: 0;
+}
 .footer {
   border-top: 1px solid var(--border);
   padding: 12px 16px;
@@ -296,17 +323,26 @@ button:not(.icon-button):hover {
     row-gap: 6px;
   }
 
+  .brand-icons {
+    margin-left: auto;
+  }
   .actions {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
+    gap: 6px;
   }
 
   .actions button:not(.icon-button),
   .actions .icon-button {
     width: 100%;
-    min-height: 38px;
+    min-height: 34px;
+  }
+
+  .actions button:not(.icon-button) {
+    font-size: 0.78rem;
+    padding: 6px 8px;
+    border-radius: 7px;
   }
 
   .actions .icon-button {
@@ -328,7 +364,7 @@ button:not(.icon-button):hover {
 
   .mobile-tabs {
     display: flex;
-    gap: 8px;
+    gap: 6px;
   }
 
   .mobile-tabs button {
@@ -336,9 +372,9 @@ button:not(.icon-button):hover {
     border: 1px solid var(--border);
     background: var(--panel);
     color: var(--muted);
-    border-radius: 10px;
-    padding: 10px 12px;
-    font-size: 0.9rem;
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 0.8rem;
     font-weight: 600;
   }
 
@@ -363,6 +399,11 @@ button:not(.icon-button):hover {
 
 @media (max-width: 640px) {
   .actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .version-badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
   }
 }
