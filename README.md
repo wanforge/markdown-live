@@ -1,63 +1,61 @@
-# 📝 WanForge Markdown Renderer
+# WanForge Markdown Renderer
 
-**Professional Markdown Renderer Lengkap untuk Dokumen Kantor**
+**Professional Markdown Renderer untuk Dokumen Kantor**
 
-> Renderer markdown dengan fitur lengkap, tema profesional Navy & Amber, dan support untuk semua format markdown modern termasuk Mermaid, KaTeX, dan syntax highlighting.
-
----
-
-## ✨ Fitur Utama
-
-### 📌 Markdown & Format
-- ✅ **GFM Lengkap** - Tabel, task list, strikethrough, autolink
-- ✅ **Extended Syntax** - Footnotes, definition list, mark, sub, sup  
-- ✅ **Strikethrough** - ~~Teks coretan~~
-- ✅ **Task List** - Checklist dengan checkbox interaktif
-- ✅ **Table Support** - Tabel dengan alignment dan styling profesional
-
-### 💻 Code & Syntax
-- ✅ **Syntax Highlighting** - Highlight.js dengan 200+ bahasa pemrograman
-- ✅ **Copy Button** - Tombol copy otomatis di setiap code block
-- ✅ **Code Fencing** - Support untuk semua format code fence
-
-### 📊 Diagram & Visualisasi
-- ✅ **Mermaid Diagram** - Flowchart, sequence, class, state, git, dan lainnya
-- ✅ **Live Rendering** - Render diagram secara real-time
-- ✅ **Responsive** - Diagram otomatis resize sesuai layar
-
-### 📐 Matematika & Rumus
-- ✅ **KaTeX Math** - Rendering rumus matematika profesional
-- ✅ **Inline Math** - `$E = mc^2$`
-- ✅ **Block Math** - `$$\\int x^2 dx$$`
-- ✅ **Multiple Delimiters** - Support `$...$`, `$$...$$`, `\(...\)`, `\[...\]`
-
-### 🎨 Tema & UI
-- ✅ **Professional Navy & Amber** - Palet warna profesional untuk kantor
-- ✅ **Dark Mode** - Tema gelap dengan kontras sempurna
-- ✅ **Responsive Design** - Bekerja sempurna di desktop, tablet, mobile
-- ✅ **Live Preview** - Preview real-time saat mengetik
-- ✅ **Table of Contents** - Daftar isi otomatis dari heading
-
-### 📁 File Management
-- ✅ **Open File** - Buka file `.md` langsung dari browser
-- ✅ **Export HTML** - Export hasil ke file HTML standalone
-- ✅ **Print/PDF** - Cetak atau simpan sebagai PDF
-- ✅ **Local Storage** - Simpan otomatis ke browser storage
-
-### 🔒 Security & Performance
-- ✅ **HTML Sanitization** - Menggunakan DOMPurify untuk keamanan
-- ✅ **Debounced Rendering** - Performa optimal untuk dokumen besar
-- ✅ **Error Handling** - Graceful error handling untuk rendering
+Renderer markdown dengan fitur lengkap, tema profesional Navy & Amber, dan support untuk semua format markdown modern termasuk Mermaid, KaTeX, dan syntax highlighting.
 
 ---
 
-## 🚀 Quick Start
+## Fitur Utama
+
+### Markdown & Format
+- **GFM Lengkap** - Tabel, task list, autolink, highlight
+- **Extended Syntax** - Footnotes, definition list, mark, sub, sup
+- **Task List** - Checklist dengan checkbox interaktif
+- **Table Support** - Tabel dengan alignment dan styling profesional
+
+### Code & Syntax
+- **Syntax Highlighting** - Highlight.js dengan 200+ bahasa pemrograman
+- **Copy Button** - Tombol copy otomatis di setiap code block
+- **Code Fencing** - Support untuk semua format code fence
+
+### Diagram & Visualisasi
+- **Mermaid Diagram** - Flowchart, sequence, class, state, git, dan lainnya
+- **Live Rendering** - Render diagram secara real-time
+- **Responsive** - Diagram otomatis resize sesuai layar
+
+### Matematika & Rumus
+- **KaTeX Math** - Rendering rumus matematika profesional
+- **Inline Math** - `$E = mc^2$`
+- **Block Math** - `$$\\int x^2 dx$$`
+- **Multiple Delimiters** - Support `$...$`, `$$...$$`, `\(...\)`, `\[...\]`
+
+### Tema & User Interface
+- **Professional Navy & Amber** - Palet warna profesional untuk kantor
+- **Dark Mode** - Tema gelap dengan kontras sempurna
+- **Responsive Design** - Bekerja sempurna di desktop, tablet, mobile
+- **Live Preview** - Preview real-time saat mengetik
+- **Table of Contents** - Daftar isi otomatis dari heading
+
+### File Management
+- **Open File** - Buka file `.md` langsung dari browser
+- **Export HTML** - Export hasil ke file HTML standalone
+- **Print/PDF** - Cetak atau simpan sebagai PDF
+- **Local Storage** - Simpan otomatis ke browser storage
+
+### Security & Performance
+- **HTML Sanitization** - Menggunakan DOMPurify untuk keamanan
+- **Debounced Rendering** - Performa optimal untuk dokumen besar
+- **Error Handling** - Graceful error handling untuk rendering
+
+---
+
+## Quick Start
 
 ### Cara Menjalankan
 
-#### Option 1: Buka Langsung (Browser Modern)
+#### Option 1: Buka Langsung di Browser
 ```bash
-# Cukup buka file index.html di browser
 open index.html
 ```
 
@@ -70,11 +68,11 @@ python3 -m http.server 4173
 npx http-server -p 4173
 ```
 
-Kemudian buka di browser: **http://localhost:4173**
+Buka di browser: http://localhost:4173
 
 ---
 
-## 📋 Contoh Penggunaan
+## Contoh Penggunaan
 
 ### Markdown Dasar
 ```markdown
@@ -91,21 +89,21 @@ Kemudian buka di browser: **http://localhost:4173**
 2. Items
 ```
 
-### Code Highlighting
+### Code dengan Syntax Highlighting
 ```js
 function greet(name) {
   return `Hello, ${name}!`;
 }
 ```
 
-### Mermaid Diagram
+### Diagram Mermaid
 ```mermaid
 flowchart LR
     A[Start] --> B[Process]
     B --> C[End]
 ```
 
-### KaTeX Math
+### Rumus Matematika
 ```
 Inline: $E = mc^2$
 
@@ -122,14 +120,14 @@ Teks dengan referensi.[^1]
 
 ---
 
-## 🎯 Struktur Proyek
+## Struktur Proyek
 
 ```
 markdown-live/
-├── index.html          # HTML utama + UI layout
-├── app.js              # JavaScript application logic
-├── styles.css          # Styling profesional Navy & Amber
-└── README.md           # Dokumentasi ini
+├── index.html          HTML utama + UI layout
+├── app.js              JavaScript application logic
+├── styles.css          Styling profesional Navy & Amber
+└── README.md           Dokumentasi ini
 ```
 
 ### Dependencies (CDN-based)
@@ -141,7 +139,6 @@ markdown-live/
 - **markdown-it-mark** - Mark (highlight) text
 - **markdown-it-sub** - Subscript
 - **markdown-it-sup** - Superscript
-- **markdown-it-strikethrough** - Strikethrough
 - **highlight.js** v11 - Code syntax highlighting
 - **katex** v0.16 - Math rendering
 - **mermaid** v11 - Diagram rendering
@@ -149,19 +146,19 @@ markdown-live/
 
 ---
 
-## 🌐 Browser Support
+## Browser Support
 
 | Browser | Support | Notes |
 |---------|---------|-------|
-| Chrome | ✅ | Full support |
-| Firefox | ✅ | Full support |
-| Safari | ✅ | Full support |
-| Edge | ✅ | Full support |
-| IE 11 | ❌ | Not supported |
+| Chrome | Ya | Full support |
+| Firefox | Ya | Full support |
+| Safari | Ya | Full support |
+| Edge | Ya | Full support |
+| IE 11 | Tidak | Not supported |
 
 ---
 
-## 🎨 Theme Customization
+## Tema & Warna
 
 ### Light Mode (Default)
 ```css
@@ -181,7 +178,7 @@ markdown-live/
 
 ---
 
-## ⌨️ Keyboard Shortcuts
+## Keyboard Shortcuts
 
 | Action | Shortcut |
 |--------|----------|
@@ -189,7 +186,42 @@ markdown-live/
 
 ---
 
-## 📝 Copyright & License
+## Tips & Tricks
+
+### Auto-save
+Konten Anda secara otomatis tersimpan ke browser local storage. Akan di-restore saat halaman direload.
+
+### Toggle Tema
+Klik tombol "Tema" untuk mengganti antara light dan dark mode. Preferensi tersimpan otomatis.
+
+### Copy Code
+Setiap code block memiliki tombol "Copy" di pojok kanan atas. Klik untuk copy ke clipboard.
+
+### Export
+Gunakan tombol "Export" untuk download hasil render sebagai file HTML standalone atau gunakan Print untuk PDF.
+
+---
+
+## Troubleshooting
+
+### Mermaid tidak render
+- Periksa syntax Mermaid, harus valid
+- Lihat browser console untuk error messages
+- Coba refresh halaman
+
+### KaTeX formula tidak tampil
+- Pastikan delimiters benar: `$...$` atau `$$...$$`
+- Cek syntax formula matematika
+- Buka browser console untuk melihat error
+
+### CDN tidak load
+- Pastikan koneksi internet aktif
+- Jika buka file langsung, gunakan server statis
+- Cek browser security policies
+
+---
+
+## Copyright & License
 
 © 2024-2026 **WanForge** | [wanforge.asia](https://wanforge.asia)
 
@@ -197,7 +229,7 @@ Professional Markdown Renderer untuk Dokumentasi Kantor
 
 ---
 
-## 🙏 Credits
+## Credits
 
 Built with:
 - [markdown-it](https://github.com/markdown-it/markdown-it)
@@ -208,7 +240,7 @@ Built with:
 
 ---
 
-**Happy documenting! 📚✨**
+**Selamat menggunakan WanForge Markdown Renderer!**
 # Markdown Renderer Lengkap (HTML + JS)
 
 Renderer Markdown siap pakai berbasis browser, tanpa build step.

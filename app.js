@@ -23,7 +23,6 @@ import markdownItDeflist from 'https://cdn.jsdelivr.net/npm/markdown-it-deflist@
 import markdownItMark from 'https://cdn.jsdelivr.net/npm/markdown-it-mark@4/+esm';
 import markdownItSub from 'https://cdn.jsdelivr.net/npm/markdown-it-sub@2/+esm';
 import markdownItSup from 'https://cdn.jsdelivr.net/npm/markdown-it-sup@2/+esm';
-import markdownItStrikethrough from 'https://cdn.jsdelivr.net/npm/markdown-it-strikethrough@3/+esm';
 import hljs from 'https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/+esm';
 import DOMPurify from 'https://cdn.jsdelivr.net/npm/dompurify@3.2.6/+esm';
 import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.12.0/+esm';
@@ -57,7 +56,6 @@ const markdown = new MarkdownIt({
     return `<pre><code class="hljs">${markdown.utils.escapeHtml(str)}</code></pre>`;
   },
 })
-  .use(markdownItStrikethrough)
   .use(markdownItAnchor, {
     permalink: markdownItAnchor.permalink.ariaHidden({
       symbol: '🔗',
@@ -183,7 +181,7 @@ Mermaid
 
 ## ➕ Teks Spesial
 
-Teks dengan ==highlight==, ~~strikethrough~~, dan^super^script serta~sub~script.
+Teks dengan ==highlight==, dan text dengan^super^script serta~sub~script.
 
 Persamaan inline: $E = mc^2$
 
