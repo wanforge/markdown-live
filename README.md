@@ -7,7 +7,6 @@
 
 [![Version](https://img.shields.io/github/v/tag/wanforge/markdown-live?label=version&color=003D99&logo=github)](https://github.com/wanforge/markdown-live/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-003D99?logo=opensourceinitiative&logoColor=white)](./LICENSE)
-
 [![CI](https://github.com/wanforge/markdown-live/actions/workflows/ci.yml/badge.svg)](https://github.com/wanforge/markdown-live/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/wanforge/markdown-live/actions/workflows/codeql.yml/badge.svg)](https://github.com/wanforge/markdown-live/actions/workflows/codeql.yml)
 [![Deploy Pages](https://github.com/wanforge/markdown-live/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/wanforge/markdown-live/actions/workflows/deploy-pages.yml)
