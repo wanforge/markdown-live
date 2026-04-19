@@ -1,14 +1,31 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
 
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description"
-            content="MarkDown Live adalah markdown renderer open source: 100% free, no fee, no analytics, dan terbuka untuk kontribusi komunitas." />
+            content="MarkDown Live is an open source Markdown renderer that is 100% free, has no analytics, and is open to community contribution." />
+        <meta name="keywords"
+            content="Markdown renderer, open source markdown, free markdown editor, no analytics, live preview, Mermaid, KaTeX, HTML export" />
         <meta name="author" content="MarkDown Live Community" />
+        <meta name="robots" content="index,follow" />
+        <meta name="theme-color" content="#2b579a" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="MarkDown Live - Free Forever, No Tracking" />
+        <meta property="og:description"
+            content="An open source Markdown renderer with live preview, Mermaid, KaTeX, and no analytics." />
+        <meta property="og:image" content="./icon.png" />
+        <meta property="og:image:alt" content="MarkDown Live logo" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="MarkDown Live - Free Forever, No Tracking" />
+        <meta name="twitter:description"
+            content="An open source Markdown renderer with live preview, Mermaid, KaTeX, and no analytics." />
+        <meta name="twitter:image" content="./icon.png" />
         <title>MarkDown Live - Free Forever, No Tracking</title>
         <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+        <link rel="alternate icon" type="image/png" href="./icon.png" />
+        <link rel="apple-touch-icon" href="./icon.png" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/atom-one-light.min.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css" />
         <link rel="stylesheet" href="./styles.css" />
@@ -17,9 +34,7 @@
     <body>
         <header class="topbar">
             <div class="brand">
-                <svg class="brand-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
-                </svg>
+                <img class="brand-icon" src="./icon.svg" width="24" height="24" alt="MarkDown Live logo" />
                 <span>MarkDown Live</span>
             </div>
             <div class="actions">
@@ -28,27 +43,27 @@
                     href="https://github.com/wanforge/markdown-live"
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="Kontribusi di GitHub"
-                    title="Kontribusi di GitHub"
+                    aria-label="Contribute on GitHub"
+                    title="Contribute on GitHub"
                 >
                     <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
                         <path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.69c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.04 1.53 1.04.9 1.53 2.35 1.09 2.92.84.09-.65.35-1.09.63-1.34-2.22-.26-4.56-1.12-4.56-4.98 0-1.1.39-1.99 1.03-2.69-.11-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.03A9.48 9.48 0 0 1 12 6.84c.85 0 1.71.11 2.51.32 1.91-1.3 2.75-1.03 2.75-1.03.55 1.4.21 2.44.1 2.7.64.7 1.03 1.59 1.03 2.69 0 3.87-2.34 4.72-4.57 4.97.36.31.68.91.68 1.84v2.72c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/>
                     </svg>
                     <span>GitHub</span>
                 </a>
-                <button id="btnSample" type="button">Contoh</button>
-                <button id="btnOpen" type="button">Buka File</button>
-                <button id="btnPrint" type="button">Cetak</button>
+                <button id="btnSample" type="button">Sample</button>
+                <button id="btnOpen" type="button">Open File</button>
+                <button id="btnPrint" type="button">Print</button>
                 <button id="btnPdf" type="button">Export PDF</button>
                 <button id="btnExport" type="button">Export</button>
-                <button id="btnTheme" type="button">Tema</button>
+                <button id="btnTheme" type="button">Theme</button>
                 <input id="fileInput" type="file" accept=".md,.markdown,.txt" hidden />
             </div>
         </header>
 
         <main class="layout">
             <section class="pane editor-pane">
-                <div class="pane-title">Editor Markdown</div>
+                <div class="pane-title">Markdown Editor</div>
                 <textarea id="editor" spellcheck="false"></textarea>
             </section>
 

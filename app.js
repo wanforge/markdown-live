@@ -13,7 +13,7 @@
  * - Print/PDF Export
  * - Live Preview with TOC
  * - Code Copy Functionality
- * - Open Source, No Analytics, Free Forever
+ * Open source, no analytics, free forever
  */
 
 import MarkdownIt from 'https://cdn.jsdelivr.net/npm/markdown-it@14/+esm';
@@ -142,47 +142,47 @@ mermaid.initialize(getMermaidConfig(false));
 // ========== Sample Markdown Content ==========
 const sampleMarkdown = `# MarkDown Live
 
-> Open source markdown renderer: 100% free, no fee, no analytics, dan terbuka untuk kontribusi.
+> Open source Markdown renderer: 100% free, no fee, no analytics, and open to community contribution.
 
-## Visi Singkat
+## Short Vision
 
-Membuka akses dokumentasi berkualitas tinggi untuk semua orang tanpa biaya, tanpa pelacakan, dan dengan kolaborasi komunitas.
+Make high-quality documentation accessible to everyone with no cost, no tracking, and community collaboration.
 
-## Slogan Utama
+## Main Slogan
 
 **Free Forever. No Tracking. Built Together.**
 
-## 🎯 Fitur Utama
+## Key Features
 
-- **GFM Support** - Tabel, checklist, strikethrough, dan lainnya
-- **Syntax Highlighting** - Highlight.js untuk 200+ bahasa pemrograman
-- **Mermaid Diagram** - Flowchart, sequence, state, class, dan lainnya
-- **KaTeX Math** - Rumus matematika inline dan block
-- **Footnotes** - Catatan kaki yang profesional
-- **Definition List** - Daftar definisi terstruktur
-- **Task List** - Daftar tugas dengan checkbox
-- **Dark Mode** - Tema gelap profesional dengan palet Navy & Amber
-- **No Analytics** - Tidak ada tracking, pixel, atau telemetry pihak ketiga
-- **Open Contribution** - Semua orang bisa audit, fork, dan kontribusi
+- **Full GFM Support** - Tables, task lists, strikethrough, and more
+- **Syntax Highlighting** - Highlight.js for 200+ programming languages
+- **Mermaid Diagrams** - Flowcharts, sequence diagrams, state diagrams, class diagrams, and more
+- **KaTeX Math** - Inline and block math expressions
+- **Footnotes** - Professional footnote support
+- **Definition Lists** - Structured definition lists
+- **Task Lists** - Checkbox-based task lists
+- **Dark Mode** - Professional dark theme with a Navy & Amber palette
+- **No Analytics** - No tracking, pixels, or third-party telemetry
+- **Open Contribution** - Everyone can audit, fork, and contribute
 
-## 📋 Checklist
+## Checklist
 
-- [x] Bisa render markdown dengan sempurna
-- [x] Syntax highlighting untuk code
-- [x] Support Mermaid diagram
-- [x] Dukungan KaTeX untuk rumus
-- [x] Tema profesional Navy & Amber
-- [x] Responsive design untuk semua ukuran layar
-- [x] Print dan export ke HTML
-- [ ] Kolaborasi real-time (fitur mendatang)
+- [x] Render Markdown correctly
+- [x] Highlight code syntax
+- [x] Support Mermaid diagrams
+- [x] Support KaTeX math
+- [x] Use a professional Navy & Amber theme
+- [x] Work responsively on all screen sizes
+- [x] Print and export to HTML
+- [ ] Add real-time collaboration (planned)
 
-## 💻 Code Example
+## Code Example
 
 JavaScript:
 \`\`\`js
-// Contoh function MarkDown Live
+// Example function for MarkDown Live
 function greetMarkDownLive(name) {
-  return \`Selamat datang di MarkDown Live, \${name}!\`;
+  return \`Welcome to MarkDown Live, \${name}!\`;
 }
 
 console.log(greetMarkDownLive('Developer'));
@@ -191,12 +191,12 @@ console.log(greetMarkDownLive('Developer'));
 Python:
 \`\`\`python
 def greet_markdown_live(name):
-  return f"Selamat datang di MarkDown Live, {name}!"
+  return f"Welcome to MarkDown Live, {name}!"
 
 print(greet_markdown_live("Developer"))
 \`\`\`
 
-## 📊 Mermaid Diagram
+## Mermaid Diagram
 
 \`\`\`mermaid
 flowchart TD
@@ -207,59 +207,59 @@ flowchart TD
     E --> F[Export/Print]
 \`\`\`
 
-## 📐 Sequence Diagram
+## Sequence Diagram
 
 \`\`\`mermaid
 sequenceDiagram
-    User->>Editor: Tulis markdown
+    User->>Editor: Write Markdown
     Editor->>Parser: Parse content
     Parser->>Renderer: Render HTML
     Renderer->>Preview: Update preview
-    Preview->>User: Tampilkan hasil
+    Preview->>User: Show result
 \`\`\`
 
-## 📑 Tabel Data
+## Data Table
 
-| Fitur | Status | Level Support | Keterangan |
+| Feature | Status | Support Level | Notes |
 |:------|:------:|:---------|-----------|
-| Markdown Dasar | ✅ | Penuh | H1-H6, paragraf, list, bold, italic |
-| GFM Extended | ✅ | Penuh | Tabel, strikethrough, task list, footnote |
-| Code Highlight | ✅ | 200+ bahasa | Highlight.js v11 |
-| Mermaid Diagram | ✅ | Lengkap | Flowchart, sequence, class, state, git |
-| KaTeX Math | ✅ | Penuh | Inline & block math |
-| Dark Mode | ✅ | Profesional | Navy & Amber palette |
-| Export/Print | ✅ | HTML & PDF | Menggunakan browser print |
+| Basic Markdown | ✅ | Full | H1-H6, paragraphs, lists, bold, italic |
+| GFM Extended | ✅ | Full | Tables, strikethrough, task list, footnotes |
+| Code Highlight | ✅ | 200+ languages | Highlight.js v11 |
+| Mermaid Diagrams | ✅ | Complete | Flowcharts, sequence, class, state, git |
+| KaTeX Math | ✅ | Full | Inline and block math |
+| Dark Mode | ✅ | Professional | Navy & Amber palette |
+| Export/Print | ✅ | HTML & PDF | Uses browser print |
 
-## 📝 Catatan (Footnotes)
+## Notes (Footnotes)
 
-MarkDown Live adalah platform untuk dokumentasi dan rendering markdown profesional.[^1] Anda dapat membuat dokumen kantor dengan formatting sempurna.[^2]
+MarkDown Live is a platform for professional documentation and Markdown rendering.[^1] You can create polished office documents with clean formatting.[^2]
 
-[^1]: Platform ini menggunakan teknologi terkini seperti markdown-it, Mermaid, dan KaTeX.
-[^2]: Cocok untuk laporan, presentasi, dan dokumentasi proyek.
+[^1]: The platform uses modern technologies such as markdown-it, Mermaid, and KaTeX.
+[^2]: Suitable for reports, presentations, and project documentation.
 
-## 📖 Definition List
+## Definition List
 
 Markdown
-:   Format teks ringan untuk menulis konten terstruktur dengan syntax sederhana.
+:   A lightweight text format for writing structured content with simple syntax.
 
 Renderer
-:   Proses konversi markdown menjadi HTML yang dapat ditampilkan di browser.
+:   The process of converting Markdown into HTML that can be displayed in the browser.
 
 Mermaid
-:   Syntax untuk membuat diagram dan visualisasi langsung dari teks.
+:   A syntax for creating diagrams and visualizations directly from text.
 
-## ➕ Teks Spesial
+## Special Text
 
-Teks dengan ==highlight==, dan text dengan^super^script serta~sub~script.
+Text with ==highlight==, and text with^super^script and~sub~script.
 
-Persamaan inline: $E = mc^2$
+Inline equation: $E = mc^2$
 
-Persamaan block:
+Block equation:
 $$\\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6}$$
 
-## 🔗 Links & Images
+## Links & Images
 
-[Kunjungi Proyek](https://github.com/wanforge/markdown-live)
+[Visit the Project](https://github.com/wanforge/markdown-live)
 
 ---
 
@@ -520,7 +520,7 @@ function getDocumentTitle() {
     return h1.textContent.trim();
   }
 
-  return 'Dokumen MarkDown Live';
+  return 'MarkDown Live Document';
 }
 
 function getExportContentHtml() {
@@ -536,12 +536,16 @@ function buildExportHtml(title) {
   const contentHtml = getExportContentHtml();
 
   return `<!doctype html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="${title} - MarkDown Live export with open source Markdown rendering, Mermaid diagrams, KaTeX math, and no analytics." />
     <meta name="author" content="MarkDown Live Community" />
     <title>${title}</title>
+    <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+    <link rel="alternate icon" type="image/png" href="./icon.png" />
+    <link rel="apple-touch-icon" href="./icon.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/atom-one-light.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css" />
     ${styles}
@@ -559,7 +563,9 @@ function openPrintWindow(title) {
   const printWindow = window.open('', '_blank', 'noopener,noreferrer');
 
   if (!printWindow) {
-    alert('Popup diblokir browser. Izinkan popup untuk melanjutkan cetak/PDF.');
+    alert(
+      'The browser blocked the popup. Please allow popups to continue with print/PDF.'
+    );
     return;
   }
 
@@ -760,15 +766,13 @@ btnPrint.addEventListener('click', () => {
 btnPdf.addEventListener('click', async () => {
   const oldText = btnPdf.textContent;
   btnPdf.disabled = true;
-  btnPdf.textContent = 'Memproses...';
+  btnPdf.textContent = 'Processing...';
 
   try {
     await exportPdfFile(getDocumentTitle());
   } catch (error) {
     console.error('PDF export error:', error);
-    alert(
-      'Export PDF gagal. Browser akan membuka mode print sebagai fallback.'
-    );
+    alert('PDF export failed. The browser will open print mode as a fallback.');
     openPrintWindow(getDocumentTitle());
   } finally {
     btnPdf.disabled = false;
@@ -793,7 +797,7 @@ btnExport.addEventListener('click', () => {
 
 btnTheme.addEventListener('click', () => {
   const isDark = document.body.classList.toggle('dark');
-  btnTheme.textContent = isDark ? '☀️ Terang' : '🌙 Gelap';
+  btnTheme.textContent = isDark ? 'Light' : 'Dark';
 
   mermaid.initialize(getMermaidConfig(isDark));
   
@@ -809,9 +813,9 @@ btnTheme.addEventListener('click', () => {
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') {
   document.body.classList.add('dark');
-  btnTheme.textContent = '☀️ Terang';
+  btnTheme.textContent = 'Light';
 } else {
-  btnTheme.textContent = '🌙 Gelap';
+  btnTheme.textContent = 'Dark';
 }
 
 // Load saved content if exists

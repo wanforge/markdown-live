@@ -1,67 +1,67 @@
 # MarkDown Live
 
-Markdown renderer berbasis browser yang open source, 100% gratis, tanpa analytics, dan terbuka untuk kontribusi komunitas.
+An open source, browser-based Markdown renderer that is 100% free, has no analytics, and is open for community contribution.
 
 ## Branding Package
 
-### Visi Singkat
+### Short Vision
 
-Membuka akses dokumentasi berkualitas tinggi untuk semua orang tanpa biaya, tanpa pelacakan, dan dengan kolaborasi komunitas.
+Make high-quality documentation accessible to everyone with no cost, no tracking, and community collaboration.
 
-### Slogan Utama
+### Main Slogan
 
 **Free Forever. No Tracking. Built Together.**
 
-### Deskripsi README
+### README Description
 
-MarkDown Live adalah alat render markdown modern untuk menulis, membaca, dan mengekspor dokumen langsung dari browser tanpa build step. Proyek ini dibuat dengan prinsip open source penuh, tidak ada biaya lisensi, tidak ada tracking analytics, dan semua orang dapat berkontribusi melalui GitHub.
+MarkDown Live is a modern Markdown rendering tool for writing, reading, and exporting documents directly in the browser with no build step. The project follows a fully open source model, with no license fees, no analytics tracking, and full room for community contribution through GitHub.
 
-## Nilai Utama
+## Core Values
 
-- Open source dan auditable
+- Open source and auditable
 - No fee, 100% free forever
-- No analytics dan no telemetry
+- No analytics and no telemetry
 - Open to contribute
 - Privacy-first by default
 
-## Fitur Utama
+## Key Features
 
-- GFM lengkap: tabel, task list, strikethrough, autolink
-- Extended syntax: footnote, definition list, mark, sub, sup
-- Syntax highlighting (highlight.js)
-- Mermaid diagram
-- KaTeX math (inline dan block)
-- HTML sanitization (DOMPurify)
-- Live preview + daftar isi otomatis
-- Copy button untuk setiap code block
-- Open file markdown langsung dari browser
-- Export HTML, print, dan export PDF
+- Full GFM support: tables, task lists, strikethrough, autolink
+- Extended syntax: footnotes, definition lists, mark, sub, sup
+- Syntax highlighting with highlight.js
+- Mermaid diagrams
+- KaTeX math support for inline and block expressions
+- HTML sanitization with DOMPurify
+- Live preview with automatic table of contents
+- Copy button for every code block
+- Open Markdown files directly from the browser
+- Export to HTML, print, and PDF
 
-## Menjalankan Proyek
+## Running the Project
 
-1. Buka langsung file index.html di browser modern, atau
-2. Jalankan server statis:
+1. Open index.html directly in a modern browser, or
+2. Start a static server:
 
 ```bash
 python3 -m http.server 4173
 ```
 
-Lalu buka <http://localhost:4173>.
+Then open <http://localhost:4173>.
 
-## Kontribusi
+## Contributing
 
-Kontribusi terbuka untuk siapa pun.
+Contributions are welcome from anyone.
 
-1. Fork repository
-2. Buat branch fitur
-3. Commit perubahan
-4. Buka pull request
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Open a pull request
 
-Saat kontribusi, pastikan perubahan:
+When contributing, please keep the following in mind:
 
-- Menjaga prinsip no analytics
-- Tetap free dan open source
-- Menjaga aksesibilitas dan performa
+- Preserve the no analytics principle
+- Keep the project free and open source
+- Maintain accessibility and performance
 
 ## Stack
 
@@ -71,15 +71,15 @@ Saat kontribusi, pastikan perubahan:
 - KaTeX
 - DOMPurify
 
-## Lisensi
+## License
 
-Proyek ini ditujukan sebagai proyek komunitas open source. Gunakan lisensi repository yang aktif untuk detail legal.
+This project is intended as an open source community project. Refer to the repository license for legal details.
 
-## Identitas Brand
+## Brand Identity
 
 - Brand Name: MarkDown Live
-- Brand Tone: terbuka, teknis, jujur, kolaboratif
-- Brand Promise: dokumentasi kuat tanpa biaya dan tanpa pelacakan
+- Brand Tone: open, technical, honest, collaborative
+- Brand Promise: powerful documentation without cost and without tracking
 
 ---
 
