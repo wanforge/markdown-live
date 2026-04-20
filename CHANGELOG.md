@@ -2,6 +2,15 @@
 
 All notable changes to MarkDown Live are recorded here.
 
+## v0.1.10 - 2026-04-20
+
+- chore(release): sync metadata for v0.1.9 (752b400)
+- refactor: update README and sample markdown for clarity and improved structure (3bb6c87)
+- feat: add AI Prompt Guide component and integrate with toolbar for enhanced user assistance (2e7b462)
+- refactor: enhance styling and layout for AI Prompt Guide component (ca90bbd)
+- feat: enhance AI guide integration with mobile tab navigation and layout adjustments (4a1a00b)
+- 0.1.10 (3f03dbb)
+
 ## v0.1.9 - 2026-04-20
 
 - chore(release): sync metadata for v0.1.8 (a9e419c)
