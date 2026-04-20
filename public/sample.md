@@ -1,57 +1,149 @@
-# MarkDown Live
+# MarkDown Live - Complete Feature Sample
 
-> Open source Markdown renderer: 100% free, no fee, no analytics, and open to community contribution.
+> Open-source Markdown renderer. 100% free, no analytics, and built with community contributions.
 
-## What This Tool Does
+**Slogan:** Free Forever. No Tracking. Built Together.
 
-Turn raw notes, AI output, and technical content into polished Markdown documents that are ready to print, export, and share.
+---
 
-## Main Slogan
+## Table of Contents
 
-**Free Forever. No Tracking. Built Together.**
+- [MarkDown Live - Complete Feature Sample](#markdown-live---complete-feature-sample)
+  - [Table of Contents](#table-of-contents)
+  - [Quick Intro](#quick-intro)
+  - [Text Formatting](#text-formatting)
+  - [Task List](#task-list)
+  - [Tables](#tables)
+    - [Alignment Example](#alignment-example)
+  - [Code Blocks](#code-blocks)
+  - [Math (KaTeX)](#math-katex)
+  - [Mermaid Diagrams](#mermaid-diagrams)
+  - [Definition List](#definition-list)
+  - [References](#references)
 
-## Key Features
+## Quick Intro
 
-- **Full GFM Support** - Tables, task lists, strikethrough, and more
-- **Syntax Highlighting** - Highlight.js for 200+ programming languages
-- **Mermaid Diagrams** - Flowcharts, sequence diagrams, and architecture diagrams
-- **KaTeX Math** - Inline and block math expressions
-- **No Analytics** - No tracking, pixels, or third-party telemetry
-- **HTML/PDF Export** - Convert output into document-friendly format
+Turn raw notes, AI output, and technical drafts into polished documentation ready to export.
 
-## AI-Friendly Prompt Rules
+- GFM support: tables, task lists, strikethrough
+- Syntax highlighting with Highlight.js
+- Mermaid diagram rendering
+- KaTeX for inline and block formulas
+- Footnotes, anchor links, and smart typography
 
-- For math, output equations using KaTeX delimiters: $E = mc^2$ or $$\\int_0^1 x^2 dx$$
-- For flowcharts, output Mermaid code blocks with triple-backtick Mermaid fences
-- For checklists, use markdown task lists: - [ ] or - [x]
-- For tables, use standard markdown table syntax
-- For references, use footnotes with [^1] syntax
+Visit: https://github.com/wanforge/markdown-live
 
-## Mermaid Example
+## Text Formatting
 
-```mermaid
-flowchart TD
-    A[Prompt] --> B[AI Output]
-    B --> C[MarkDown Live]
-    C --> D[Document Ready]
+This paragraph demonstrates **bold**, _italic_, **_bold+italic_**, ~~strikethrough~~, `inline code`, and ==highlight==.
+
+Water formula: H~2~O
+
+Einstein wrote: E = mc^2^
+
+Smart quotes and arrows via typographer: "quality" ... fast -> faster <- baseline
+
+> Blockquote: Use this app for release notes, engineering docs, and AI-generated content cleanup.
+
+## Task List
+
+- [x] Write project overview
+- [x] Add architecture diagram
+- [ ] Final QA and review
+- [ ] Export to PDF
+
+## Tables
+
+| Feature   | Syntax Example           | Status |
+| :-------- | :----------------------- | :----: |
+| Formula   | `$E = mc^2$` / `$$...$$` |  Yes   |
+| Diagram   | `mermaid ... `           |  Yes   |
+| Checklist | `- [ ]` / `- [x]`        |  Yes   |
+| Footnote  | `[^1]`                   |  Yes   |
+
+### Alignment Example
+
+| Left    | Center | Right |
+| :------ | :----: | ----: |
+| docs    | stable |  99.9 |
+| preview |  good  |  98.4 |
+
+## Code Blocks
+
+```js
+export function estimateReadTime(words) {
+  const wpm = 225;
+  return Math.max(1, Math.ceil(words / wpm));
+}
 ```
 
-## KaTeX Example
+```bash
+npm install
+npm run dev
+npm run build
+```
 
-Inline: $E = mc^2$
+```json
+{
+  "name": "markdown-live",
+  "license": "MIT",
+  "private": false
+}
+```
 
-Block:
+## Math (KaTeX)
+
+Inline formula: $E = mc^2$
+
+Summation block:
+
 $$
-\\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6}
+\sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}
 $$
 
-## Data Table
+Integral block:
 
-| Output Type | Syntax | Supported |
-|:--|:--|:--:|
-| Formula | KaTeX ($...$ / $$...$$) | Yes |
-| Diagram | Mermaid code block | Yes |
-| Tasks | - [ ] / - [x] | Yes |
-| Citation | Footnotes [^n] | Yes |
+$$
+\int_0^1 x^2\,dx = \frac{1}{3}
+$$
 
-[^1]: MarkDown Live uses markdown-it, Mermaid, KaTeX, and DOMPurify.
+Alternative delimiters also work: \(a^2 + b^2 = c^2\)
+
+## Mermaid Diagrams
+
+```mermaid
+flowchart LR
+        A[Raw Notes] --> B[Markdown Parser]
+        B --> C[Preview Pane]
+        C --> D[Export HTML or PDF]
+```
+
+```mermaid
+sequenceDiagram
+        participant U as User
+        participant E as Editor
+        participant P as Preview
+        U->>E: Type Markdown
+        E->>P: Render content
+        P-->>U: Show formatted output
+```
+
+## Definition List
+
+Markdown-it
+: A parser engine that converts markdown text into HTML.
+
+DOMPurify
+: Sanitizes rendered HTML to reduce XSS risk.
+
+Mermaid
+: Generates diagrams from text syntax.
+
+## References
+
+1. Project repository and docs are available on GitHub.[^repo]
+2. Mermaid and KaTeX are integrated for technical writing workflows.[^stack]
+
+[^repo]: https://github.com/wanforge/markdown-live
+
+[^stack]: Current renderer stack includes markdown-it, highlight.js, Mermaid, KaTeX, and DOMPurify.
