@@ -217,7 +217,13 @@ export default function App() {
         fileInputRef={fileInputRef}
         onLoadSample={handleLoadSample}
         onOpenFileClick={handleOpenFileButton}
-        onToggleAiGuide={() => setIsAiGuideOpen((value) => !value)}
+        onToggleAiGuide={() => {
+          setIsAiGuideOpen((value) => {
+            const nextValue = !value;
+            setActiveMobileTab(nextValue ? 'ai-guide' : 'preview');
+            return nextValue;
+          });
+        }}
         onFileSelected={handleFileInput}
         onPrint={handlePrint}
         onExportPdf={handleExportPdf}
@@ -230,21 +236,28 @@ export default function App() {
       />
 
       <main
-        className={`layout ${
-          activeMobileTab === 'editor' ? 'mobile-editor-active' : 'mobile-preview-active'
+        className={`layout ${isAiGuideOpen ? 'layout-with-ai-guide' : ''} ${
+          activeMobileTab === 'editor'
+            ? 'mobile-editor-active'
+            : activeMobileTab === 'preview'
+              ? 'mobile-preview-active'
+              : 'mobile-ai-guide-active'
         }`}
       >
         <div
           className="mobile-tabs"
           role="tablist"
-          aria-label="Editor and secondary panel"
+          aria-label="Editor preview and AI tips"
         >
           <button
             type="button"
             role="tab"
             className={activeMobileTab === 'editor' ? 'is-active' : ''}
             aria-selected={activeMobileTab === 'editor'}
-            onClick={() => setActiveMobileTab('editor')}
+            onClick={() => {
+              setIsAiGuideOpen(false);
+              setActiveMobileTab('editor');
+            }}
           >
             Editor
           </button>
@@ -253,17 +266,29 @@ export default function App() {
             role="tab"
             className={activeMobileTab === 'preview' ? 'is-active' : ''}
             aria-selected={activeMobileTab === 'preview'}
-            onClick={() => setActiveMobileTab('preview')}
+            onClick={() => {
+              setIsAiGuideOpen(false);
+              setActiveMobileTab('preview');
+            }}
           >
-            {isAiGuideOpen ? 'AI Tips' : 'Preview'}
+            Preview
+          </button>
+          <button
+            type="button"
+            role="tab"
+            className={activeMobileTab === 'ai-guide' ? 'is-active' : ''}
+            aria-selected={activeMobileTab === 'ai-guide'}
+            onClick={() => {
+              setIsAiGuideOpen(true);
+              setActiveMobileTab('ai-guide');
+            }}
+          >
+            AI Tips
           </button>
         </div>
         <EditorPane value={markdownText} onChange={setMarkdownText} />
-        {isAiGuideOpen ? (
-          <AiPromptGuide onBack={() => setIsAiGuideOpen(false)} />
-        ) : (
-          <PreviewPane previewRef={previewRef} tocItems={tocItems} />
-        )}
+        <PreviewPane previewRef={previewRef} tocItems={tocItems} />
+        {isAiGuideOpen ? <AiPromptGuide /> : null}
       </main>
 
       <footer className="footer">

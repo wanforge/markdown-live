@@ -188,6 +188,9 @@ button:not(.icon-button):disabled {
   height: 100%;
 }
 
+.layout-with-ai-guide {
+  grid-template-columns: 1fr 1fr 1fr;
+}
 .mobile-tabs {
   display: none;
 }
@@ -203,6 +206,7 @@ button:not(.icon-button):disabled {
 }
 
 .ai-guide-pane {
+  height: 100%;
   overflow: hidden;
 }
 
@@ -511,6 +515,9 @@ button:not(.icon-button):disabled {
     gap: 10px;
   }
 
+  .layout-with-ai-guide {
+    grid-template-columns: 1fr;
+  }
   .mobile-tabs {
     display: flex;
     gap: 6px;
@@ -541,6 +548,15 @@ button:not(.icon-button):disabled {
     display: none;
   }
 
+  .layout.mobile-ai-guide-active .editor-pane,
+  .layout.mobile-ai-guide-active .preview-pane {
+    display: none;
+  }
+
+  .layout.mobile-editor-active .ai-guide-pane,
+  .layout.mobile-preview-active .ai-guide-pane {
+    display: none;
+  }
   #editor {
     min-height: 280px;
   }
