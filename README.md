@@ -1,8 +1,8 @@
 <div align="center">
   <img src="./public/icon.svg" alt="MarkDown Live Logo" width="120" />
-  
+
   <h1>MarkDown Live</h1>
-  
+
   <p><em>Open-source tool to convert markdown and AI output into polished documents.</em></p>
 
 [![Version](https://img.shields.io/github/v/tag/wanforge/markdown-live?label=version&color=003D99&logo=github)](https://github.com/wanforge/markdown-live/releases)
@@ -23,149 +23,138 @@
 
 **MarkDown Live** is a privacy-first, open-source tool designed to transform raw markdown and AI-generated content into professional, print-ready documents. It features robust support for LaTeX mathematics (KaTeX), technical diagrams (Mermaid), and advanced formatting, all with zero tracking and a lightning-fast live preview.
 
+## Highlights
+
+- Live preview while typing
+- Auto-save to localStorage (editor content + light/dark mode)
+- Built-in sample loader from `public/sample.md`
+- Open local `.md`, `.markdown`, or `.txt` files
+- Table of Contents generated from headings
+- Print-ready output
+- Export to PDF (with print fallback)
+- Export to standalone HTML document
+- Mermaid diagram rendering with light/dark theme adaptation
+- KaTeX formula rendering with robust delimiter normalization
+- Security-focused rendered HTML sanitization via DOMPurify
+
 ## Quick Start
 
-Run the project locally:
+### Requirements
+
+- Node.js `>=20`
+
+### Install and Run
 
 ```bash
 npm install
 npm run dev
 ```
 
-Build and preview:
+### Build and Preview Production
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## AI Prompt Tips (Important)
+### Quality Checks
 
-Use these prompt keywords so your AI output is fully compatible with MarkDown Live.
-
-### 1) Math with KaTeX
-
-**Prompt tip:** "Write formulas using KaTeX delimiters. Inline with `$ ... $` or `\( ... \)`, and block/display math with `$$ ... $$` or `\[ ... \]`."
-
-> [!NOTE]
-> **Robust Delimiters**: MarkDown Live automatically normalizes LaTeX bracket delimiters. You can use `\[ ... \]` even without a preceding blank line, and it will render correctly as display math.
-
-**Expected output:**
-
-```markdown
-Inline: $E = mc^2$ or \( E = mc^2 \)
-
-Block:
-
-$$
-\int_0^1 x^2 dx = \frac{1}{3}
-$$
-
-Boxed Result:
-\[ \boxed{P(X \leq 4) \approx 0.2851} \]
+```bash
+npm run lint
+npm run check
 ```
 
-### 2) Flowcharts with Mermaid
+## How To Use
 
-**Prompt tip:** "Generate diagrams in Mermaid fenced code blocks using \`\`\`mermaid."
+1. Write markdown in the **Editor** pane.
+2. See formatted output in the **Preview** pane.
+3. Use **Sample** to load the full demo document from `public/sample.md`.
+4. Use **Open** to import your own markdown file.
+5. Export via **Print**, **PDF**, or **HTML** in the top toolbar.
 
-**Expected output:**
+On mobile width, switch between editor and preview using the tab buttons.
 
-````markdown
-```mermaid
-flowchart TD
-    A[Input] --> B[Process]
-    B --> C[Output]
-```
-````
+## Supported Markdown Features
 
-### 3) Tables, Tasks, and References
+- Headings, lists, quotes, links, images
+- Tables, task lists, footnotes, definition lists
+- Highlight (`==text==`), subscript (`H~2~O`), superscript (`x^2^`)
+- Fenced code blocks with Highlight.js syntax coloring
+- Mermaid in fenced blocks (` ```mermaid `)
+- KaTeX math:
+  - Inline: `$ ... $` or `\( ... \)`
+  - Block: `$$ ... $$` or `\[ ... \]`
 
-**Prompt tip:** "Use GFM markdown tables, task lists (`- [ ]` / `- [x]`), and footnotes (`[^1]`)."
+> Note: `\(...\)` and `\[...\]` are normalized internally to dollar delimiters before parsing, so AI-generated math is more tolerant to formatting variation.
 
-**Expected output:**
+## AI Prompt Tips
 
-```markdown
-| Item  | Status |
-| ----- | ------ |
-| Draft | Done   |
+Use these prompt instructions if you generate markdown from AI:
 
-- [x] Write section
-- [ ] Review section
+- "Output clean Markdown only, no extra explanation text."
+- "Use heading hierarchy H1-H3 and keep sections print-ready."
+- "Use fenced Mermaid blocks for diagrams."
+- "Use KaTeX delimiters (`$...$`, `$$...$$`, `\\(...\\)`, `\\[...\\]`)."
+- "Use GFM tables, tasks, and footnotes when needed."
 
-Reference text.[^1]
-
-[^1]: Source note.
-```
-
-### 4) Document-Ready AI Output
-
-**Prompt tip:** "Output only clean markdown, use heading hierarchy (H1-H3), avoid HTML unless needed, and keep sections print-ready."
-
-## Architecture & Tech Stack
-
-**Core Technologies:**
-React 19 | Vite 8 | markdown-it (+ plugins) | Mermaid | KaTeX | Highlight.js | DOMPurify | html2canvas + jsPDF | react-icons
-
-**Color System:**
-Primary brand colors are extracted directly from `icon.svg`:
-
-- **Primary:** `#003D99`
-- **Accent:** `#80B3FF`
-- **Neutral:** `#FFFFFF`
-
-**Structured Directory:**
+## Project Structure
 
 ```text
 markdown-live/
-├── .github/workflows/      # CI, deploy, security workflows
-├── public/                 # Static assets (icon.svg, icon.png)
+├── public/
+│   ├── icon.svg
+│   └── sample.md
 ├── src/
-│   ├── components/         # UI components (Editor, Preview, Toolbar)
-│   ├── lib/                # Markdown rendering engine (markdown.js)
-│   ├── styles/             # Application styles (app.css)
-│   ├── utils/              # Exporters, constants, and sample markdown
-│   ├── App.jsx             # Main application shell
-│   └── main.jsx            # Entry point
-├── eslint.config.js        # Linting configuration
-├── index.html              # HTML template
-├── package.json            # Project dependencies and scripts
-└── vite.config.js          # Vite build configuration
+│   ├── components/
+│   │   ├── EditorPane.jsx
+│   │   ├── PreviewPane.jsx
+│   │   └── Toolbar.jsx
+│   ├── lib/
+│   │   └── markdown.js
+│   ├── styles/
+│   │   └── app.css
+│   ├── utils/
+│   │   ├── constants.js
+│   │   └── exporters.js
+│   ├── App.jsx
+│   └── main.jsx
+├── CHANGELOG.md
+├── eslint.config.js
+├── index.html
+├── package.json
+└── vite.config.js
 ```
 
-## Development & Workflow
+## Tech Stack
 
-### GitHub Actions
+React 19, Vite 8, markdown-it (+ plugins), KaTeX, Mermaid, Highlight.js, DOMPurify, html2canvas, jsPDF, react-icons.
 
-- **CI:** Lint and build on `push` and `pull_request`.
-- **Deploy Pages:** Auto-deploy to GitHub Pages from the `main` branch.
-- **CodeQL:** Automated JavaScript security scanning.
-- **Release:** Creates a GitHub release automatically when pushing a SemVer tag (`v*.*.*`).
+Brand colors (from `icon.svg`):
 
-### Release Tags
+- Primary: `#003D99`
+- Accent: `#80B3FF`
+- White: `#FFFFFF`
 
-Use one of these commands to bump the version and create a tag:
+## Release Workflow
+
+Version bump helpers:
 
 ```bash
-npm run tag:patch  # 0.1.x
-npm run tag:minor  # 0.x.0
-npm run tag:major  # x.0.0
+npm run tag:patch
+npm run tag:minor
+npm run tag:major
 ```
 
-Then push the commit and tag to trigger the Release workflow:
+Then push commit and tag:
 
 ```bash
 git push origin main --follow-tags
 ```
 
-### Changelog Policy
-
-Changelog entries should be created from commit history (commit-first), then grouped by release version in the [CHANGELOG.md](./CHANGELOG.md) file.
-
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+Licensed under MIT. See [LICENSE](./LICENSE).
 
 ---
 
-&copy; 2026 WanForge ([wanforge.asia](https://wanforge.asia)).
+&copy; 2026 WanForge ([wanforge.asia](https://wanforge.asia))

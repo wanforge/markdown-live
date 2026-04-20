@@ -1,72 +1,67 @@
-# MarkDown Live - Complete Feature Sample
+# MarkDown Live - Feature Showcase Document
 
-> Open-source Markdown renderer. 100% free, no analytics, and built with community contributions.
+This sample is bundled with the app (`public/sample.md`) and is loaded when you click **Sample** in the toolbar.
 
-**Slogan:** Free Forever. No Tracking. Built Together.
-
----
-
-## Table of Contents
-
-- [MarkDown Live - Complete Feature Sample](#markdown-live---complete-feature-sample)
-  - [Table of Contents](#table-of-contents)
-  - [Quick Intro](#quick-intro)
-  - [Text Formatting](#text-formatting)
-  - [Task List](#task-list)
-  - [Tables](#tables)
-    - [Alignment Example](#alignment-example)
-  - [Code Blocks](#code-blocks)
-  - [Math (KaTeX)](#math-katex)
-  - [Mermaid Diagrams](#mermaid-diagrams)
-  - [Definition List](#definition-list)
-  - [References](#references)
+> Goal: show what the current renderer can do in one practical, export-ready document.
 
 ## Quick Intro
 
-Turn raw notes, AI output, and technical drafts into polished documentation ready to export.
+MarkDown Live helps you turn raw notes, AI output, and technical drafts into polished documents for web, print, PDF, or HTML export.
 
-- GFM support: tables, task lists, strikethrough
-- Syntax highlighting with Highlight.js
-- Mermaid diagram rendering
-- KaTeX for inline and block formulas
-- Footnotes, anchor links, and smart typography
+### What this sample demonstrates
 
-Visit: https://github.com/wanforge/markdown-live
+- Heading structure (`h1` to `h3`) for automatic Table of Contents
+- GFM features: tables, task list, strikethrough
+- Code blocks with syntax highlighting and copy button
+- KaTeX math with dollar and bracket delimiters
+- Mermaid diagrams
+- Footnotes and definition lists
 
-## Text Formatting
+## Editing Workflow Example
 
-This paragraph demonstrates **bold**, _italic_, **_bold+italic_**, ~~strikethrough~~, `inline code`, and ==highlight==.
+1. Write or paste markdown in the Editor pane.
+2. Preview updates automatically.
+3. Check TOC on the Preview side.
+4. Export with Print, PDF, or HTML.
 
-Water formula: H~2~O
+## Text Styling
 
-Einstein wrote: E = mc^2^
+Use **bold**, _italic_, **_bold+italic_**, ~~strikethrough~~, `inline code`, and ==mark/highlight==.
 
-Smart quotes and arrows via typographer: "quality" ... fast -> faster <- baseline
+Subscript and superscript also work:
 
-> Blockquote: Use this app for release notes, engineering docs, and AI-generated content cleanup.
+- Water: H~2~O
+- Area formula fragment: x^2^
+
+> Tip: keep paragraphs short so exported documents stay easy to scan.
+
+Typographer test line: "quality" ... fast -> faster <- baseline <-> review.
 
 ## Task List
 
-- [x] Write project overview
+- [x] Draft technical overview
+- [x] Add formulas
 - [x] Add architecture diagram
-- [ ] Final QA and review
-- [ ] Export to PDF
+- [ ] Review wording
+- [ ] Export final PDF
 
 ## Tables
 
-| Feature   | Syntax Example           | Status |
-| :-------- | :----------------------- | :----: |
-| Formula   | `$E = mc^2$` / `$$...$$` |  Yes   |
-| Diagram   | `mermaid ... `           |  Yes   |
-| Checklist | `- [ ]` / `- [x]`        |  Yes   |
-| Footnote  | `[^1]`                   |  Yes   |
+| Feature         | Syntax Example                | Supported |
+| :-------------- | :---------------------------- | :-------: |
+| Math            | `$...$`, `$$...$$`, `\(...\)` |    Yes    |
+| Mermaid diagram | fenced code block `mermaid`   |    Yes    |
+| Task checklist  | `- [ ]`, `- [x]`              |    Yes    |
+| Footnote        | `[^id]`                       |    Yes    |
+| Definition list | `Term` + `: definition`       |    Yes    |
 
 ### Alignment Example
 
 | Left    | Center | Right |
 | :------ | :----: | ----: |
-| docs    | stable |  99.9 |
-| preview |  good  |  98.4 |
+| render  | stable |  99.4 |
+| export  | ready  |  98.1 |
+| preview | smooth |  99.0 |
 
 ## Code Blocks
 
@@ -86,64 +81,69 @@ npm run build
 ```json
 {
   "name": "markdown-live",
-  "license": "MIT",
-  "private": false
+  "engines": {
+    "node": ">=20"
+  }
 }
 ```
 
 ## Math (KaTeX)
 
-Inline formula: $E = mc^2$
+Inline math with dollar delimiters: $E = mc^2$.
 
-Summation block:
+Inline math with bracket delimiters: \(a^2 + b^2 = c^2\).
+
+Display math:
 
 $$
 \sum_{i=1}^{n} i^2 = \frac{n(n+1)(2n+1)}{6}
 $$
 
-Integral block:
+Bracket display delimiters are also supported:
 
-$$
+\[
 \int_0^1 x^2\,dx = \frac{1}{3}
-$$
-
-Alternative delimiters also work: \(a^2 + b^2 = c^2\)
+\]
 
 ## Mermaid Diagrams
 
 ```mermaid
 flowchart LR
-        A[Raw Notes] --> B[Markdown Parser]
-        B --> C[Preview Pane]
-        C --> D[Export HTML or PDF]
+    A[Raw Notes] --> B[Markdown Parser]
+    B --> C[Live Preview]
+    C --> D[Print / PDF / HTML]
 ```
 
 ```mermaid
 sequenceDiagram
-        participant U as User
-        participant E as Editor
-        participant P as Preview
-        U->>E: Type Markdown
-        E->>P: Render content
-        P-->>U: Show formatted output
+    participant U as User
+    participant E as Editor
+    participant P as Preview
+    U->>E: Type markdown
+    E->>P: Render and sanitize
+    P-->>U: Show formatted output
 ```
 
 ## Definition List
 
 Markdown-it
-: A parser engine that converts markdown text into HTML.
+: Core parser that converts markdown text to HTML.
 
 DOMPurify
 : Sanitizes rendered HTML to reduce XSS risk.
 
 Mermaid
-: Generates diagrams from text syntax.
+: Renders diagrams from text-based syntax.
+
+## Quote Block
+
+> Free Forever. No Tracking. Built Together.
 
 ## References
 
 1. Project repository and docs are available on GitHub.[^repo]
-2. Mermaid and KaTeX are integrated for technical writing workflows.[^stack]
+2. Markdown renderer stack includes Mermaid and KaTeX support.[^stack]
 
 [^repo]: https://github.com/wanforge/markdown-live
 
-[^stack]: Current renderer stack includes markdown-it, highlight.js, Mermaid, KaTeX, and DOMPurify.
+[^stack]: markdown-it, highlight.js, markdown-it-texmath (KaTeX), Mermaid, and DOMPurify.
