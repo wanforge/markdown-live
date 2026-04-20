@@ -3,7 +3,7 @@
 
   <h1>MarkDown Live</h1>
 
-  <p><em>Open-source tool to convert markdown and AI output into polished documents.</em></p>
+  <p><em>Privacy-first markdown editor for turning raw markdown and AI output into professional, print-ready documents.</em></p>
 
 [![Version](https://img.shields.io/github/v/tag/wanforge/markdown-live?label=version&color=003D99&logo=github)](https://github.com/wanforge/markdown-live/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-003D99?logo=opensourceinitiative&logoColor=white)](./LICENSE)
@@ -21,7 +21,7 @@
 
 ---
 
-**MarkDown Live** is a privacy-first, open-source tool designed to transform raw markdown and AI-generated content into professional, print-ready documents. It features robust support for LaTeX mathematics (KaTeX), technical diagrams (Mermaid), and advanced formatting, all with zero tracking and a lightning-fast live preview.
+**MarkDown Live** is a privacy-first, open-source markdown editor designed to transform raw markdown and AI-generated content into professional, print-ready documents. It features robust support for LaTeX mathematics (KaTeX), technical diagrams (Mermaid), and advanced formatting, all with zero tracking and a lightning-fast live preview.
 
 ## Highlights
 
