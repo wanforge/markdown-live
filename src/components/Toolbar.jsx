@@ -1,9 +1,11 @@
 import { BRAND, APP_VERSION } from '../utils/constants';
 import {
-  RiDownload2Line,
+  RiCompass3Line,
   RiFilePaper2Line,
+  RiFilePdf2Line,
   RiFileUploadLine,
   RiGithubFill,
+  RiHtml5Line,
   RiMoonFill,
   RiPrinterLine,
   RiSunFill,
@@ -13,11 +15,13 @@ export default function Toolbar({
   fileInputRef,
   onLoadSample,
   onOpenFileClick,
+  onToggleAiGuide,
   onFileSelected,
   onPrint,
   onExportPdf,
   onExportHtml,
   onToggleTheme,
+  isAiGuideOpen,
   isDark,
   isExportingPdf,
   hasDocumentContent,
@@ -69,6 +73,10 @@ export default function Toolbar({
               <RiFileUploadLine size={16} aria-hidden="true" />
               <span>Open</span>
             </button>
+            <button type="button" onClick={onToggleAiGuide}>
+              <RiCompass3Line size={16} aria-hidden="true" />
+              <span>{isAiGuideOpen ? 'Preview' : 'AI Tips'}</span>
+            </button>
           </div>
         </div>
 
@@ -84,11 +92,11 @@ export default function Toolbar({
               onClick={onExportPdf}
               disabled={isExportingPdf || !hasDocumentContent}
             >
-              <RiDownload2Line size={16} aria-hidden="true" />
+              <RiFilePdf2Line size={16} aria-hidden="true" />
               <span>{isExportingPdf ? 'Saving...' : 'PDF'}</span>
             </button>
             <button type="button" onClick={onExportHtml} disabled={!hasDocumentContent}>
-              <RiDownload2Line size={16} aria-hidden="true" />
+              <RiHtml5Line size={16} aria-hidden="true" />
               <span>HTML</span>
             </button>
           </div>

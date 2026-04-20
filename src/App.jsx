@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Toolbar from './components/Toolbar';
 import EditorPane from './components/EditorPane';
 import PreviewPane from './components/PreviewPane';
+import AiPromptGuide from './components/AiPromptGuide';
 import {
   buildTocItems,
   createMarkdownParser,
@@ -32,6 +33,7 @@ export default function App() {
   const [isDark, setIsDark] = useState(localStorage.getItem('theme') === 'dark');
   const [isExportingPdf, setIsExportingPdf] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState('editor');
+  const [isAiGuideOpen, setIsAiGuideOpen] = useState(false);
 
   const renderedHtml = useMemo(() => {
     const raw = parser.render(markdownText || '');
@@ -145,7 +147,7 @@ export default function App() {
 
   function handlePrint() {
     if (!hasDocumentContent) {
-      alert('Tidak ada konten untuk diprint. Isi markdown dulu ya.');
+      alert('No content to print. Add some markdown first.');
       return;
     }
 
@@ -160,7 +162,7 @@ export default function App() {
 
   async function handleExportPdf() {
     if (!previewRef.current || !hasDocumentContent) {
-      alert('Tidak ada konten untuk diexport ke PDF.');
+      alert('No content to export to PDF.');
       return;
     }
 
@@ -181,7 +183,7 @@ export default function App() {
 
   function handleExportHtml() {
     if (!hasDocumentContent) {
-      alert('Tidak ada konten untuk diexport ke HTML.');
+      alert('No content to export to HTML.');
       return;
     }
 
@@ -215,11 +217,13 @@ export default function App() {
         fileInputRef={fileInputRef}
         onLoadSample={handleLoadSample}
         onOpenFileClick={handleOpenFileButton}
+        onToggleAiGuide={() => setIsAiGuideOpen((value) => !value)}
         onFileSelected={handleFileInput}
         onPrint={handlePrint}
         onExportPdf={handleExportPdf}
         onExportHtml={handleExportHtml}
         onToggleTheme={() => setIsDark((value) => !value)}
+        isAiGuideOpen={isAiGuideOpen}
         isDark={isDark}
         isExportingPdf={isExportingPdf}
         hasDocumentContent={hasDocumentContent}
@@ -230,7 +234,11 @@ export default function App() {
           activeMobileTab === 'editor' ? 'mobile-editor-active' : 'mobile-preview-active'
         }`}
       >
-        <div className="mobile-tabs" role="tablist" aria-label="Editor and preview">
+        <div
+          className="mobile-tabs"
+          role="tablist"
+          aria-label="Editor and secondary panel"
+        >
           <button
             type="button"
             role="tab"
@@ -247,11 +255,15 @@ export default function App() {
             aria-selected={activeMobileTab === 'preview'}
             onClick={() => setActiveMobileTab('preview')}
           >
-            Preview
+            {isAiGuideOpen ? 'AI Tips' : 'Preview'}
           </button>
         </div>
         <EditorPane value={markdownText} onChange={setMarkdownText} />
-        <PreviewPane previewRef={previewRef} tocItems={tocItems} />
+        {isAiGuideOpen ? (
+          <AiPromptGuide onBack={() => setIsAiGuideOpen(false)} />
+        ) : (
+          <PreviewPane previewRef={previewRef} tocItems={tocItems} />
+        )}
       </main>
 
       <footer className="footer">

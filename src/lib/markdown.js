@@ -139,6 +139,7 @@ export function createMarkdownParser() {
 
   // Normalise LaTeX bracket delimiters before markdown-it escapes them.
   md.core.ruler.before('normalize', 'math_normalize', normalizeMathDelimiters);
+  md.core.ruler.after('smartquotes', 'typography_symbols', normalizeTypographyTokens);
 
   return md
     .use(markdownItAnchor, {
@@ -168,6 +169,27 @@ function normalizeMathDelimiters(state) {
     .replace(/\\\(/g, '$$')
     .replace(/\\\)/g, '$$');
   return true;
+}
+
+function normalizeTypographyTokens(state) {
+  for (const token of state.tokens) {
+    if (token.type !== 'inline' || !token.children) continue;
+
+    for (const child of token.children) {
+      if (child.type !== 'text') continue;
+      child.content = normalizeTypographyText(child.content);
+    }
+  }
+
+  return true;
+}
+
+function normalizeTypographyText(value) {
+  return value
+    .replace(/<->/g, '↔')
+    .replace(/->/g, '→')
+    .replace(/<-/g, '←')
+    .replace(/\.\.\./g, '…');
 }
 
 /** highlight.js code block renderer used by markdown-it. */

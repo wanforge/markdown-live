@@ -51,6 +51,7 @@ a {
   grid-template-rows: auto minmax(0, 1fr) auto;
 }
 .topbar {
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 20;
@@ -60,7 +61,8 @@ a {
   padding: 12px 18px;
   border-bottom: 1px solid var(--border);
   background: color-mix(in srgb, var(--panel) 92%, transparent);
-  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
 }
 
 .brand {
@@ -198,6 +200,91 @@ button:not(.icon-button):disabled {
   border-radius: 12px;
   overflow: hidden;
   background: var(--panel);
+}
+
+.ai-guide-pane {
+  height: 100%;
+  overflow: auto;
+}
+
+.ai-guide-pane .pane-title {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--panel);
+}
+
+.ai-guide-pane .ai-guide-header,
+.ai-guide-pane .ai-guide-grid,
+.ai-guide-pane .ai-guide-card {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.ai-guide-pane .ai-guide-header {
+  margin-top: 14px;
+}
+
+.ai-guide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.ai-guide-header h2 {
+  margin: 0;
+  color: var(--primary);
+}
+
+.ai-guide-header p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.ai-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ai-guide-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  background: color-mix(in srgb, var(--panel) 90%, var(--accent));
+}
+
+.ai-guide-card h3 {
+  margin: 0 0 8px;
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.ai-guide-card p {
+  margin: 0 0 10px;
+}
+
+.ai-guide-card pre {
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  background: color-mix(in srgb, var(--panel) 80%, var(--accent));
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.ai-guide-template {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.ai-guide-card ul {
+  margin: 0;
+  padding-left: 18px;
 }
 
 .pane-title {
@@ -394,7 +481,7 @@ button:not(.icon-button):disabled {
 
   .action-group-buttons {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 5px;
   }
 
@@ -464,6 +551,10 @@ button:not(.icon-button):disabled {
 
   #editor {
     min-height: 280px;
+  }
+
+  .ai-guide-grid {
+    grid-template-columns: 1fr;
   }
 }
 

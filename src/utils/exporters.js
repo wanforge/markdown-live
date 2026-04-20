@@ -348,7 +348,7 @@ export function openPrintWindow(html) {
       const frameDocument = iframe.contentDocument;
       if (!frameWindow || !frameDocument) {
         cleanup();
-        alert('Print gagal dijalankan. Silakan coba lagi.');
+        alert('Print could not be started. Please try again.');
         return;
       }
 
@@ -374,7 +374,7 @@ export function openPrintWindow(html) {
     const frameDocument = iframe.contentDocument;
     if (!frameDocument) {
       cleanup();
-      alert('Print gagal dijalankan. Silakan coba lagi.');
+      alert('Print could not be started. Please try again.');
       return;
     }
 
