@@ -8,9 +8,16 @@ import {
   enrichPreviewContent,
   sanitizeRenderedHtml,
 } from './lib/markdown';
-import { buildExportHtml, exportPdfFromNode, openPrintWindow } from './utils/exporters';
+import {
+  buildExportHtml,
+  downloadHtmlDocument,
+  exportPdfFromNode,
+  openPrintWindow,
+} from './utils/exporters';
 import { APP_VERSION, BRAND } from './utils/constants';
-import { sampleMarkdown } from './utils/sampleMarkdown';
+
+const SAMPLE_MARKDOWN_PATH = '/sample.md';
+const DEFAULT_EMPTY_DOCUMENT = '# MarkDown Live\n\n';
 
 export default function App() {
   const parser = useMemo(() => createMarkdownParser(), []);
@@ -19,7 +26,7 @@ export default function App() {
   const renderCycleRef = useRef(0);
 
   const [markdownText, setMarkdownText] = useState(() => {
-    return localStorage.getItem('markdownContent') || sampleMarkdown;
+    return localStorage.getItem('markdownContent') || DEFAULT_EMPTY_DOCUMENT;
   });
   const [tocItems, setTocItems] = useState([]);
   const [isDark, setIsDark] = useState(localStorage.getItem('theme') === 'dark');
@@ -38,6 +45,24 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('markdownContent', markdownText);
   }, [markdownText]);
+
+  async function loadSampleMarkdown() {
+    const response = await fetch(SAMPLE_MARKDOWN_PATH, { cache: 'no-store' });
+    if (!response.ok) {
+      throw new Error(`Could not load sample markdown (${response.status})`);
+    }
+
+    const text = await response.text();
+    setMarkdownText(text);
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem('markdownContent')) return;
+
+    loadSampleMarkdown().catch(() => {
+      // Keep default fallback content when sample file cannot be fetched.
+    });
+  }, []);
 
   useEffect(() => {
     const previewNode = previewRef.current;
@@ -110,7 +135,11 @@ export default function App() {
     }
 
     const title = getDocumentTitle();
-    const html = buildExportHtml({ title, contentHtml: clonePreviewHtml() });
+    const html = buildExportHtml({
+      title,
+      contentHtml: clonePreviewHtml(),
+      isDark,
+    });
     openPrintWindow(html);
   }
 
@@ -139,16 +168,21 @@ export default function App() {
 
     const title =
       window.prompt('Enter document title:', getDocumentTitle()) || getDocumentTitle();
-    const html = buildExportHtml({ title, contentHtml: clonePreviewHtml() });
+    const html = buildExportHtml({
+      title,
+      contentHtml: clonePreviewHtml(),
+      isDark,
+    });
 
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `${title.replace(/\s+/g, '-').toLowerCase()}-${Date.now()}.html`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(link.href);
+    downloadHtmlDocument({ title, html });
+  }
+
+  async function handleLoadSample() {
+    try {
+      await loadSampleMarkdown();
+    } catch (error) {
+      alert(`Failed to load sample markdown: ${error.message}`);
+    }
   }
 
   useEffect(() => {
@@ -160,7 +194,7 @@ export default function App() {
     <div className="app-shell">
       <Toolbar
         fileInputRef={fileInputRef}
-        onLoadSample={() => setMarkdownText(sampleMarkdown)}
+        onLoadSample={handleLoadSample}
         onOpenFileClick={handleOpenFileButton}
         onFileSelected={handleFileInput}
         onPrint={handlePrint}

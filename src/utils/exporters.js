@@ -1,6 +1,48 @@
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 
+const DEFAULT_EXPORT_NAME = 'markdown-live-document';
+
+const REMOVE_DIACRITICS_RE = /[\u0300-\u036f]/g;
+const INVALID_FILENAME_CHARS_RE = /[^a-z0-9-]+/g;
+const MULTI_DASH_RE = /-{2,}/g;
+
+export function normalizeFilename(input, fallback = DEFAULT_EXPORT_NAME) {
+  const normalized = String(input ?? '')
+    .normalize('NFKD')
+    .replace(REMOVE_DIACRITICS_RE, '')
+    .toLowerCase()
+    .replace(INVALID_FILENAME_CHARS_RE, '-')
+    .replace(MULTI_DASH_RE, '-')
+    .replace(/^-+|-+$/g, '');
+
+  return normalized || fallback;
+}
+
+function createExportFilename(title, extension) {
+  return `${normalizeFilename(title)}-${Date.now()}.${extension}`;
+}
+
+function collectInlineStyles() {
+  const chunks = [];
+
+  for (const sheet of Array.from(document.styleSheets)) {
+    try {
+      const rules = Array.from(sheet.cssRules ?? []);
+      if (!rules.length) continue;
+      chunks.push(rules.map((rule) => rule.cssText).join('\n'));
+    } catch {
+      // Ignore cross-origin stylesheets and keep exporting with available styles.
+    }
+  }
+
+  return chunks.join('\n');
+}
+
+function stripExportUiElements(root) {
+  root.querySelectorAll('.code-copy, .header-anchor').forEach((node) => node.remove());
+}
+
 function exportStyles() {
   return `
     <style>
@@ -9,6 +51,9 @@ function exportStyles() {
         --muted: #666666;
         --border: #cfcfcf;
         --code-bg: #f4f4f4;
+      }
+      html, body {
+        min-height: 100%;
       }
       * { box-sizing: border-box; }
       body {
@@ -42,11 +87,24 @@ function exportStyles() {
       }
       th { background: #f2f6ff; }
       .code-copy, .header-anchor { display: none !important; }
+      @media print {
+        body {
+          margin: 0;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        article {
+          max-width: none;
+          padding: 0;
+        }
+      }
     </style>
   `;
 }
 
-export function buildExportHtml({ title, contentHtml }) {
+export function buildExportHtml({ title, contentHtml, isDark = false }) {
+  const runtimeStyles = collectInlineStyles();
+
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -59,12 +117,29 @@ export function buildExportHtml({ title, contentHtml }) {
     <link rel="alternate icon" type="image/png" href="/icon.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/atom-one-light.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css" />
+    <style>${runtimeStyles}</style>
     ${exportStyles()}
   </head>
-  <body>
-    <article>${contentHtml}</article>
+  <body class="${isDark ? 'dark' : ''}">
+    <article class="markdown-body">${contentHtml}</article>
   </body>
 </html>`;
+}
+
+export function downloadHtmlDocument({ title, html }) {
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = createExportFilename(title, 'html');
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  const objectUrl = link.href;
+  window.setTimeout(() => {
+    URL.revokeObjectURL(objectUrl);
+  }, 1000);
 }
 
 export function openPrintWindow(html) {
@@ -152,12 +227,46 @@ export function openPrintWindow(html) {
 }
 
 export async function exportPdfFromNode({ node, title }) {
-  const canvas = await html2canvas(node, {
-    scale: 2,
-    useCORS: true,
-    backgroundColor: '#ffffff',
-    logging: false,
-  });
+  const sandbox = document.createElement('div');
+  sandbox.style.position = 'fixed';
+  sandbox.style.left = '-100000px';
+  sandbox.style.top = '0';
+  sandbox.style.zIndex = '-1';
+  sandbox.style.background = '#ffffff';
+  sandbox.style.pointerEvents = 'none';
+
+  const clone = node.cloneNode(true);
+  stripExportUiElements(clone);
+  clone.style.height = 'auto';
+  clone.style.maxHeight = 'none';
+  clone.style.overflow = 'visible';
+  clone.style.width = `${Math.max(node.clientWidth, node.scrollWidth)}px`;
+
+  sandbox.appendChild(clone);
+  document.body.appendChild(sandbox);
+
+  let canvas;
+  try {
+    const fontsReady = document.fonts?.ready;
+    if (fontsReady) {
+      await fontsReady.catch(() => undefined);
+    }
+
+    canvas = await html2canvas(clone, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      windowWidth: clone.scrollWidth,
+      windowHeight: clone.scrollHeight,
+      scrollX: 0,
+      scrollY: 0,
+    });
+  } finally {
+    if (sandbox.parentNode) {
+      sandbox.parentNode.removeChild(sandbox);
+    }
+  }
 
   const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const pageWidth = 210;
@@ -213,6 +322,5 @@ export async function exportPdfFromNode({ node, title }) {
     offsetPx += Math.max(1, sliceHeight - overlapPx);
   }
 
-  const filename = `${title.replace(/\s+/g, '-').toLowerCase()}-${Date.now()}.pdf`;
-  pdf.save(filename);
+  pdf.save(createExportFilename(title, 'pdf'));
 }

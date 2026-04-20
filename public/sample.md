@@ -1,4 +1,4 @@
-export const sampleMarkdown = `# MarkDown Live
+# MarkDown Live
 
 > Open source Markdown renderer: 100% free, no fee, no analytics, and open to community contribution.
 
@@ -29,12 +29,12 @@ Turn raw notes, AI output, and technical content into polished Markdown document
 
 ## Mermaid Example
 
-\`\`\`mermaid
+```mermaid
 flowchart TD
     A[Prompt] --> B[AI Output]
     B --> C[MarkDown Live]
     C --> D[Document Ready]
-\`\`\`
+```
 
 ## KaTeX Example
 
@@ -55,4 +55,3 @@ $$
 | Citation | Footnotes [^n] | Yes |
 
 [^1]: MarkDown Live uses markdown-it, Mermaid, KaTeX, and DOMPurify.
-`;
