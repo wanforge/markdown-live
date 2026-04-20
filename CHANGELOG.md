@@ -2,6 +2,16 @@
 
 All notable changes to MarkDown Live are recorded here.
 
+## v0.1.9 - 2026-04-20
+
+- chore(release): sync metadata for v0.1.8 (a9e419c)
+- refactor: comment out unused SVG paths in icon.svg for clarity (2b715f0)
+- feat: add sample markdown file and enhance export functionality with download support (4cec660)
+- fix: update author meta tag to reflect correct attribution in HTML files (5b6edbe)
+- feat: enhance sample markdown file with comprehensive sections and improved formatting (4746b42)
+- refactor: improve markdown loading and PDF export functionality with enhanced error handling (42145d9)
+- 0.1.9 (a9aed14)
+
 ## v0.1.8 - 2026-04-19
 
 - chore(release): sync metadata for v0.1.7 (8ca75e7)
