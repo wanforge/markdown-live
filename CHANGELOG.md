@@ -2,6 +2,13 @@
 
 All notable changes to MarkDown Live are recorded here.
 
+## v0.1.11 - 2026-04-20
+
+- chore(release): sync metadata for v0.1.10 (83c61b0)
+- feat: update README and index.html to emphasize privacy-first features and enhance descriptions (4b3acb9)
+- feat: enhance Open Graph and Twitter metadata for improved sharing (abc969f)
+- 0.1.11 (91a85d0)
+
 ## v0.1.10 - 2026-04-20
 
 - chore(release): sync metadata for v0.1.9 (752b400)
