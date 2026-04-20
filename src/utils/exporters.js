@@ -111,7 +111,7 @@ export function buildExportHtml({ title, contentHtml, isDark = false }) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="${title} - generated with MarkDown Live" />
-    <meta name="author" content="MarkDown Live Community" />
+    <meta name="author" content="MarkDown Live" />
     <title>${title}</title>
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <link rel="alternate icon" type="image/png" href="/icon.png" />
