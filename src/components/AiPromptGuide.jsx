@@ -57,53 +57,55 @@ export default function AiPromptGuide({ onBack }) {
   return (
     <section className="pane ai-guide-pane" aria-label="AI Prompt Guide">
       <div className="pane-title">AI Prompt Guide</div>
-      <div className="ai-guide-header">
-        <div>
-          <h2>AI Tips & Tricks Prompting</h2>
-          <p>
-            Prompt recipes designed for copy-paste-ready output in MarkDown Live with
-            minimal cleanup.
-          </p>
+      <div className="ai-guide-content">
+        <div className="ai-guide-header">
+          <div>
+            <h2>AI Tips & Tricks Prompting</h2>
+            <p>
+              Prompt recipes designed for copy-paste-ready output in MarkDown Live with
+              minimal cleanup.
+            </p>
+          </div>
+          {onBack ? (
+            <button type="button" onClick={onBack}>
+              Back to Preview
+            </button>
+          ) : null}
         </div>
-        {onBack ? (
-          <button type="button" onClick={onBack}>
-            Back to Preview
-          </button>
-        ) : null}
+
+        <div className="ai-guide-grid">
+          {PROMPT_BLOCKS.map((item) => (
+            <article key={item.title} className="ai-guide-card">
+              <h3>{item.title}</h3>
+              <pre>
+                <code>{item.prompt}</code>
+              </pre>
+            </article>
+          ))}
+        </div>
+
+        <article className="ai-guide-card ai-guide-template">
+          <h3>Ready-to-Paste Output Template</h3>
+          <p>
+            Use this template when asking AI for markdown that works directly with live
+            preview, TOC, KaTeX, and Mermaid.
+          </p>
+          <pre>
+            <code>{READY_TO_PASTE_TEMPLATE}</code>
+          </pre>
+        </article>
+
+        <article className="ai-guide-card">
+          <h3>Prompt Quality Checklist</h3>
+          <ul>
+            <li>Declare output format: &quot;Markdown only&quot;.</li>
+            <li>Specify heading structure: H1-H3.</li>
+            <li>List required elements: table, checklist, formulas, or diagrams.</li>
+            <li>Set section length limits to keep the result concise.</li>
+            <li>Avoid raw HTML unless truly necessary.</li>
+          </ul>
+        </article>
       </div>
-
-      <div className="ai-guide-grid">
-        {PROMPT_BLOCKS.map((item) => (
-          <article key={item.title} className="ai-guide-card">
-            <h3>{item.title}</h3>
-            <pre>
-              <code>{item.prompt}</code>
-            </pre>
-          </article>
-        ))}
-      </div>
-
-      <article className="ai-guide-card ai-guide-template">
-        <h3>Ready-to-Paste Output Template</h3>
-        <p>
-          Use this template when asking AI for markdown that works directly with live
-          preview, TOC, KaTeX, and Mermaid.
-        </p>
-        <pre>
-          <code>{READY_TO_PASTE_TEMPLATE}</code>
-        </pre>
-      </article>
-
-      <article className="ai-guide-card">
-        <h3>Prompt Quality Checklist</h3>
-        <ul>
-          <li>Declare output format: &quot;Markdown only&quot;.</li>
-          <li>Specify heading structure: H1-H3.</li>
-          <li>List required elements: table, checklist, formulas, or diagrams.</li>
-          <li>Set section length limits to keep the result concise.</li>
-          <li>Avoid raw HTML unless truly necessary.</li>
-        </ul>
-      </article>
     </section>
   );
 }
