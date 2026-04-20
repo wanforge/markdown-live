@@ -43,6 +43,190 @@ function stripExportUiElements(root) {
   root.querySelectorAll('.code-copy, .header-anchor').forEach((node) => node.remove());
 }
 
+function sanitizeCloneForPdf(root) {
+  const isSvgNode = (node) => node.namespaceURI === 'http://www.w3.org/2000/svg';
+  const hasUnsupportedColorFunction = (value) => /color\s*\(|color-mix\s*\(/i.test(value);
+
+  if (!isSvgNode(root)) {
+    root.removeAttribute('class');
+    const styleValue = root.getAttribute('style') ?? '';
+    if (hasUnsupportedColorFunction(styleValue)) {
+      root.removeAttribute('style');
+    }
+  }
+
+  for (const element of root.querySelectorAll('*')) {
+    if (!isSvgNode(element)) {
+      element.removeAttribute('class');
+      const styleValue = element.getAttribute('style') ?? '';
+      if (hasUnsupportedColorFunction(styleValue)) {
+        element.removeAttribute('style');
+      }
+    }
+  }
+}
+
+function createPdfSafeStyles() {
+  const style = document.createElement('style');
+  style.textContent = `
+    * { box-sizing: border-box; }
+    article {
+      width: 100%;
+      color: #111111;
+      background: #ffffff;
+      font-family: Inter, Segoe UI, sans-serif;
+      line-height: 1.6;
+      overflow: visible;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+    pre {
+      background: #f4f4f4;
+      border: 1px solid #cfcfcf;
+      border-radius: 6px;
+      padding: 10px;
+      overflow: visible;
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 12px 0;
+      table-layout: fixed;
+    }
+    th, td {
+      border: 1px solid #cfcfcf;
+      padding: 8px;
+      text-align: left;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+    th { background: #f2f6ff; }
+    img, svg {
+      max-width: 100%;
+      height: auto;
+    }
+    blockquote {
+      margin: 14px 0;
+      padding: 10px 14px;
+      border-left: 4px solid #003d99;
+      background: #f5f9ff;
+      color: #333333;
+    }
+  `;
+  return style;
+}
+
+async function renderCanvasWithRetries(node, preferredScale = 2) {
+  const scales = [preferredScale, 1.5, 1].filter(
+    (value, index, arr) => value > 0 && arr.indexOf(value) === index
+  );
+
+  let lastError;
+
+  for (const scale of scales) {
+    try {
+      const canvas = await html2canvas(node, {
+        scale,
+        useCORS: true,
+        allowTaint: false,
+        imageTimeout: 15000,
+        backgroundColor: '#ffffff',
+        logging: false,
+        windowWidth: Math.max(1, node.clientWidth),
+        windowHeight: Math.max(1, node.scrollHeight),
+        scrollX: 0,
+        scrollY: 0,
+      });
+
+      if (!canvas.width || !canvas.height) {
+        throw new Error('Rendered canvas has invalid dimensions.');
+      }
+
+      return canvas;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError ?? new Error('Failed to render document canvas for PDF export.');
+}
+
+function buildSandboxClone(node) {
+  const sandbox = document.createElement('div');
+  sandbox.style.position = 'fixed';
+  sandbox.style.left = '-100000px';
+  sandbox.style.top = '0';
+  sandbox.style.zIndex = '-1';
+  sandbox.style.background = '#ffffff';
+  sandbox.style.pointerEvents = 'none';
+
+  const clone = node.cloneNode(true);
+  stripExportUiElements(clone);
+  sanitizeCloneForPdf(clone);
+  clone.style.height = 'auto';
+  clone.style.maxHeight = 'none';
+  clone.style.overflow = 'visible';
+  clone.style.width = `${Math.max(1, node.clientWidth)}px`;
+  clone.style.background = '#ffffff';
+  clone.style.color = '#111111';
+
+  const exportStylesNode = createPdfSafeStyles();
+  sandbox.appendChild(exportStylesNode);
+
+  sandbox.appendChild(clone);
+  document.body.appendChild(sandbox);
+
+  return { sandbox, clone };
+}
+
+function disposeSandbox(sandbox) {
+  if (sandbox?.parentNode) {
+    sandbox.parentNode.removeChild(sandbox);
+  }
+}
+
+async function exportPdfViaHtmlRenderer({ node, filename }) {
+  const { sandbox, clone } = buildSandboxClone(node);
+
+  try {
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+    await new Promise((resolve, reject) => {
+      try {
+        pdf.html(clone, {
+          x: 10,
+          y: 10,
+          margin: [10, 10, 10, 10],
+          autoPaging: 'text',
+          html2canvas: {
+            scale: 1,
+            useCORS: true,
+            allowTaint: false,
+            backgroundColor: '#ffffff',
+            logging: false,
+            imageTimeout: 15000,
+          },
+          callback: () => resolve(),
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+
+    pdf.save(filename);
+  } finally {
+    disposeSandbox(sandbox);
+  }
+}
+
 function exportStyles() {
   return `
     <style>
@@ -227,100 +411,91 @@ export function openPrintWindow(html) {
 }
 
 export async function exportPdfFromNode({ node, title }) {
-  const sandbox = document.createElement('div');
-  sandbox.style.position = 'fixed';
-  sandbox.style.left = '-100000px';
-  sandbox.style.top = '0';
-  sandbox.style.zIndex = '-1';
-  sandbox.style.background = '#ffffff';
-  sandbox.style.pointerEvents = 'none';
+  const filename = createExportFilename(title, 'pdf');
 
-  const clone = node.cloneNode(true);
-  stripExportUiElements(clone);
-  clone.style.height = 'auto';
-  clone.style.maxHeight = 'none';
-  clone.style.overflow = 'visible';
-  clone.style.width = `${Math.max(node.clientWidth, node.scrollWidth)}px`;
-
-  sandbox.appendChild(clone);
-  document.body.appendChild(sandbox);
-
-  let canvas;
   try {
-    const fontsReady = document.fonts?.ready;
-    if (fontsReady) {
-      await fontsReady.catch(() => undefined);
+    const { sandbox, clone } = buildSandboxClone(node);
+
+    let canvas;
+    try {
+      const fontsReady = document.fonts?.ready;
+      if (fontsReady) {
+        await fontsReady.catch(() => undefined);
+      }
+
+      const maxCanvasPixels = 40_000_000;
+      const basePixels = Math.max(1, clone.clientWidth * clone.scrollHeight);
+      const autoScaleCap = Math.min(2, Math.sqrt(maxCanvasPixels / basePixels));
+
+      canvas = await renderCanvasWithRetries(clone, autoScaleCap);
+    } finally {
+      disposeSandbox(sandbox);
     }
 
-    canvas = await html2canvas(clone, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: '#ffffff',
-      logging: false,
-      windowWidth: clone.scrollWidth,
-      windowHeight: clone.scrollHeight,
-      scrollX: 0,
-      scrollY: 0,
-    });
-  } finally {
-    if (sandbox.parentNode) {
-      sandbox.parentNode.removeChild(sandbox);
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const pageWidth = 210;
+    const pageHeight = 297;
+    const margin = 10;
+    const usableWidth = pageWidth - margin * 2;
+    const usableHeight = pageHeight - margin * 2;
+
+    const pageHeightPx = Math.floor((usableHeight * canvas.width) / usableWidth);
+    const overlapPx = Math.max(8, Math.floor(pageHeightPx * 0.015));
+
+    let offsetPx = 0;
+    let pageIndex = 0;
+
+    while (offsetPx < canvas.height) {
+      const sliceHeight = Math.min(pageHeightPx, canvas.height - offsetPx);
+      const pageCanvas = document.createElement('canvas');
+      pageCanvas.width = canvas.width;
+      pageCanvas.height = sliceHeight;
+
+      const pageContext = pageCanvas.getContext('2d');
+      if (!pageContext) {
+        throw new Error('Cannot create 2D canvas context for PDF page rendering.');
+      }
+      pageContext.drawImage(
+        canvas,
+        0,
+        offsetPx,
+        canvas.width,
+        sliceHeight,
+        0,
+        0,
+        canvas.width,
+        sliceHeight
+      );
+
+      const image = pageCanvas.toDataURL('image/png');
+      const renderHeightMm = (sliceHeight * usableWidth) / canvas.width;
+
+      if (pageIndex > 0) pdf.addPage('a4', 'portrait');
+
+      pdf.addImage(
+        image,
+        'PNG',
+        margin,
+        margin,
+        usableWidth,
+        renderHeightMm,
+        undefined,
+        'FAST'
+      );
+
+      pageIndex += 1;
+      if (offsetPx + sliceHeight >= canvas.height) break;
+
+      offsetPx += Math.max(1, sliceHeight - overlapPx);
     }
-  }
 
-  const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  const pageWidth = 210;
-  const pageHeight = 297;
-  const margin = 10;
-  const usableWidth = pageWidth - margin * 2;
-  const usableHeight = pageHeight - margin * 2;
-
-  const pageHeightPx = Math.floor((usableHeight * canvas.width) / usableWidth);
-  const overlapPx = Math.max(8, Math.floor(pageHeightPx * 0.015));
-
-  let offsetPx = 0;
-  let pageIndex = 0;
-
-  while (offsetPx < canvas.height) {
-    const sliceHeight = Math.min(pageHeightPx, canvas.height - offsetPx);
-    const pageCanvas = document.createElement('canvas');
-    pageCanvas.width = canvas.width;
-    pageCanvas.height = sliceHeight;
-
-    const pageContext = pageCanvas.getContext('2d');
-    pageContext.drawImage(
-      canvas,
-      0,
-      offsetPx,
-      canvas.width,
-      sliceHeight,
-      0,
-      0,
-      canvas.width,
-      sliceHeight
+    pdf.save(filename);
+  } catch (primaryError) {
+    console.error(
+      'Primary PDF export pipeline failed, trying jsPDF.html fallback.',
+      primaryError
     );
 
-    const image = pageCanvas.toDataURL('image/png');
-    const renderHeightMm = (sliceHeight * usableWidth) / canvas.width;
-
-    if (pageIndex > 0) pdf.addPage('a4', 'portrait');
-
-    pdf.addImage(
-      image,
-      'PNG',
-      margin,
-      margin,
-      usableWidth,
-      renderHeightMm,
-      undefined,
-      'FAST'
-    );
-
-    pageIndex += 1;
-    if (offsetPx + sliceHeight >= canvas.height) break;
-
-    offsetPx += Math.max(1, sliceHeight - overlapPx);
+    await exportPdfViaHtmlRenderer({ node, filename });
   }
-
-  pdf.save(createExportFilename(title, 'pdf'));
 }

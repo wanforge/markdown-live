@@ -46,22 +46,37 @@ export default function App() {
     localStorage.setItem('markdownContent', markdownText);
   }, [markdownText]);
 
-  async function loadSampleMarkdown() {
+  async function fetchSampleMarkdown() {
     const response = await fetch(SAMPLE_MARKDOWN_PATH, { cache: 'no-store' });
     if (!response.ok) {
       throw new Error(`Could not load sample markdown (${response.status})`);
     }
 
-    const text = await response.text();
+    return response.text();
+  }
+
+  async function loadSampleMarkdown() {
+    const text = await fetchSampleMarkdown();
     setMarkdownText(text);
   }
 
   useEffect(() => {
     if (localStorage.getItem('markdownContent')) return;
 
-    loadSampleMarkdown().catch(() => {
-      // Keep default fallback content when sample file cannot be fetched.
-    });
+    let isCancelled = false;
+
+    fetchSampleMarkdown()
+      .then((text) => {
+        if (isCancelled) return;
+        setMarkdownText(text);
+      })
+      .catch(() => {
+        // Keep default fallback content when sample file cannot be fetched.
+      });
+
+    return () => {
+      isCancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -152,8 +167,12 @@ export default function App() {
     setIsExportingPdf(true);
     try {
       await exportPdfFromNode({ node: previewRef.current, title: getDocumentTitle() });
-    } catch {
-      alert('PDF export failed. The browser will open print mode as a fallback.');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      console.error('PDF export failed:', error);
+      alert(
+        `PDF export failed (${message}). The browser will open print mode as a fallback.`
+      );
       handlePrint();
     } finally {
       setIsExportingPdf(false);
