@@ -14,11 +14,10 @@
     <path d="M125 50L100 75V115L125 90V150H160V50H125Z" fill="#80B3FF" fill-opacity="0.6" />
 
     <!-- Additional Overlay -->
-    <path d="M40 50H75V90L60 75V110H40V50Z" fill="#80B3FF" fill-opacity="0.1" />
-    <path d="M160 50H125V90L140 75V110H160V50Z" fill="white" fill-opacity="0.1" />
+    <!-- <path d="M40 50H75V90L60 75V110H40V50Z" fill="#80B3FF" fill-opacity="0.1" /> -->
+    <!-- <path d="M160 50H125V90L140 75V110H160V50Z" fill="white" fill-opacity="0.1" /> -->
 
     <!-- Outline -->
-    <path d="M40 50V150H75V90L100 115L125 90V150H160V50H125L100 75L75 50H40Z" stroke="white"
-      stroke-width="2" stroke-opacity="0.2" />
+    <!-- <path d="M40 50V150H75V90L100 115L125 90V150H160V50H125L100 75L75 50H40Z" stroke="white" stroke-width="2" stroke-opacity="0.2" /> -->
   </g>
 </svg>
