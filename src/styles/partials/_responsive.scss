@@ -166,23 +166,11 @@
 
   .editor-toolbar {
     padding: 8px 12px;
-    justify-content: space-between;
-  }
-
-  .editor-tool-group {
-    max-width: 100%;
+    justify-content: flex-start;
   }
 
   .editor-tool-group-blocks {
-    width: 100%;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .editor-tool-group-blocks .editor-tool-button {
-    flex: 0 0 auto;
+    padding-bottom: 0;
   }
 
   .preview-theme-picker {
@@ -229,7 +217,7 @@
 
   .editor-tool-select {
     min-width: 0;
-    width: 100%;
+    width: auto;
   }
 
   .editor-toolbar {
@@ -237,16 +225,7 @@
   }
 
   .editor-tool-group {
-    width: 100%;
-  }
-
-  .editor-tool-group:first-child {
-    justify-content: space-between;
-  }
-
-  .editor-tool-group-blocks {
-    width: 100%;
-    padding-bottom: 2px;
+    width: auto;
   }
 
   .preview-theme-picker {
