@@ -3,3 +3,9 @@ dist
 .vscode
 .DS_Store
 *.log
+
+/.agents
+/.claude
+/.qwen
+/skills
+/skills-lock.json
