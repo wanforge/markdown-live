@@ -14,10 +14,35 @@ body {
   color: var(--text);
   font-family: 'Segoe UI', Tahoma, sans-serif;
   background:
-    radial-gradient(circle at 8% 2%, rgba(255, 209, 138, 0.4), transparent 42%),
-    radial-gradient(circle at 84% 8%, rgba(147, 188, 255, 0.3), transparent 48%),
-    linear-gradient(180deg, #f5f9ff 0%, #ecf4ff 55%, #e9f1ff 100%);
+    radial-gradient(ellipse 80% 40% at 10% 0%, rgba(0, 61, 153, 0.07), transparent 55%),
+    radial-gradient(
+      ellipse 60% 35% at 88% 5%,
+      rgba(128, 179, 255, 0.18),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 40% 30% at 50% 95%,
+      rgba(255, 209, 138, 0.12),
+      transparent 45%
+    ),
+    #eef4ff;
   background-attachment: fixed;
+}
+
+body.dark {
+  background:
+    radial-gradient(ellipse 80% 40% at 10% 0%, rgba(0, 61, 153, 0.25), transparent 55%),
+    radial-gradient(
+      ellipse 60% 35% at 88% 5%,
+      rgba(128, 179, 255, 0.08),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 40% 30% at 50% 95%,
+      rgba(255, 209, 138, 0.06),
+      transparent 45%
+    ),
+    #08142a;
 }
 
 body.dark {

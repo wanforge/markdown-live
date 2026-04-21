@@ -27,7 +27,6 @@ export default function Toolbar({
   isExportingPdf,
   isLoadingSample,
   hasDocumentContent,
-  wordCount,
 }) {
   return (
     <header className="topbar">
@@ -147,16 +146,6 @@ export default function Toolbar({
           onChange={onFileSelected}
         />
       </div>
-
-      {wordCount && wordCount.words > 0 && (
-        <div className="topbar-word-count" aria-label="Document statistics">
-          <span>{wordCount.words.toLocaleString()} words</span>
-          <span className="topbar-word-sep" aria-hidden="true">
-            ·
-          </span>
-          <span>{wordCount.chars.toLocaleString()} chars</span>
-        </div>
-      )}
     </header>
   );
 }

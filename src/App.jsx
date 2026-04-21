@@ -335,7 +335,6 @@ export default function App() {
         isExportingPdf={isExportingPdf}
         isLoadingSample={isLoadingSample}
         hasDocumentContent={hasDocumentContent}
-        wordCount={wordCount}
       />
 
       <main
@@ -408,7 +407,12 @@ export default function App() {
             </a>
             )
           </p>
-          <p className="footer-subtitle">{BRAND.slogan}</p>
+          {wordCount && wordCount.words > 0 && (
+            <p className="footer-word-count">
+              {wordCount.words.toLocaleString()} words ·{' '}
+              {wordCount.chars.toLocaleString()} chars
+            </p>
+          )}
         </div>
       </footer>
 

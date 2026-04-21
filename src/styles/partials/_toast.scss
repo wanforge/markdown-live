@@ -28,6 +28,8 @@
 
 .toast-icon {
   flex-shrink: 0;
+  width: 18px;
+  height: 18px;
 }
 
 .toast-message {
@@ -45,18 +47,24 @@
   padding: 0;
   border: none;
   background: transparent;
-  color: var(--muted);
+  color: inherit;
   border-radius: 4px;
   cursor: pointer;
   min-height: unset;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
-  font-size: 0;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
 
   &:hover {
     background: color-mix(in srgb, var(--primary) 12%, transparent);
     color: var(--text);
     transform: scale(1.1);
-    border-color: transparent;
   }
 }
 

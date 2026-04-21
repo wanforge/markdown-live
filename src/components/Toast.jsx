@@ -34,7 +34,7 @@ export default function Toast({ toasts, onDismiss }) {
               onClick={() => onDismiss(t.id)}
               aria-label="Dismiss notification"
             >
-              <RiCloseLine size={16} aria-hidden="true" />
+              <RiCloseLine aria-hidden="true" />
             </button>
           </div>
         );
