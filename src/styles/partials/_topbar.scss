@@ -135,4 +135,9 @@ body.dark .version-badge {
   .topbar-word-count {
     display: none;
   }
+
+  // Hide AI Tips button on mobile — mobile tabs handle it instead
+  .toolbar-ai-btn {
+    display: none;
+  }
 }

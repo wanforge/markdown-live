@@ -94,6 +94,7 @@ export default function Toolbar({
               onClick={onToggleAiGuide}
               title="Toggle AI prompt tips"
               aria-pressed={isAiGuideOpen}
+              className="toolbar-ai-btn"
             >
               <RiCompass3Line size={16} aria-hidden="true" />
               <span>{isAiGuideOpen ? 'Preview' : 'AI Tips'}</span>

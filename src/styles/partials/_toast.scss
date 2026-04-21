@@ -40,8 +40,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   padding: 0;
   border: none;
   background: transparent;
@@ -49,12 +49,13 @@
   border-radius: 4px;
   cursor: pointer;
   min-height: unset;
-  transition: background 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  font-size: 0;
 
   &:hover {
-    background: color-mix(in srgb, var(--primary) 10%, transparent);
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
     color: var(--text);
-    transform: none;
+    transform: scale(1.1);
     border-color: transparent;
   }
 }
