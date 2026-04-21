@@ -18,6 +18,12 @@ import {
 } from './utils/exporters';
 import { APP_VERSION, BRAND } from './utils/constants';
 import { useToast } from './hooks/useToast';
+import {
+  RiFileEditLine,
+  RiEyeLine,
+  RiCompass3Line,
+  RiBarChartLine,
+} from 'react-icons/ri';
 
 const SAMPLE_MARKDOWN_PATH = '/sample.md';
 const DEFAULT_EMPTY_DOCUMENT = '# MarkDown Live\n\n';
@@ -361,7 +367,8 @@ export default function App() {
               setActiveMobileTab('editor');
             }}
           >
-            Editor
+            <RiFileEditLine aria-hidden="true" />
+            <span>Editor</span>
           </button>
           <button
             type="button"
@@ -373,7 +380,8 @@ export default function App() {
               setActiveMobileTab('preview');
             }}
           >
-            Preview
+            <RiEyeLine aria-hidden="true" />
+            <span>Preview</span>
           </button>
           <button
             type="button"
@@ -385,7 +393,8 @@ export default function App() {
               setActiveMobileTab('ai-guide');
             }}
           >
-            AI Tips
+            <RiCompass3Line aria-hidden="true" />
+            <span>AI Tips</span>
           </button>
         </div>
         <EditorPane value={markdownText} onChange={setMarkdownText} />
@@ -408,10 +417,11 @@ export default function App() {
             )
           </p>
           {wordCount && wordCount.words > 0 && (
-            <p className="footer-word-count">
+            <span className="footer-word-count">
+              <RiBarChartLine aria-hidden="true" />
               {wordCount.words.toLocaleString()} words ·{' '}
               {wordCount.chars.toLocaleString()} chars
-            </p>
+            </span>
           )}
         </div>
       </footer>
