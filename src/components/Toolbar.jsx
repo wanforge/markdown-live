@@ -6,6 +6,7 @@ import {
   RiFileUploadLine,
   RiGithubFill,
   RiHtml5Line,
+  RiLoader4Line,
   RiMoonFill,
   RiPrinterLine,
   RiSunFill,
@@ -24,7 +25,9 @@ export default function Toolbar({
   isAiGuideOpen,
   isDark,
   isExportingPdf,
+  isLoadingSample,
   hasDocumentContent,
+  wordCount,
 }) {
   return (
     <header className="topbar">
@@ -65,15 +68,33 @@ export default function Toolbar({
         <div className="action-group">
           <span className="action-group-label">Source</span>
           <div className="action-group-buttons">
-            <button type="button" onClick={onLoadSample}>
-              <RiFilePaper2Line size={16} aria-hidden="true" />
-              <span>Sample</span>
+            <button
+              type="button"
+              onClick={onLoadSample}
+              disabled={isLoadingSample}
+              title="Load sample markdown document"
+            >
+              {isLoadingSample ? (
+                <RiLoader4Line size={16} aria-hidden="true" className="spin-icon" />
+              ) : (
+                <RiFilePaper2Line size={16} aria-hidden="true" />
+              )}
+              <span>{isLoadingSample ? 'Loading…' : 'Sample'}</span>
             </button>
-            <button type="button" onClick={onOpenFileClick}>
+            <button
+              type="button"
+              onClick={onOpenFileClick}
+              title="Open a local markdown file"
+            >
               <RiFileUploadLine size={16} aria-hidden="true" />
               <span>Open</span>
             </button>
-            <button type="button" onClick={onToggleAiGuide}>
+            <button
+              type="button"
+              onClick={onToggleAiGuide}
+              title="Toggle AI prompt tips"
+              aria-pressed={isAiGuideOpen}
+            >
               <RiCompass3Line size={16} aria-hidden="true" />
               <span>{isAiGuideOpen ? 'Preview' : 'AI Tips'}</span>
             </button>
@@ -83,7 +104,12 @@ export default function Toolbar({
         <div className="action-group">
           <span className="action-group-label">Export</span>
           <div className="action-group-buttons">
-            <button type="button" onClick={onPrint} disabled={!hasDocumentContent}>
+            <button
+              type="button"
+              onClick={onPrint}
+              disabled={!hasDocumentContent}
+              title="Print document (Ctrl+P)"
+            >
               <RiPrinterLine size={16} aria-hidden="true" />
               <span>Print</span>
             </button>
@@ -91,11 +117,21 @@ export default function Toolbar({
               type="button"
               onClick={onExportPdf}
               disabled={isExportingPdf || !hasDocumentContent}
+              title="Export as PDF"
             >
-              <RiFilePdf2Line size={16} aria-hidden="true" />
-              <span>{isExportingPdf ? 'Saving...' : 'PDF'}</span>
+              {isExportingPdf ? (
+                <RiLoader4Line size={16} aria-hidden="true" className="spin-icon" />
+              ) : (
+                <RiFilePdf2Line size={16} aria-hidden="true" />
+              )}
+              <span>{isExportingPdf ? 'Saving…' : 'PDF'}</span>
             </button>
-            <button type="button" onClick={onExportHtml} disabled={!hasDocumentContent}>
+            <button
+              type="button"
+              onClick={onExportHtml}
+              disabled={!hasDocumentContent}
+              title="Export as standalone HTML"
+            >
               <RiHtml5Line size={16} aria-hidden="true" />
               <span>HTML</span>
             </button>
@@ -110,6 +146,16 @@ export default function Toolbar({
           onChange={onFileSelected}
         />
       </div>
+
+      {wordCount && wordCount.words > 0 && (
+        <div className="topbar-word-count" aria-label="Document statistics">
+          <span>{wordCount.words.toLocaleString()} words</span>
+          <span className="topbar-word-sep" aria-hidden="true">
+            ·
+          </span>
+          <span>{wordCount.chars.toLocaleString()} chars</span>
+        </div>
+      )}
     </header>
   );
 }

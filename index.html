@@ -14,6 +14,13 @@
     <meta name="author" content="MarkDown Live" />
     <meta name="robots" content="index,follow" />
     <meta name="theme-color" content="#003D99" />
+    <meta name="application-name" content="MarkDown Live" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="MD Live" />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="MarkDown Live" />
     <meta property="og:site_name" content="MarkDown Live" />
@@ -21,29 +28,76 @@
       property="og:description"
       content="Turn raw markdown and AI output into professional, print-ready documents with Mermaid, KaTeX, and zero tracking."
     />
-    <meta property="og:image" content="/icon.png" />
+    <meta property="og:url" content="https://markdown-live.wanforge.asia/" />
+    <meta property="og:image" content="https://markdown-live.wanforge.asia/icon.png" />
     <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
     <meta property="og:image:alt" content="MarkDown Live logo" />
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="MarkDown Live" />
     <meta
       name="twitter:description"
       content="Privacy-first markdown editor for professional, print-ready documents with Mermaid, KaTeX, and live preview."
     />
-    <meta name="twitter:image" content="/icon.png" />
-    <meta name="twitter:image:alt" content="MarkDown Live logo" />
+    <meta
+      name="twitter:image"
+      content="https://markdown-live.wanforge.asia/preview.png"
+    />
+    <meta name="twitter:image:alt" content="MarkDown Live editor screenshot" />
+
     <title>MarkDown Live</title>
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://markdown-live.wanforge.asia/" />
+
+    <!-- Icons & Manifest -->
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <link rel="alternate icon" type="image/png" href="/icon.png" />
     <link rel="apple-touch-icon" href="/icon.png" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/highlight.js@11.11.1/styles/atom-one-light.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css"
-    />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Self-hosted vendor CSS (offline-capable) -->
+    <link rel="stylesheet" href="/vendor/atom-one-light.min.css" />
+    <link rel="stylesheet" href="/vendor/katex.min.css" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "MarkDown Live",
+        "url": "https://markdown-live.wanforge.asia/",
+        "description": "Privacy-first markdown editor for turning raw markdown and AI output into professional, print-ready documents with Mermaid, KaTeX, and zero tracking.",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Organization",
+          "name": "WanForge",
+          "url": "https://wanforge.asia"
+        },
+        "featureList": [
+          "Live markdown preview",
+          "KaTeX math rendering",
+          "Mermaid diagram support",
+          "Export to PDF and HTML",
+          "Privacy-first, no tracking",
+          "Offline access via PWA",
+          "Dark and light mode"
+        ],
+        "screenshot": "https://markdown-live.wanforge.asia/preview.png",
+        "softwareVersion": "0.2.0",
+        "license": "https://opensource.org/licenses/MIT"
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

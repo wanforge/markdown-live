@@ -237,3 +237,88 @@
     }
   }
 }
+
+// Extra-small phones
+@media (max-width: 480px) {
+  .topbar {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .brand {
+    font-size: 0.92rem;
+  }
+
+  .brand-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .action-group .action-group-buttons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .actions button:not(.icon-button) {
+    font-size: 0.72rem;
+    padding: 4px 6px;
+    min-height: 40px;
+  }
+
+  .mobile-tabs button {
+    font-size: 0.72rem;
+    padding: 8px 4px;
+    min-height: 40px;
+  }
+
+  .layout {
+    padding: var(--space-2);
+    gap: 8px;
+  }
+
+  .editor-tool-button {
+    min-width: 32px;
+    min-height: 32px;
+  }
+
+  .word-count {
+    display: none;
+  }
+}
+
+// Landscape mobile
+@media (max-height: 500px) and (orientation: landscape) {
+  .topbar {
+    padding: 6px 12px;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .brand {
+    flex-shrink: 0;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 6px;
+    width: auto;
+    grid-template-columns: none;
+  }
+
+  .action-group {
+    flex-shrink: 0;
+    width: auto;
+    padding: 4px 6px;
+  }
+
+  .action-group .action-group-buttons {
+    display: flex;
+    grid-template-columns: none;
+  }
+
+  .layout {
+    padding: var(--space-2);
+    gap: 6px;
+  }
+}

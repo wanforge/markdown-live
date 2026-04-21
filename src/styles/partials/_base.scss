@@ -34,6 +34,7 @@ button,
 select,
 textarea {
   font: inherit;
+  touch-action: manipulation;
 }
 
 button:not(.icon-button) {
@@ -44,16 +45,22 @@ button:not(.icon-button) {
   border: 1px solid var(--border);
   background: var(--panel);
   color: var(--text);
-  min-height: 36px;
+  min-height: 44px;
   padding: 8px 12px;
   border-radius: var(--radius-sm);
   text-decoration: none;
   cursor: pointer;
   font-size: 0.9rem;
   transition:
-    border-color 0.2s ease,
-    transform 0.2s ease,
-    background 0.2s ease;
+    border-color var(--transition-base),
+    transform var(--transition-base),
+    background var(--transition-base);
+}
+
+@media (min-width: 981px) {
+  button:not(.icon-button) {
+    min-height: 36px;
+  }
 }
 
 button:not(.icon-button):hover {

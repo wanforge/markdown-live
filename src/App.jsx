@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Toolbar from './components/Toolbar';
 import EditorPane from './components/EditorPane';
 import PreviewPane from './components/PreviewPane';
 import AiPromptGuide from './components/AiPromptGuide';
+import Toast from './components/Toast';
 import {
   buildTocItems,
   createMarkdownParser,
@@ -16,6 +17,7 @@ import {
   openPrintWindow,
 } from './utils/exporters';
 import { APP_VERSION, BRAND } from './utils/constants';
+import { useToast } from './hooks/useToast';
 
 const SAMPLE_MARKDOWN_PATH = '/sample.md';
 const DEFAULT_EMPTY_DOCUMENT = '# MarkDown Live\n\n';
@@ -26,6 +28,8 @@ export default function App() {
   const fileInputRef = useRef(null);
   const renderCycleRef = useRef(0);
 
+  const { toasts, toast, dismiss } = useToast();
+
   const [markdownText, setMarkdownText] = useState(() => {
     return localStorage.getItem('markdownContent') || DEFAULT_EMPTY_DOCUMENT;
   });
@@ -35,8 +39,17 @@ export default function App() {
     () => localStorage.getItem('previewTheme') || 'default'
   );
   const [isExportingPdf, setIsExportingPdf] = useState(false);
+  const [isLoadingSample, setIsLoadingSample] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState('editor');
   const [isAiGuideOpen, setIsAiGuideOpen] = useState(false);
+
+  // PWA install prompt
+  const [installPromptEvent, setInstallPromptEvent] = useState(null);
+  const [showInstallBanner, setShowInstallBanner] = useState(false);
+
+  // SW update
+  const [showUpdateBanner, setShowUpdateBanner] = useState(false);
+  const swRegistrationRef = useRef(null);
 
   const renderedHtml = useMemo(() => {
     const raw = parser.render(markdownText || '');
@@ -47,16 +60,49 @@ export default function App() {
     return markdownText.trim().length > 0;
   }, [markdownText]);
 
+  // Word count
+  const wordCount = useMemo(() => {
+    const text = markdownText.trim();
+    if (!text) return { words: 0, chars: 0 };
+    const words = text.split(/\s+/).filter(Boolean).length;
+    return { words, chars: text.length };
+  }, [markdownText]);
+
   useEffect(() => {
     localStorage.setItem('markdownContent', markdownText);
   }, [markdownText]);
+
+  // PWA: capture install prompt
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault();
+      setInstallPromptEvent(e);
+      // Only show banner if not dismissed before
+      if (!sessionStorage.getItem('pwa-install-dismissed')) {
+        setShowInstallBanner(true);
+      }
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  // PWA: listen for SW update messages from main.jsx
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.data?.type === 'SW_UPDATE_AVAILABLE') {
+        swRegistrationRef.current = e.data.registration;
+        setShowUpdateBanner(true);
+      }
+    };
+    window.addEventListener('message', handler);
+    return () => window.removeEventListener('message', handler);
+  }, []);
 
   async function fetchSampleMarkdown() {
     const response = await fetch(SAMPLE_MARKDOWN_PATH, { cache: 'no-store' });
     if (!response.ok) {
       throw new Error(`Could not load sample markdown (${response.status})`);
     }
-
     return response.text();
   }
 
@@ -145,8 +191,9 @@ export default function App() {
     try {
       const text = await file.text();
       setMarkdownText(text);
+      toast(`Opened: ${file.name}`, 'success');
     } catch (error) {
-      alert(`Failed to read file: ${error.message}`);
+      toast(`Failed to read file: ${error.message}`, 'error');
     } finally {
       event.target.value = '';
     }
@@ -154,7 +201,7 @@ export default function App() {
 
   function handlePrint() {
     if (!hasDocumentContent) {
-      alert('No content to print. Add some markdown first.');
+      toast('No content to print. Add some markdown first.', 'warning');
       return;
     }
 
@@ -170,18 +217,21 @@ export default function App() {
 
   async function handleExportPdf() {
     if (!previewRef.current || !hasDocumentContent) {
-      alert('No content to export to PDF.');
+      toast('No content to export to PDF.', 'warning');
       return;
     }
 
     setIsExportingPdf(true);
     try {
       await exportPdfFromNode({ node: previewRef.current, title: getDocumentTitle() });
+      toast('PDF exported successfully!', 'success');
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Unknown error';
       console.error('PDF export failed:', error);
-      alert(
-        `PDF export failed (${message}). The browser will open print mode as a fallback.`
+      toast(
+        `PDF export failed (${message}). Opening print mode as fallback.`,
+        'error',
+        5000
       );
       handlePrint();
     } finally {
@@ -191,12 +241,12 @@ export default function App() {
 
   function handleExportHtml() {
     if (!hasDocumentContent) {
-      alert('No content to export to HTML.');
+      toast('No content to export to HTML.', 'warning');
       return;
     }
 
-    const title =
-      window.prompt('Enter document title:', getDocumentTitle()) || getDocumentTitle();
+    const defaultTitle = getDocumentTitle();
+    const title = window.prompt('Enter document title:', defaultTitle) || defaultTitle;
     const html = buildExportHtml({
       title,
       contentHtml: clonePreviewHtml(),
@@ -205,15 +255,57 @@ export default function App() {
     });
 
     downloadHtmlDocument({ title, html });
+    toast('HTML document downloaded!', 'success');
   }
 
   async function handleLoadSample() {
+    setIsLoadingSample(true);
     try {
       await loadSampleMarkdown();
+      toast('Sample document loaded!', 'success');
     } catch (error) {
-      alert(`Failed to load sample markdown: ${error.message}`);
+      toast(`Failed to load sample: ${error.message}`, 'error');
+    } finally {
+      setIsLoadingSample(false);
     }
   }
+
+  const handleInstallPwa = useCallback(async () => {
+    if (!installPromptEvent) return;
+    installPromptEvent.prompt();
+    const { outcome } = await installPromptEvent.userChoice;
+    if (outcome === 'accepted') {
+      toast('App installed! You can now use it offline.', 'success', 5000);
+    }
+    setInstallPromptEvent(null);
+    setShowInstallBanner(false);
+  }, [installPromptEvent, toast]);
+
+  const handleDismissInstall = useCallback(() => {
+    sessionStorage.setItem('pwa-install-dismissed', '1');
+    setShowInstallBanner(false);
+  }, []);
+
+  const handleApplyUpdate = useCallback(() => {
+    const reg = swRegistrationRef.current;
+    if (reg?.waiting) {
+      reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+    }
+    setShowUpdateBanner(false);
+    window.location.reload();
+  }, []);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+        e.preventDefault();
+        handlePrint();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [hasDocumentContent, isDark, previewTheme]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     console.log(`${BRAND.name} v${APP_VERSION} - Ready!`);
@@ -241,7 +333,9 @@ export default function App() {
         isAiGuideOpen={isAiGuideOpen}
         isDark={isDark}
         isExportingPdf={isExportingPdf}
+        isLoadingSample={isLoadingSample}
         hasDocumentContent={hasDocumentContent}
+        wordCount={wordCount}
       />
 
       <main
@@ -317,6 +411,80 @@ export default function App() {
           <p className="footer-subtitle">{BRAND.slogan}</p>
         </div>
       </footer>
+
+      {/* PWA Install Banner */}
+      {showInstallBanner && (
+        <div className="pwa-banner" role="complementary" aria-label="Install app">
+          <span className="pwa-banner-icon" aria-hidden="true">
+            📲
+          </span>
+          <div className="pwa-banner-text">
+            <strong>Install MarkDown Live</strong>
+            <span>Use offline, anytime — no browser needed.</span>
+          </div>
+          <div className="pwa-banner-actions">
+            <button
+              type="button"
+              className="pwa-banner-btn"
+              onClick={handleDismissInstall}
+            >
+              Later
+            </button>
+            <button
+              type="button"
+              className="pwa-banner-btn pwa-banner-btn-primary"
+              onClick={handleInstallPwa}
+            >
+              Install
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* SW Update Banner */}
+      {showUpdateBanner && (
+        <div
+          className="pwa-banner"
+          role="complementary"
+          aria-label="App update available"
+        >
+          <span className="pwa-banner-icon" aria-hidden="true">
+            🔄
+          </span>
+          <div className="pwa-banner-text">
+            <strong>Update available</strong>
+            <span>A new version of MarkDown Live is ready.</span>
+          </div>
+          <div className="pwa-banner-actions">
+            <button
+              type="button"
+              className="pwa-banner-btn"
+              onClick={() => setShowUpdateBanner(false)}
+            >
+              Later
+            </button>
+            <button
+              type="button"
+              className="pwa-banner-btn pwa-banner-btn-primary"
+              onClick={handleApplyUpdate}
+            >
+              Reload
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* PDF export overlay */}
+      {isExportingPdf && (
+        <div className="export-overlay" role="status" aria-live="polite">
+          <div className="export-overlay-inner">
+            <div className="export-spinner" aria-hidden="true" />
+            <span>Generating PDF…</span>
+          </div>
+        </div>
+      )}
+
+      <Toast toasts={toasts} onDismiss={dismiss} />
     </div>
   );
 }
