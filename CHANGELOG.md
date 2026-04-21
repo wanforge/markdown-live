@@ -2,6 +2,13 @@
 
 All notable changes to MarkDown Live are recorded here.
 
+## v0.2.0 - 2026-04-21
+
+- chore(release): sync metadata for v0.1.11 (00ff6f0)
+- feat: add new preview themes and styles for PDF export (d8bbd68)
+- style: refine editor toolbar and tool group layout for better responsiveness (f751c53)
+- 0.2.0 (de62875)
+
 ## v0.1.11 - 2026-04-20
 
 - chore(release): sync metadata for v0.1.10 (83c61b0)
