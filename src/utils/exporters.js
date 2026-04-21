@@ -48,7 +48,6 @@ function sanitizeCloneForPdf(root) {
   const hasUnsupportedColorFunction = (value) => /color\s*\(|color-mix\s*\(/i.test(value);
 
   if (!isSvgNode(root)) {
-    root.removeAttribute('class');
     const styleValue = root.getAttribute('style') ?? '';
     if (hasUnsupportedColorFunction(styleValue)) {
       root.removeAttribute('style');
@@ -79,6 +78,90 @@ function createPdfSafeStyles() {
       overflow: visible;
       word-break: break-word;
       overflow-wrap: anywhere;
+    }
+    article.preview-theme-official-report {
+      margin: 0 auto;
+      max-width: 185mm;
+      color: #111111;
+      background: #ffffff;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 12pt;
+      line-height: 1.7;
+      padding: 16mm;
+      border: 1px solid #d0d0d0;
+    }
+    article.preview-theme-cambria-math,
+    article.preview-theme-monospace-lab,
+    article.preview-theme-thesis-report {
+      margin: 0 auto;
+      max-width: 185mm;
+      padding: 16mm;
+      border: 1px solid #d0d0d0;
+    }
+    article.preview-theme-official-report h1,
+    article.preview-theme-official-report h2,
+    article.preview-theme-official-report h3,
+    article.preview-theme-official-report h4,
+    article.preview-theme-official-report h5,
+    article.preview-theme-official-report h6 {
+      color: #111111;
+      font-family: 'Times New Roman', Times, serif;
+      line-height: 1.3;
+    }
+    article.preview-theme-official-report p,
+    article.preview-theme-official-report li {
+      text-align: justify;
+    }
+    article.preview-theme-cambria-math {
+      color: #142038;
+      background: #fcfdff;
+      font-family: Cambria, Georgia, serif;
+      line-height: 1.72;
+      font-size: 12pt;
+    }
+    article.preview-theme-cambria-math h1,
+    article.preview-theme-cambria-math h2,
+    article.preview-theme-cambria-math h3,
+    article.preview-theme-cambria-math h4,
+    article.preview-theme-cambria-math h5,
+    article.preview-theme-cambria-math h6 {
+      font-family: Cambria, Georgia, serif;
+      color: #10274d;
+    }
+    article.preview-theme-monospace-lab {
+      background: #111317;
+      color: #f0f3f9;
+      border-color: #2d333f;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      line-height: 1.66;
+      font-size: 11.8pt;
+    }
+    article.preview-theme-monospace-lab h1,
+    article.preview-theme-monospace-lab h2,
+    article.preview-theme-monospace-lab h3,
+    article.preview-theme-monospace-lab h4,
+    article.preview-theme-monospace-lab h5,
+    article.preview-theme-monospace-lab h6 {
+      color: #d8e5ff;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+    article.preview-theme-thesis-report {
+      color: #161616;
+      background: #fffefb;
+      font-family: 'Times New Roman', Times, serif;
+      line-height: 1.85;
+      font-size: 12pt;
+    }
+    article.preview-theme-thesis-report h1,
+    article.preview-theme-thesis-report h2,
+    article.preview-theme-thesis-report h3,
+    article.preview-theme-thesis-report h4,
+    article.preview-theme-thesis-report h5,
+    article.preview-theme-thesis-report h6 {
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #111111;
+      font-family: 'Times New Roman', Times, serif;
     }
     pre {
       background: #f4f4f4;
@@ -119,6 +202,14 @@ function createPdfSafeStyles() {
       border-left: 4px solid #003d99;
       background: #f5f9ff;
       color: #333333;
+    }
+    article.preview-theme-monospace-lab pre,
+    article.preview-theme-monospace-lab code,
+    article.preview-theme-monospace-lab blockquote,
+    article.preview-theme-monospace-lab th {
+      background: #1a2029;
+      color: #cfdae8;
+      border-color: #3a4658;
     }
   `;
   return style;
@@ -251,6 +342,83 @@ function exportStyles() {
         max-width: 210mm;
         margin: 0 auto;
       }
+      article.preview-theme-official-report {
+        max-width: 185mm;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 12pt;
+        line-height: 1.7;
+        color: #111111;
+        background: #ffffff;
+        border: 1px solid #d0d0d0;
+        padding: 1in;
+      }
+      article.preview-theme-cambria-math,
+      article.preview-theme-monospace-lab,
+      article.preview-theme-thesis-report {
+        max-width: 185mm;
+        border: 1px solid #d0d0d0;
+        padding: 1in;
+      }
+      article.preview-theme-official-report h1,
+      article.preview-theme-official-report h2,
+      article.preview-theme-official-report h3,
+      article.preview-theme-official-report h4,
+      article.preview-theme-official-report h5,
+      article.preview-theme-official-report h6 {
+        font-family: 'Times New Roman', Times, serif;
+        color: #111111;
+      }
+      article.preview-theme-cambria-math {
+        color: #142038;
+        background: #fcfdff;
+        font-family: Cambria, Georgia, serif;
+        font-size: 12pt;
+        line-height: 1.72;
+      }
+      article.preview-theme-cambria-math h1,
+      article.preview-theme-cambria-math h2,
+      article.preview-theme-cambria-math h3,
+      article.preview-theme-cambria-math h4,
+      article.preview-theme-cambria-math h5,
+      article.preview-theme-cambria-math h6 {
+        font-family: Cambria, Georgia, serif;
+        color: #10274d;
+      }
+      article.preview-theme-monospace-lab {
+        background: #111317;
+        color: #f0f3f9;
+        border-color: #2d333f;
+        font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+        font-size: 11.8pt;
+        line-height: 1.66;
+      }
+      article.preview-theme-monospace-lab h1,
+      article.preview-theme-monospace-lab h2,
+      article.preview-theme-monospace-lab h3,
+      article.preview-theme-monospace-lab h4,
+      article.preview-theme-monospace-lab h5,
+      article.preview-theme-monospace-lab h6 {
+        color: #d8e5ff;
+        font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      }
+      article.preview-theme-thesis-report {
+        color: #161616;
+        background: #fffefb;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 12pt;
+        line-height: 1.85;
+      }
+      article.preview-theme-thesis-report h1,
+      article.preview-theme-thesis-report h2,
+      article.preview-theme-thesis-report h3,
+      article.preview-theme-thesis-report h4,
+      article.preview-theme-thesis-report h5,
+      article.preview-theme-thesis-report h6 {
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: #111111;
+        font-family: 'Times New Roman', Times, serif;
+      }
       pre {
         background: var(--code-bg);
         border: 1px solid var(--border);
@@ -270,6 +438,15 @@ function exportStyles() {
         text-align: left;
       }
       th { background: #f2f6ff; }
+      article.preview-theme-monospace-lab th,
+      article.preview-theme-monospace-lab td,
+      article.preview-theme-monospace-lab pre,
+      article.preview-theme-monospace-lab code,
+      article.preview-theme-monospace-lab blockquote {
+        border-color: #3a4658;
+        background: #1a2029;
+        color: #cfdae8;
+      }
       .code-copy, .header-anchor { display: none !important; }
       @media print {
         body {
@@ -280,13 +457,19 @@ function exportStyles() {
         article {
           max-width: none;
           padding: 0;
+          border: 0;
         }
       }
     </style>
   `;
 }
 
-export function buildExportHtml({ title, contentHtml, isDark = false }) {
+export function buildExportHtml({
+  title,
+  contentHtml,
+  isDark = false,
+  previewTheme = 'default',
+}) {
   const runtimeStyles = collectInlineStyles();
 
   return `<!doctype html>
@@ -305,7 +488,7 @@ export function buildExportHtml({ title, contentHtml, isDark = false }) {
     ${exportStyles()}
   </head>
   <body class="${isDark ? 'dark' : ''}">
-    <article class="markdown-body">${contentHtml}</article>
+    <article class="markdown-body preview-theme-${previewTheme}">${contentHtml}</article>
   </body>
 </html>`;
 }

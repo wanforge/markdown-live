@@ -31,6 +31,9 @@ export default function App() {
   });
   const [tocItems, setTocItems] = useState([]);
   const [isDark, setIsDark] = useState(localStorage.getItem('theme') === 'dark');
+  const [previewTheme, setPreviewTheme] = useState(
+    () => localStorage.getItem('previewTheme') || 'default'
+  );
   const [isExportingPdf, setIsExportingPdf] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState('editor');
   const [isAiGuideOpen, setIsAiGuideOpen] = useState(false);
@@ -113,6 +116,10 @@ export default function App() {
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
+  useEffect(() => {
+    localStorage.setItem('previewTheme', previewTheme);
+  }, [previewTheme]);
+
   function getDocumentTitle() {
     const h1 = previewRef.current?.querySelector('h1');
     return h1?.textContent?.trim() || 'MarkDown Live Document';
@@ -156,6 +163,7 @@ export default function App() {
       title,
       contentHtml: clonePreviewHtml(),
       isDark,
+      previewTheme,
     });
     openPrintWindow(html);
   }
@@ -193,6 +201,7 @@ export default function App() {
       title,
       contentHtml: clonePreviewHtml(),
       isDark,
+      previewTheme,
     });
 
     downloadHtmlDocument({ title, html });
@@ -287,7 +296,12 @@ export default function App() {
           </button>
         </div>
         <EditorPane value={markdownText} onChange={setMarkdownText} />
-        <PreviewPane previewRef={previewRef} tocItems={tocItems} />
+        <PreviewPane
+          previewRef={previewRef}
+          tocItems={tocItems}
+          previewTheme={previewTheme}
+          onPreviewThemeChange={setPreviewTheme}
+        />
         {isAiGuideOpen ? <AiPromptGuide /> : null}
       </main>
 

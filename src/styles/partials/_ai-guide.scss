@@ -1,0 +1,77 @@
+.ai-guide-pane {
+  height: 100%;
+  overflow: hidden;
+}
+
+.ai-guide-pane .pane-title {
+  background: var(--panel);
+}
+
+.ai-guide-content {
+  flex: 1;
+  overflow: auto;
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ai-guide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+
+  h2 {
+    margin: 0;
+    color: var(--primary);
+  }
+
+  p {
+    margin: 6px 0 0;
+    color: var(--muted);
+  }
+}
+
+.ai-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ai-guide-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  background: color-mix(in srgb, var(--panel) 90%, var(--accent));
+
+  h3 {
+    margin: 0 0 8px;
+    color: var(--primary);
+    font-size: 1rem;
+  }
+
+  p {
+    margin: 0 0 10px;
+  }
+
+  pre {
+    margin: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    background: color-mix(in srgb, var(--panel) 80%, var(--accent));
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+}
+
+.ai-guide-template {
+  margin: 0;
+}
