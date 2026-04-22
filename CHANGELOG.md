@@ -2,6 +2,11 @@
 
 All notable changes to MarkDown Live are recorded here.
 
+## v0.3.5 - 2026-04-22
+
+- chore: add .npmrc file to set legacy-peer-deps configuration (b1fa11c)
+- 0.3.5 (ba26037)
+
 ## v0.2.0 - 2026-04-21
 
 - chore(release): sync metadata for v0.1.11 (00ff6f0)
