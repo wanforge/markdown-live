@@ -30,122 +30,112 @@ export default function Toolbar({
 }) {
   return (
     <header className="topbar">
-      <div className="topbar-left">
-        <div className="brand">
-          <img
-            className="brand-icon"
-            src="/icon.svg"
-            width="28"
-            height="28"
-            alt="MarkDown Live logo"
-          />
-          <span>{BRAND.name}</span>
-          <span className="version-badge">v{APP_VERSION}</span>
-        </div>
-
-        <div className="topbar-icon-group">
+      <div className="brand">
+        <img
+          className="brand-icon"
+          src="/icon.svg"
+          width="24"
+          height="24"
+          alt="MarkDown Live logo"
+        />
+        <span>{BRAND.name}</span>
+        <span className="version-badge">v{APP_VERSION}</span>
+        <div className="brand-icons">
           <a
-            className="icon-btn"
+            className="icon-button github-icon"
             href={BRAND.repoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="GitHub"
-            title="GitHub"
+            aria-label="View on GitHub"
+            title="View on GitHub"
           >
-            <RiGithubFill aria-hidden="true" />
+            <RiGithubFill size={20} />
           </a>
           <button
-            className="icon-btn"
+            className="icon-button theme-toggle"
             type="button"
             onClick={onToggleTheme}
-            aria-label={isDark ? 'Light mode' : 'Dark mode'}
+            aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
             title={isDark ? 'Light mode' : 'Dark mode'}
           >
-            {isDark ? (
-              <RiSunFill aria-hidden="true" />
-            ) : (
-              <RiMoonFill aria-hidden="true" />
-            )}
+            {isDark ? <RiSunFill size={20} /> : <RiMoonFill size={20} />}
           </button>
         </div>
       </div>
 
-      <div className="topbar-right">
-        <div className="toolbar-row">
-          <button
-            type="button"
-            className="tool-btn"
-            onClick={onLoadSample}
-            disabled={isLoadingSample}
-            title="Load sample document"
-          >
-            {isLoadingSample ? (
-              <RiLoader4Line aria-hidden="true" className="spin-icon" />
-            ) : (
-              <RiFilePaper2Line aria-hidden="true" />
-            )}
-            <span>{isLoadingSample ? 'Loading…' : 'Sample'}</span>
-          </button>
-
-          <button
-            type="button"
-            className="tool-btn"
-            onClick={onOpenFileClick}
-            title="Open file"
-          >
-            <RiFileUploadLine aria-hidden="true" />
-            <span>Open</span>
-          </button>
-
-          <button
-            type="button"
-            className="tool-btn tool-btn--accent toolbar-ai-btn"
-            onClick={onToggleAiGuide}
-            aria-pressed={isAiGuideOpen}
-            title="Toggle AI Tips"
-          >
-            <RiCompass3Line aria-hidden="true" />
-            <span>{isAiGuideOpen ? 'Close Tips' : 'AI Tips'}</span>
-          </button>
+      <div className="actions">
+        <div className="action-group">
+          <span className="action-group-label">Source</span>
+          <div className="action-group-buttons">
+            <button
+              type="button"
+              onClick={onLoadSample}
+              disabled={isLoadingSample}
+              title="Load sample markdown document"
+            >
+              {isLoadingSample ? (
+                <RiLoader4Line size={16} aria-hidden="true" className="spin-icon" />
+              ) : (
+                <RiFilePaper2Line size={16} aria-hidden="true" />
+              )}
+              <span>{isLoadingSample ? 'Loading…' : 'Sample'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={onOpenFileClick}
+              title="Open a local markdown file"
+            >
+              <RiFileUploadLine size={16} aria-hidden="true" />
+              <span>Open</span>
+            </button>
+            <button
+              type="button"
+              onClick={onToggleAiGuide}
+              title="Toggle AI prompt tips"
+              aria-pressed={isAiGuideOpen}
+              className="toolbar-ai-btn"
+            >
+              <RiCompass3Line size={16} aria-hidden="true" />
+              <span>{isAiGuideOpen ? 'Preview' : 'AI Tips'}</span>
+            </button>
+          </div>
         </div>
 
-        <div className="toolbar-row">
-          <button
-            type="button"
-            className="tool-btn"
-            onClick={onPrint}
-            disabled={!hasDocumentContent}
-            title="Print (Ctrl+P)"
-          >
-            <RiPrinterLine aria-hidden="true" />
-            <span>Print</span>
-          </button>
-
-          <button
-            type="button"
-            className="tool-btn"
-            onClick={onExportPdf}
-            disabled={isExportingPdf || !hasDocumentContent}
-            title="Export PDF"
-          >
-            {isExportingPdf ? (
-              <RiLoader4Line aria-hidden="true" className="spin-icon" />
-            ) : (
-              <RiFilePdf2Line aria-hidden="true" />
-            )}
-            <span>{isExportingPdf ? 'Saving…' : 'PDF'}</span>
-          </button>
-
-          <button
-            type="button"
-            className="tool-btn"
-            onClick={onExportHtml}
-            disabled={!hasDocumentContent}
-            title="Export HTML"
-          >
-            <RiHtml5Line aria-hidden="true" />
-            <span>HTML</span>
-          </button>
+        <div className="action-group">
+          <span className="action-group-label">Export</span>
+          <div className="action-group-buttons">
+            <button
+              type="button"
+              onClick={onPrint}
+              disabled={!hasDocumentContent}
+              title="Print document (Ctrl+P)"
+            >
+              <RiPrinterLine size={16} aria-hidden="true" />
+              <span>Print</span>
+            </button>
+            <button
+              type="button"
+              onClick={onExportPdf}
+              disabled={isExportingPdf || !hasDocumentContent}
+              title="Export as PDF"
+            >
+              {isExportingPdf ? (
+                <RiLoader4Line size={16} aria-hidden="true" className="spin-icon" />
+              ) : (
+                <RiFilePdf2Line size={16} aria-hidden="true" />
+              )}
+              <span>{isExportingPdf ? 'Saving…' : 'PDF'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={onExportHtml}
+              disabled={!hasDocumentContent}
+              title="Export as standalone HTML"
+            >
+              <RiHtml5Line size={16} aria-hidden="true" />
+              <span>HTML</span>
+            </button>
+          </div>
         </div>
 
         <input

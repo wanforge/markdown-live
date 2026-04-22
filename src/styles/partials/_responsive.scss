@@ -43,37 +43,62 @@
     display: none;
   }
 
-  .topbar-left {
-    width: 100%;
-    justify-content: space-between;
-  }
-
   .brand {
+    width: 100%;
     font-size: 0.95rem;
-    flex-wrap: wrap;
   }
 
-  .topbar-right {
+  .brand-icons {
+    margin-left: auto;
+  }
+
+  .actions {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 5px;
+    gap: 6px;
   }
 
-  .toolbar-row {
-    display: contents;
+  .action-group {
+    width: 100%;
+    min-width: 0;
+    padding: 5px;
+    gap: 4px;
+
+    .action-group-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.07em;
+    }
+
+    .action-group-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 4px;
+    }
   }
 
-  .tool-btn {
+  .actions button:not(.icon-button),
+  .actions .icon-button {
     width: 100%;
     min-height: 30px;
-    justify-content: center;
-    font-size: 0.72rem;
   }
 
-  .icon-btn {
-    width: 30px;
-    height: 30px;
+  .actions button:not(.icon-button) {
+    font-size: 0.72rem;
+    padding: 4px 5px;
+    border-radius: 7px;
+    gap: 4px;
+  }
+
+  .actions .icon-button {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--panel);
+  }
+
+  .actions .icon-button:hover {
+    border-color: var(--primary);
+    background: color-mix(in srgb, var(--accent) 22%, var(--panel));
   }
 
   .layout {
