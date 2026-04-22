@@ -18,7 +18,12 @@ import {
 } from './utils/exporters';
 import { APP_VERSION, BRAND } from './utils/constants';
 import { useToast } from './hooks/useToast';
-import { RiFileEditLine, RiEyeLine, RiCompass3Line, RiBarChartLine } from 'react-icons/ri';
+import {
+  RiFileEditLine,
+  RiEyeLine,
+  RiCompass3Line,
+  RiBarChartLine,
+} from 'react-icons/ri';
 
 const SAMPLE_MARKDOWN_PATH = '/sample.md';
 const DEFAULT_EMPTY_DOCUMENT = '# MarkDown Live\n\n';
@@ -414,7 +419,8 @@ export default function App() {
           {wordCount && wordCount.words > 0 && (
             <span className="footer-word-count">
               <RiBarChartLine aria-hidden="true" />
-              {wordCount.words.toLocaleString()} words · {wordCount.chars.toLocaleString()} chars
+              {wordCount.words.toLocaleString()} words ·{' '}
+              {wordCount.chars.toLocaleString()} chars
             </span>
           )}
         </div>
