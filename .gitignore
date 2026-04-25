@@ -10,3 +10,4 @@ dist
 /skills
 /skills-lock.json
 /TODO.md
+.blackboxcli/
