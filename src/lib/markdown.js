@@ -298,7 +298,9 @@ async function renderMermaidDiagrams(previewElement, isDark, shouldAbort) {
           source
         );
         if (shouldAbort()) return;
-        container.innerHTML = svg;
+        container.innerHTML = DOMPurify.sanitize(svg, {
+          USE_PROFILES: { svg: true, html: false },
+        });
         bindFunctions?.(container);
       } catch {
         renderMermaidError(container, source);
