@@ -1,13 +1,35 @@
-node_modules
-dist
-.vscode
+# Dependencies
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
 .DS_Store
 *.log
 
-/.agents
-/.claude
-/.qwen
-/skills
-/skills-lock.json
+# Environment
+.env
+.env.*
+!.env.example
+
+# Agent & Skills Integration
+# Allow tracking of agent rules and skill definitions
+!/.agent/
+!/.agents/
+!/skills-lock.json
+
+# Memory & Local Agent State
+.claude-mem/
+.claude/
+.qwen/
+.agent/cache/
+.agents/cache/
+
+# Misc
 /TODO.md
 .blackboxcli/
