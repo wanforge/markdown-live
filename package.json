@@ -1,6 +1,6 @@
 {
   "name": "markdown-live",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "private": true,
   "type": "module",
   "description": "MarkDown Live: Open source markdown-to-document tool with Mermaid and KaTeX support.",
