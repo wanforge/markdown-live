@@ -47,4 +47,12 @@ export default defineConfig({
       },
     }),
   ],
+  optimizeDeps: {
+    exclude: ['mermaid', 'cytoscape'],
+    include: [
+      '@uiw/react-codemirror',
+      '@codemirror/lang-markdown',
+      '@codemirror/language-data',
+    ],
+  },
 });

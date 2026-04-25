@@ -11,6 +11,7 @@ export default function PreviewPane({
   tocItems,
   previewTheme,
   onPreviewThemeChange,
+  onScroll,
 }) {
   return (
     <section className="pane preview-pane">
@@ -44,6 +45,7 @@ export default function PreviewPane({
       <article
         ref={previewRef}
         className={`markdown-body preview-theme-${previewTheme}`}
+        onScroll={onScroll}
       />
     </section>
   );

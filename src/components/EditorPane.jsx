@@ -1,20 +1,33 @@
-import { useRef, useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
+import CodeMirror from '@uiw/react-codemirror';
+import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
+import { languages } from '@codemirror/language-data';
+import { oneDark } from '@codemirror/theme-one-dark';
+import { githubLight, githubDark } from '@uiw/codemirror-theme-github';
+import { dracula } from '@uiw/codemirror-theme-dracula';
+import { vscodeDark } from '@uiw/codemirror-theme-vscode';
+import { nord } from '@uiw/codemirror-theme-nord';
+import { solarizedLight, solarizedDark } from '@uiw/codemirror-theme-solarized';
+
 import {
   RiBold,
   RiCodeBoxLine,
-  RiDoubleQuotesL,
-  RiH1,
-  RiH2,
-  RiH3,
   RiItalic,
   RiLink,
-  RiListCheck2,
-  RiListOrdered2,
-  RiListUnordered,
-  RiSeparator,
   RiStrikethrough,
-  RiTableLine,
+  RiPaletteLine,
 } from 'react-icons/ri';
+
+const EDITOR_THEMES = [
+  { value: 'oneDark', label: 'One Dark', theme: oneDark },
+  { value: 'githubLight', label: 'GitHub Light', theme: githubLight },
+  { value: 'githubDark', label: 'GitHub Dark', theme: githubDark },
+  { value: 'dracula', label: 'Dracula', theme: dracula },
+  { value: 'vscodeDark', label: 'VS Code Dark', theme: vscodeDark },
+  { value: 'nord', label: 'Nord', theme: nord },
+  { value: 'solarizedLight', label: 'Solarized Light', theme: solarizedLight },
+  { value: 'solarizedDark', label: 'Solarized Dark', theme: solarizedDark },
+];
 
 const INLINE_ACTIONS = [
   { key: 'bold', label: 'Bold', icon: RiBold },
@@ -24,165 +37,141 @@ const INLINE_ACTIONS = [
   { key: 'code', label: 'Code', icon: RiCodeBoxLine },
 ];
 
-const BLOCK_ACTIONS = [
-  { key: 'h1', label: 'H1', icon: RiH1 },
-  { key: 'h2', label: 'H2', icon: RiH2 },
-  { key: 'h3', label: 'H3', icon: RiH3 },
-  { key: 'quote', label: 'Quote', icon: RiDoubleQuotesL },
-  { key: 'unordered-list', label: 'Bullets', icon: RiListUnordered },
-  { key: 'ordered-list', label: 'Numbered', icon: RiListOrdered2 },
-  { key: 'task-list', label: 'Checklist', icon: RiListCheck2 },
-  { key: 'hr', label: 'Divider', icon: RiSeparator },
-  { key: 'table', label: 'Table', icon: RiTableLine },
-];
-
-export default function EditorPane({ value, onChange }) {
-  const textareaRef = useRef(null);
+export default function EditorPane({
+  value,
+  onChange,
+  onScroll,
+  editorRef,
+  editorTheme,
+  onEditorThemeChange,
+}) {
   const [blockPreset, setBlockPreset] = useState('');
 
-  function updateSelection(nextValue, selectionStart, selectionEnd) {
-    onChange(nextValue);
-    window.requestAnimationFrame(() => {
-      const textarea = textareaRef.current;
-      if (!textarea) return;
-      textarea.focus();
-      textarea.setSelectionRange(selectionStart, selectionEnd);
-    });
-  }
+  const currentTheme = useMemo(() => {
+    return EDITOR_THEMES.find((t) => t.value === editorTheme)?.theme || oneDark;
+  }, [editorTheme]);
 
-  function wrapSelection(prefix, suffix, fallback) {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selected = value.slice(start, end);
-    const content = selected || fallback;
-    const replacement = `${prefix}${content}${suffix}`;
-    const nextValue = `${value.slice(0, start)}${replacement}${value.slice(end)}`;
-    const cursorStart = start + prefix.length;
-    const cursorEnd = cursorStart + content.length;
-
-    updateSelection(nextValue, cursorStart, cursorEnd);
-  }
-
-  function insertTextAtSelection(snippet, cursorOffset = snippet.length) {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const nextValue = `${value.slice(0, start)}${snippet}${value.slice(end)}`;
-    const cursor = start + cursorOffset;
-    updateSelection(nextValue, cursor, cursor);
-  }
-
-  function prefixEachSelectedLine(prefix, fallback) {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selected = value.slice(start, end) || fallback;
-    const replacement = selected
-      .split('\n')
-      .map((line) => `${prefix}${line}`)
-      .join('\n');
-
-    const nextValue = `${value.slice(0, start)}${replacement}${value.slice(end)}`;
-    updateSelection(nextValue, start, start + replacement.length);
-  }
-
-  function insertHeading(level = 2) {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selected = value.slice(start, end).trim();
-    const headingText = selected || 'Section Title';
-    const replacement = `${'#'.repeat(level)} ${headingText}`;
-    const nextValue = `${value.slice(0, start)}${replacement}${value.slice(end)}`;
-    updateSelection(nextValue, start + level + 1, start + replacement.length);
-  }
-
-  function insertCode() {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selected = value.slice(start, end);
-
-    if (selected.includes('\n')) {
-      wrapSelection('```\n', '\n```', 'code block');
-      return;
-    }
-
-    wrapSelection('`', '`', 'inline code');
-  }
+  const handleEditorChange = useCallback(
+    (val) => {
+      onChange(val);
+    },
+    [onChange]
+  );
 
   function applyAction(actionKey) {
+    const view = editorRef.current?.view;
+    if (!view) return;
+
+    const selection = view.state.selection.main;
+    const selectedText = view.state.sliceDoc(selection.from, selection.to);
+
+    let replacement = '';
+    let anchorOffset = 0;
+    let headOffset = 0;
+
     switch (actionKey) {
       case 'h1':
-        insertHeading(1);
-        return;
+        replacement = `# ${selectedText || 'Heading 1'}`;
+        anchorOffset = 2;
+        headOffset = replacement.length;
+        break;
       case 'h2':
-        insertHeading(2);
-        return;
+        replacement = `## ${selectedText || 'Heading 2'}`;
+        anchorOffset = 3;
+        headOffset = replacement.length;
+        break;
       case 'h3':
-        insertHeading(3);
-        return;
+        replacement = `### ${selectedText || 'Heading 3'}`;
+        anchorOffset = 4;
+        headOffset = replacement.length;
+        break;
       case 'bold':
-        wrapSelection('**', '**', 'bold text');
-        return;
+        replacement = `**${selectedText || 'bold text'}**`;
+        anchorOffset = 2;
+        headOffset = replacement.length - 2;
+        break;
       case 'italic':
-        wrapSelection('*', '*', 'italic text');
-        return;
+        replacement = `*${selectedText || 'italic text'}*`;
+        anchorOffset = 1;
+        headOffset = replacement.length - 1;
+        break;
       case 'strike':
-        wrapSelection('~~', '~~', 'strikethrough text');
-        return;
+        replacement = `~~${selectedText || 'strikethrough text'}~~`;
+        anchorOffset = 2;
+        headOffset = replacement.length - 2;
+        break;
       case 'link':
-        wrapSelection('[', '](https://example.com)', 'link text');
-        return;
+        replacement = `[${selectedText || 'link text'}](https://example.com)`;
+        anchorOffset = 1;
+        headOffset = (selectedText || 'link text').length + 1;
+        break;
       case 'code':
-        insertCode();
-        return;
+        if (selectedText.includes('\n')) {
+          replacement = `\`\`\`\n${selectedText || 'code block'}\n\`\`\``;
+          anchorOffset = 4;
+          headOffset = replacement.length - 4;
+        } else {
+          replacement = `\`${selectedText || 'inline code'}\``;
+          anchorOffset = 1;
+          headOffset = replacement.length - 1;
+        }
+        break;
       case 'unordered-list':
-        prefixEachSelectedLine('- ', 'List item');
-        return;
-      case 'ordered-list': {
-        const textarea = textareaRef.current;
-        if (!textarea) return;
-
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
-        const selected = value.slice(start, end) || 'List item';
-        const replacement = selected
+        replacement = (selectedText || 'List item')
           .split('\n')
-          .map((line, index) => `${index + 1}. ${line}`)
+          .map((l) => `- ${l}`)
           .join('\n');
-        const nextValue = `${value.slice(0, start)}${replacement}${value.slice(end)}`;
-        updateSelection(nextValue, start, start + replacement.length);
-        return;
-      }
+        anchorOffset = 0;
+        headOffset = replacement.length;
+        break;
+      case 'ordered-list':
+        replacement = (selectedText || 'List item')
+          .split('\n')
+          .map((l, i) => `${i + 1}. ${l}`)
+          .join('\n');
+        anchorOffset = 0;
+        headOffset = replacement.length;
+        break;
       case 'task-list':
-        prefixEachSelectedLine('- [ ] ', 'Task item');
-        return;
+        replacement = (selectedText || 'Task item')
+          .split('\n')
+          .map((l) => `- [ ] ${l}`)
+          .join('\n');
+        anchorOffset = 0;
+        headOffset = replacement.length;
+        break;
       case 'quote':
-        prefixEachSelectedLine('> ', 'Quoted text');
-        return;
+        replacement = (selectedText || 'Quoted text')
+          .split('\n')
+          .map((l) => `> ${l}`)
+          .join('\n');
+        anchorOffset = 0;
+        headOffset = replacement.length;
+        break;
       case 'hr':
-        insertTextAtSelection('\n\n---\n\n', 5);
-        return;
+        replacement = '\n\n---\n\n';
+        anchorOffset = 5;
+        headOffset = 5;
+        break;
       case 'table':
-        insertTextAtSelection(
-          '\n\n| Column 1 | Column 2 |\n| --- | --- |\n| Value A | Value B |\n\n',
-          14
-        );
-        return;
+        replacement =
+          '\n\n| Column 1 | Column 2 |\n| --- | --- |\n| Value A | Value B |\n\n';
+        anchorOffset = 14;
+        headOffset = 24;
+        break;
       default:
+        return;
     }
+
+    view.dispatch({
+      changes: { from: selection.from, to: selection.to, insert: replacement },
+      selection: {
+        anchor: selection.from + anchorOffset,
+        head: selection.from + headOffset,
+      },
+      scrollIntoView: true,
+    });
+    view.focus();
   }
 
   function handleBlockPresetChange(event) {
@@ -197,7 +186,7 @@ export default function EditorPane({ value, onChange }) {
   return (
     <section className="pane editor-pane">
       <div className="pane-header">
-        <div className="pane-title">Markdown Editor</div>
+        <div className="pane-title">Editor</div>
         <div className="editor-toolbar" role="toolbar" aria-label="Editor toolbar">
           <div className="editor-tool-group">
             {INLINE_ACTIONS.map((action) => {
@@ -240,32 +229,48 @@ export default function EditorPane({ value, onChange }) {
             </select>
           </div>
 
-          <div className="editor-tool-group editor-tool-group-blocks">
-            {BLOCK_ACTIONS.map((action) => {
-              const Icon = action.icon;
-              return (
-                <button
-                  key={action.key}
-                  type="button"
-                  className="editor-tool-button"
-                  onClick={() => applyAction(action.key)}
-                  aria-label={`Insert ${action.label}`}
-                  title={action.label}
-                >
-                  <Icon size={16} aria-hidden="true" />
-                </button>
-              );
-            })}
+          <div className="editor-tool-group">
+            <RiPaletteLine size={16} className="editor-tool-icon" />
+            <select
+              className="editor-tool-select editor-theme-select"
+              value={editorTheme}
+              onChange={(e) => onEditorThemeChange(e.target.value)}
+              title="Editor Theme"
+            >
+              {EDITOR_THEMES.map((theme) => (
+                <option key={theme.value} value={theme.value}>
+                  {theme.label}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </div>
-      <textarea
-        ref={textareaRef}
-        id="editor"
-        spellCheck="false"
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-      />
+      <div className="editor-container" onScroll={onScroll}>
+        <CodeMirror
+          ref={editorRef}
+          value={value}
+          height="100%"
+          theme={currentTheme}
+          extensions={[markdown({ base: markdownLanguage, codeLanguages: languages })]}
+          onChange={handleEditorChange}
+          onCreateEditor={(view) => {
+            const scroller = view.scrollDOM;
+            if (scroller) {
+              scroller.addEventListener('scroll', () => {
+                if (onScroll) onScroll({ target: view.dom.closest('.editor-container') });
+              });
+            }
+          }}
+          basicSetup={{
+            lineNumbers: true,
+            highlightActiveLine: true,
+            bracketMatching: true,
+            autocompletion: true,
+            foldGutter: true,
+          }}
+        />
+      </div>
     </section>
   );
 }

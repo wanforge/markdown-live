@@ -7,6 +7,9 @@ import markdownItMark from 'markdown-it-mark';
 import markdownItSub from 'markdown-it-sub';
 import markdownItSup from 'markdown-it-sup';
 import markdownItTexmath from 'markdown-it-texmath';
+import { full as markdownItEmoji } from 'markdown-it-emoji';
+import markdownItIns from 'markdown-it-ins';
+import markdownItAbbr from 'markdown-it-abbr';
 import hljs from 'highlight.js';
 import DOMPurify from 'dompurify';
 import katex from 'katex';
@@ -158,14 +161,17 @@ export function createMarkdownParser() {
       engine: katex,
       delimiters: 'dollars',
       katexOptions: { throwOnError: false },
-    });
+    })
+    .use(markdownItEmoji)
+    .use(markdownItIns)
+    .use(markdownItAbbr);
 }
 
 /** Core rule: convert `\[…\]` and `\(…\)` delimiters to dollar-sign equivalents. */
 function normalizeMathDelimiters(state) {
   state.src = state.src
-    .replace(/\\\[/g, '$$$$')
-    .replace(/\\\]/g, '$$$$')
+    .replace(/\\\[/g, '\n$$$$\n')
+    .replace(/\\\]/g, '\n$$$$\n')
     .replace(/\\\(/g, '$$')
     .replace(/\\\)/g, '$$');
   return true;

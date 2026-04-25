@@ -31,7 +31,9 @@ const DEFAULT_EMPTY_DOCUMENT = '# MarkDown Live\n\n';
 export default function App() {
   const parser = useMemo(() => createMarkdownParser(), []);
   const previewRef = useRef(null);
+  const editorRef = useRef(null);
   const fileInputRef = useRef(null);
+  const isSyncingScrollRef = useRef(false);
   const renderCycleRef = useRef(0);
 
   const { toasts, toast, dismiss } = useToast();
@@ -43,6 +45,9 @@ export default function App() {
   const [isDark, setIsDark] = useState(localStorage.getItem('theme') === 'dark');
   const [previewTheme, setPreviewTheme] = useState(
     () => localStorage.getItem('previewTheme') || 'default'
+  );
+  const [editorTheme, setEditorTheme] = useState(
+    () => localStorage.getItem('editorTheme') || 'oneDark'
   );
   const [isExportingPdf, setIsExportingPdf] = useState(false);
   const [isLoadingSample, setIsLoadingSample] = useState(false);
@@ -171,6 +176,10 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('previewTheme', previewTheme);
   }, [previewTheme]);
+
+  useEffect(() => {
+    localStorage.setItem('editorTheme', editorTheme);
+  }, [editorTheme]);
 
   function getDocumentTitle() {
     const h1 = previewRef.current?.querySelector('h1');
@@ -318,6 +327,39 @@ export default function App() {
     console.log(`© 2026 ${BRAND.owner} (${BRAND.ownerUrl.replace('https://', '')})`);
   }, []);
 
+  const handleEditorScroll = useCallback((e) => {
+    if (isSyncingScrollRef.current) {
+      isSyncingScrollRef.current = false;
+      return;
+    }
+    const editorScroller = e.target.querySelector('.cm-scroller');
+    const previewNode = previewRef.current;
+    if (!editorScroller || !previewNode) return;
+
+    isSyncingScrollRef.current = true;
+    const scrollPercentage =
+      editorScroller.scrollTop /
+      (editorScroller.scrollHeight - editorScroller.clientHeight);
+    previewNode.scrollTop =
+      scrollPercentage * (previewNode.scrollHeight - previewNode.clientHeight);
+  }, []);
+
+  const handlePreviewScroll = useCallback((e) => {
+    if (isSyncingScrollRef.current) {
+      isSyncingScrollRef.current = false;
+      return;
+    }
+    const previewNode = e.target;
+    const editorScroller = editorRef.current?.view?.scrollDOM;
+    if (!previewNode || !editorScroller) return;
+
+    isSyncingScrollRef.current = true;
+    const scrollPercentage =
+      previewNode.scrollTop / (previewNode.scrollHeight - previewNode.clientHeight);
+    editorScroller.scrollTop =
+      scrollPercentage * (editorScroller.scrollHeight - editorScroller.clientHeight);
+  }, []);
+
   return (
     <div className="app-shell">
       <Toolbar
@@ -397,12 +439,20 @@ export default function App() {
             <span>AI Tips</span>
           </button>
         </div>
-        <EditorPane value={markdownText} onChange={setMarkdownText} />
+        <EditorPane
+          value={markdownText}
+          onChange={setMarkdownText}
+          editorRef={editorRef}
+          editorTheme={editorTheme}
+          onEditorThemeChange={setEditorTheme}
+          onScroll={handleEditorScroll}
+        />
         <PreviewPane
           previewRef={previewRef}
           tocItems={tocItems}
           previewTheme={previewTheme}
           onPreviewThemeChange={setPreviewTheme}
+          onScroll={handlePreviewScroll}
         />
         {isAiGuideOpen ? <AiPromptGuide /> : null}
       </main>
