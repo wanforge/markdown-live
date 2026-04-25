@@ -1,110 +1,178 @@
+import { useState, useMemo } from 'react';
+import {
+  RiFileCopyLine,
+  RiCheckLine,
+  RiLightbulbFlashLine,
+  RiMagicLine,
+  RiLayout4Line,
+} from 'react-icons/ri';
+
 const PROMPT_BLOCKS = [
   {
-    title: 'Foundation Prompt (Publish-Ready Document)',
+    title: 'Publish-Ready Document',
+    description: 'Structure for articles or technical documentations.',
     prompt:
-      'Write a publish-ready markdown document. Use H1-H3 heading structure, concise paragraphs, and bullet lists only when needed. Return markdown only with no extra commentary.',
+      'Write a publish-ready markdown document about [TOPIC]. Use H1-H3 heading structure, concise paragraphs, and bullet lists. Return markdown only.',
   },
   {
-    title: 'Math + Explanation Prompt',
+    title: 'Math & Formulas',
+    description: 'LaTeX formulas with step-by-step explanations.',
     prompt:
-      'Explain [TOPIC] in markdown. Use inline formulas with $...$ and display formulas with $$...$$. You may also use \\(...\\) and \\[...\\]. Include one short numeric example.',
+      'Explain [TOPIC] in markdown. Use inline formulas with $...$ and display formulas with $$...$$. Include a numeric example.',
   },
   {
-    title: 'Mermaid Diagram Prompt',
+    title: 'Mermaid Diagrams',
+    description: 'Visualizing workflows or system architectures.',
     prompt:
-      'Create a process summary for [PROCESS] in markdown and include one Mermaid diagram using a fenced ```mermaid block. Keep node labels short and readable.',
+      'Create a process summary for [TOPIC] in markdown. Include a Mermaid diagram using a fenced ```mermaid block.',
   },
   {
-    title: 'Structured Report Prompt',
+    title: 'Executive Report',
+    description: 'Business reports with tables and task lists.',
     prompt:
-      'Create a markdown report with these sections: Executive Summary, Findings, Risks, Recommendations, and Next Steps. Use tables for data and task lists for action items.',
+      'Create a markdown report for [TOPIC]. Include: Executive Summary, Key Findings (table), and Next Steps (task list).',
   },
 ];
 
-const READY_TO_PASTE_TEMPLATE = `# Document Title
+const READY_TO_PASTE_TEMPLATE = `# [Document Title]
 
 ## Summary
 - Key point 1
 - Key point 2
 
 ## Analysis
-Short and structured explanation.
+Detailed analysis goes here.
 
 ### Formula
-Inline: $E = mc^2$
-
-$$
-\\int_0^1 x^2 \\, dx = \\frac{1}{3}
-$$
+$E = mc^2$
 
 ### Diagram
 \`\`\`mermaid
 flowchart LR
-  A[Input] --> B[Process]
-  B --> C[Output]
+  A[Start] --> B[Process]
+  B --> C[End]
 \`\`\`
 
 ## Checklist
-- [x] Draft completed
-- [ ] Final review
+- [ ] Task 1
+- [ ] Task 2`;
 
-## References
-Reference note.[^1]
+function CopyButton({ text, label = 'Copy' }) {
+  const [copied, setCopied] = useState(false);
 
-[^1]: Add source here.`;
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
-export default function AiPromptGuide({ onBack }) {
+  return (
+    <button
+      type="button"
+      className={`copy-button ${copied ? 'is-copied' : ''}`}
+      onClick={handleCopy}
+    >
+      {copied ? <RiCheckLine size={16} /> : <RiFileCopyLine size={16} />}
+      <span>{copied ? 'Copied!' : label}</span>
+    </button>
+  );
+}
+
+export default function AiPromptGuide({ onBack, onInsertTemplate }) {
+  const [customTopic, setCustomTopic] = useState('');
+
+  const builtPrompt = useMemo(() => {
+    const topic = customTopic.trim() || '[YOUR TOPIC]';
+    return `Write a comprehensive markdown document about ${topic}. Include a title, H1-H3 headings, a summary table, and a Mermaid diagram. Return ONLY the markdown code.`;
+  }, [customTopic]);
+
   return (
     <section className="pane ai-guide-pane" aria-label="AI Prompt Guide">
-      <div className="pane-title">AI Prompt Guide</div>
+      <div className="pane-title">
+        <RiLightbulbFlashLine className="pane-title-icon" />
+        AI Writing Companion
+      </div>
       <div className="ai-guide-content">
-        <div className="ai-guide-header">
-          <div>
-            <h2>AI Tips & Tricks Prompting</h2>
-            <p>
-              Prompt recipes designed for copy-paste-ready output in MarkDown Live with
-              minimal cleanup.
-            </p>
+        <header className="ai-guide-header">
+          <div className="header-text">
+            <h2>AI Prompt Recipes</h2>
+            <p>Optimize your AI output for MarkDown Live.</p>
           </div>
-          {onBack ? (
-            <button type="button" onClick={onBack}>
-              Back to Preview
+          {onBack && (
+            <button type="button" className="close-btn" onClick={onBack}>
+              ✕
             </button>
-          ) : null}
-        </div>
+          )}
+        </header>
 
-        <div className="ai-guide-grid">
-          {PROMPT_BLOCKS.map((item) => (
-            <article key={item.title} className="ai-guide-card">
-              <h3>{item.title}</h3>
-              <pre>
-                <code>{item.prompt}</code>
-              </pre>
-            </article>
-          ))}
-        </div>
+        <section className="ai-guide-section">
+          <div className="section-header">
+            <h3>
+              <RiMagicLine /> Dynamic Prompt Builder
+            </h3>
+            <p>Type your topic to generate a specialized prompt for AI.</p>
+          </div>
+          <div className="builder-card">
+            <div className="builder-input-wrapper">
+              <input
+                type="text"
+                placeholder="What are you writing about? (e.g. Solar Energy)"
+                value={customTopic}
+                onChange={(e) => setCustomTopic(e.target.value)}
+              />
+            </div>
+            <div className="builder-preview">
+              <div className="preview-label">Generated Prompt:</div>
+              <div className="preview-box">{builtPrompt}</div>
+              <CopyButton text={builtPrompt} label="Copy Prompt for AI" />
+            </div>
+          </div>
+        </section>
 
-        <article className="ai-guide-card ai-guide-template">
-          <h3>Ready-to-Paste Output Template</h3>
-          <p>
-            Use this template when asking AI for markdown that works directly with live
-            preview, TOC, KaTeX, and Mermaid.
-          </p>
-          <pre>
-            <code>{READY_TO_PASTE_TEMPLATE}</code>
-          </pre>
-        </article>
+        <section className="ai-guide-section">
+          <div className="section-header">
+            <h3>
+              <RiLayout4Line /> Quick Presets
+            </h3>
+          </div>
+          <div className="ai-guide-grid">
+            {PROMPT_BLOCKS.map((item) => (
+              <article key={item.title} className="preset-card">
+                <div className="card-top">
+                  <h4>{item.title}</h4>
+                  <CopyButton text={item.prompt} />
+                </div>
+                <p>{item.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
 
-        <article className="ai-guide-card">
-          <h3>Prompt Quality Checklist</h3>
-          <ul>
-            <li>Declare output format: &quot;Markdown only&quot;.</li>
-            <li>Specify heading structure: H1-H3.</li>
-            <li>List required elements: table, checklist, formulas, or diagrams.</li>
-            <li>Set section length limits to keep the result concise.</li>
-            <li>Avoid raw HTML unless truly necessary.</li>
-          </ul>
-        </article>
+        <section className="ai-guide-section">
+          <div className="section-header">
+            <h3>
+              <RiLayout4Line /> Structural Skeleton
+            </h3>
+          </div>
+          <article className="skeleton-card">
+            <div className="skeleton-info">
+              <p>Insert a ready-to-fill skeleton directly into the editor.</p>
+              <div className="skeleton-actions">
+                <button
+                  type="button"
+                  className="action-button primary"
+                  onClick={() => onInsertTemplate?.(READY_TO_PASTE_TEMPLATE)}
+                >
+                  Apply to Editor
+                </button>
+                <CopyButton text={READY_TO_PASTE_TEMPLATE} />
+              </div>
+            </div>
+            <pre className="skeleton-preview">
+              <code>{READY_TO_PASTE_TEMPLATE}</code>
+            </pre>
+          </article>
+        </section>
       </div>
     </section>
   );

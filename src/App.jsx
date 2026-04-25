@@ -454,7 +454,23 @@ export default function App() {
           onPreviewThemeChange={setPreviewTheme}
           onScroll={handlePreviewScroll}
         />
-        {isAiGuideOpen ? <AiPromptGuide /> : null}
+        {isAiGuideOpen ? (
+          <AiPromptGuide
+            onBack={() => {
+              setIsAiGuideOpen(false);
+              setActiveMobileTab('preview');
+            }}
+            onInsertTemplate={(template) => {
+              setMarkdownText((current) => {
+                if (!current.trim() || current === DEFAULT_EMPTY_DOCUMENT) {
+                  return template;
+                }
+                return current + '\n\n' + template;
+              });
+              toast('Template applied to editor!', 'success');
+            }}
+          />
+        ) : null}
       </main>
 
       <footer className="footer">
